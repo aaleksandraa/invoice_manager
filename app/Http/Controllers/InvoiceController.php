@@ -110,6 +110,27 @@ class InvoiceController extends Controller
             'uplaceni_iznos_eur' => $request->uplaceni_iznos_eur,
         ]);
 
+        \Log::info('Checking email sending conditions', [
+            'placeno' => $request->has('placeno'),
+            'send_payment_email' => $user->send_payment_email,
+            'user_email' => $user->email,
+        ]);
+
+        // Slanje e-maila ako je faktura označena kao plaćena i ako je opcija uključena
+    // if ($request->has('placeno') && $user->send_payment_email) {
+    //    \Mail::to($user->email)->send(new \App\Mail\PaymentConfirmation($invoice));
+    
+    if ($request->has('placeno') && $user->send_payment_email) {
+        try {
+            \Mail::to($user->email)->send(new \App\Mail\PaymentConfirmation($invoice));
+            \Log::info('Email sent successfully to: ' . $user->email);
+        } catch (\Exception $e) {
+            \Log::error('Failed to send email: ' . $e->getMessage());
+        }
+    }
+    
+    
+
         return redirect()->route('invoices.show', $invoice)->with('success', 'Faktura ažurirana.');
     }
 

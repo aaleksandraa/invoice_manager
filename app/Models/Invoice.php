@@ -9,7 +9,7 @@ class Invoice extends Model
     protected $fillable = [
         'broj_fakture', 'datum_izdavanja', 'klijent_id', 'opis_posla', 
         'kolicina', 'cijena', 'valuta', 'placeno', 'datum_placanja', 
-        'uplaceni_iznos_eur', 'user_id'
+        'uplaceni_iznos_eur', 'user_id', 'name', 'email'
     ];
 
     protected $casts = [

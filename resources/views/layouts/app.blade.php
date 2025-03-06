@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Invoice Manager</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body class="bg-gray-100">
     <nav class="bg-orange-700 p-4 text-white">
@@ -14,7 +15,8 @@
                 <a href="{{ route('invoices.index') }}" class="hover:underline">Fakture</a>
                 <a href="{{ route('clients.index') }}" class="hover:underline">Klijenti</a>
                 <a href="{{ route('invoices.payments') }}" class="hover:underline">Plaćanja</a>
-                <a href="{{ route('logout') }}"
+                <a href="{{ route('company-profile.index') }}" class="hover:underline">Moj profil</a>
+                <a href="{{ route('settings.index') }}" class="hover:underline">Podesavanja</a>                <a href="{{ route('logout') }}"
                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
                    class="hover:underline">
                     Odjava
