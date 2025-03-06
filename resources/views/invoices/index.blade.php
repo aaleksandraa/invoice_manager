@@ -11,7 +11,10 @@
                 <input type="text" id="searchInput" class="border p-2 rounded w-full sm:w-64" placeholder="Pretraži fakture..." onkeyup="filterInvoices()">
             </div>
         </div>
+        
     </div>
+
+    
 
     <!-- Tabelarni prikaz za desktop (sm i veći) -->
     <div class="hidden sm:block overflow-x-auto" id="invoiceTable">

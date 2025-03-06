@@ -11,6 +11,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/invoices/{invoice}/download', [InvoiceController::class, 'download'])->name('invoices.download');
     Route::resource('clients', ClientController::class);
     Route::get('/payments', [InvoiceController::class, 'payments'])->name('invoices.payments');
+    Route::post('/notes', [InvoiceController::class, 'storeNote'])->name('notes.store');
+    Route::put('/notes/{note}', [InvoiceController::class, 'updateNote'])->name('notes.update');
+    Route::delete('/notes/{note}', [InvoiceController::class, 'destroyNote'])->name('notes.destroy');
 });
+
+Route::get('/invoices/export', [InvoiceController::class, 'export'])->name('invoices.export');
 
 Auth::routes(['register' => false]);

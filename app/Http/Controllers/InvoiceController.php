@@ -4,10 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Invoice;
 use App\Models\Client;
+use App\Models\Note;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\Rule; // Dodajemo ovu liniju
+use Illuminate\Validation\Rule;
 use Barryvdh\DomPDF\Facade\Pdf;
+use App\Exports\InvoicesExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class InvoiceController extends Controller
 {
@@ -149,6 +152,55 @@ class InvoiceController extends Controller
             return $invoice->datum_placanja->format('F Y');
         });
 
-        return view('invoices.payments', compact('monthlyPayments'));
+        $notes = Note::where('user_id', $user->id)->get();
+
+        return view('invoices.payments', compact('monthlyPayments', 'notes'));
     }
+
+    public function storeNote(Request $request)
+    {
+        $request->validate([
+            'content' => 'required|string|max:1000',
+        ]);
+
+        $user = Auth::user();
+        Note::create([
+            'user_id' => $user->id,
+            'content' => $request->content,
+        ]);
+
+        return redirect()->back()->with('success', 'Napomena dodana.');
+    }
+
+    public function updateNote(Request $request, Note $note)
+    {
+        $user = Auth::user();
+        if ($note->user_id !== $user->id) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        $request->validate([
+            'content' => 'required|string|max:1000',
+        ]);
+
+        $note->update(['content' => $request->content]);
+        return redirect()->back()->with('success', 'Napomena ažurirana.');
+    }
+
+    public function destroyNote(Note $note)
+    {
+        $user = Auth::user();
+        if ($note->user_id !== $user->id) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        $note->delete();
+        return redirect()->back()->with('success', 'Napomena obrisana.');
+    }
+
+
+    public function export()
+{
+    return Excel::download(new InvoicesExport, 'invoices.xlsx');
+}
 }

@@ -76,4 +76,96 @@
         <!-- Veći razmak između mjeseci -->
         <div class="mb-12"></div>
     @endforeach
+
+    <!-- Sekcija za napomene -->
+    <div class="mt-12 bg-white p-6 rounded shadow-md">
+        <h2 class="text-xl font-semibold mb-4">Napomene</h2>
+
+        <!-- Forma za dodavanje nove napomene -->
+        <form method="POST" action="{{ route('notes.store') }}" class="mb-4">
+            @csrf
+            <div class="flex flex-col sm:flex-row gap-4">
+                <textarea name="content" rows="3" class="w-full border p-2 rounded @error('content') border-red-500 @enderror" placeholder="Unesite napomenu...">{{ old('content') }}</textarea>
+                <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Dodaj</button>
+            </div>
+            @error('content')
+                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+            @endif
+        </form>
+
+        <!-- Lista napomena -->
+        @if ($notes->isNotEmpty())
+            <ul class="list-disc pl-5">
+                @foreach ($notes as $note)
+                    <li class="mb-4" id="note-{{ $note->id }}">
+                        <!-- Prikaz napomene -->
+                        <div class="flex justify-between items-start note-content">
+                            <div>
+                                <p class="text-gray-800">{{ $note->content }}</p>
+                                <small class="text-gray-500">{{ $note->created_at->format('d.m.Y H:i') }}</small>
+                            </div>
+                            <div class="space-x-2">
+                                <button type="button" onclick="showEditForm({{ $note->id }})" class="text-yellow-500 hover:underline">Izmijeni</button>
+                                <form action="{{ route('notes.destroy', $note) }}" method="POST" class="inline" onsubmit="return confirm('Jeste li sigurni da želite obrisati ovu napomenu?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="text-red-500 hover:underline">Obriši</button>
+                                </form>
+                            </div>
+                        </div>
+
+                        <!-- Forma za uređivanje (sakrivena po defaultu) -->
+                        <div class="hidden edit-form mt-2" id="edit-form-{{ $note->id }}">
+                            <form method="POST" action="{{ route('notes.update', $note) }}">
+                                @csrf
+                                @method('PUT')
+                                <div class="flex flex-col sm:flex-row gap-4">
+                                    <textarea name="content" rows="3" class="w-full border p-2 rounded @error('content') border-red-500 @enderror">{{ old('content', $note->content) }}</textarea>
+                                    <div class="flex space-x-2">
+                                        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Spremi</button>
+                                        <button type="button" onclick="hideEditForm({{ $note->id }})" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">Otkaži</button>
+                                    </div>
+                                </div>
+                                @error('content')
+                                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                                @endif
+                            </form>
+                        </div>
+                    </li>
+                @endforeach
+            </ul>
+        @else
+            <p class="text-gray-500">Nema napomena.</p>
+        @endif
+    </div>
+
+    <!-- Prikaz poruka -->
+    @if (session('success'))
+        <div class="bg-green-100 text-green-700 p-4 rounded mt-4">
+            {{ session('success') }}
+        </div>
+    @endif
+    @if (session('error'))
+        <div class="bg-red-100 text-red-700 p-4 rounded mt-4">
+            {{ session('error') }}
+        </div>
+    @endif
+
+    <!-- Skripta za prikaz/sakrivanje forme za uređivanje -->
+    <script>
+        function showEditForm(noteId) {
+            // Sakrij sve forme za uređivanje
+            document.querySelectorAll('.edit-form').forEach(form => form.classList.add('hidden'));
+            document.querySelectorAll('.note-content').forEach(content => content.classList.remove('hidden'));
+
+            // Prikaz forme za određenu napomenu
+            document.getElementById('edit-form-' + noteId).classList.remove('hidden');
+            document.getElementById('note-' + noteId).querySelector('.note-content').classList.add('hidden');
+        }
+
+        function hideEditForm(noteId) {
+            document.getElementById('edit-form-' + noteId).classList.add('hidden');
+            document.getElementById('note-' + noteId).querySelector('.note-content').classList.remove('hidden');
+        }
+    </script>
 @endsection
