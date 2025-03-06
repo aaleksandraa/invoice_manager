@@ -9,10 +9,9 @@ class Invoice extends Model
     protected $fillable = [
         'broj_fakture', 'datum_izdavanja', 'klijent_id', 'opis_posla', 
         'kolicina', 'cijena', 'valuta', 'placeno', 'datum_placanja', 
-        'uplaceni_iznos_eur'
+        'uplaceni_iznos_eur', 'user_id'
     ];
 
-    // Koristimo $casts umjesto $dates jer je $dates deprecated u Laravel 12
     protected $casts = [
         'datum_izdavanja' => 'datetime',
         'datum_placanja' => 'datetime',
@@ -22,6 +21,11 @@ class Invoice extends Model
     public function client()
     {
         return $this->belongsTo(Client::class, 'klijent_id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 
     public function getBamAmountAttribute()
