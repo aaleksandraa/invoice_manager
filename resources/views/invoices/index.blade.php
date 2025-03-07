@@ -1,31 +1,45 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="mb-4">
-        <!-- Naslov i dugme na mobilnim uređajima -->
-        <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center">
-            <h1 class="text-2xl font-bold mb-4 sm:mb-0">Lista faktura</h1>
-            <div class="flex flex-col sm:flex-row sm:items-center sm:space-x-4">
-                <a href="{{ route('invoices.create') }}" class="bg-orange-600 text-white px-4 py-2 rounded hover:bg-orange-700 mb-4 sm:mb-0">Nova faktura</a>
-                <!-- Polje za pretragu -->
-                <input type="text" id="searchInput" class="border p-2 rounded w-full sm:w-64" placeholder="Pretraži fakture..." onkeyup="filterInvoices()">
+<div class="mb-4">
+    <!-- Naslov i dugme na mobilnim uređajima -->
+    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center">
+        <h1 class="text-2xl font-bold mb-4 sm:mb-0">Lista faktura</h1>
+        <div class="flex flex-col sm:flex-row sm:items-center sm:space-x-4">
+            <a href="{{ route('invoices.create') }}" class="bg-orange-600 text-white px-4 py-2 rounded hover:bg-orange-700 mb-4 sm:mb-0">Nova faktura</a>
+            <!-- Filter datuma -->
+            <div class="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-2 mb-4 sm:mb-0">
+                <label for="startDate" class="text-gray-700">Od:</label>
+                <input type="text" id="startDate" class="border p-2 rounded w-full sm:w-32 flatpickr-input" placeholder="01.01.2025." readonly>
+                <label for="endDate" class="text-gray-700">Do:</label>
+                <input type="text" id="endDate" class="border p-2 rounded w-full sm:w-32 flatpickr-input" placeholder="01.12.2025." readonly>
             </div>
+            <!-- Polje za pretragu -->
+            <input type="text" id="searchInput" class="border p-2 rounded w-full sm:w-64" placeholder="Pretraži fakture..." onkeyup="filterInvoices()">
         </div>
-        
     </div>
-
-    
+</div>
 
     <!-- Tabelarni prikaz za desktop (sm i veći) -->
     <div class="hidden sm:block overflow-x-auto" id="invoiceTable">
         <table class="min-w-full bg-white shadow-md rounded">
             <thead>
                 <tr class="bg-gray-200 text-gray-700">
-                    <th class="p-3 text-left">Broj fakture</th>
-                    <th class="p-3 text-left">Datum</th>
-                    <th class="p-3 text-left">Klijent</th>
-                    <th class="p-3 text-left">Iznos</th>
-                    <th class="p-3 text-left">Plaćeno</th>
+                    <th class="p-3 text-left cursor-pointer" data-sort="broj_fakture" onclick="sortTable('broj_fakture')">
+                        Broj fakture <span class="inline-block ml-1">↑↓</span>
+                    </th>
+                    <th class="p-3 text-left cursor-pointer" data-sort="datum_izdavanja" onclick="sortTable('datum_izdavanja')">
+                        Datum <span class="inline-block ml-1">↑↓</span>
+                    </th>
+                    <th class="p-3 text-left cursor-pointer" data-sort="client" onclick="sortTable('client')">
+                        Klijent <span class="inline-block ml-1">↑↓</span>
+                    </th>
+                    <th class="p-3 text-left cursor-pointer" data-sort="cijena" onclick="sortTable('cijena')">
+                        Iznos <span class="inline-block ml-1">↑↓</span>
+                    </th>
+                    <th class="p-3 text-left cursor-pointer" data-sort="placeno" onclick="sortTable('placeno')">
+                        Plaćeno <span class="inline-block ml-1">↑↓</span>
+                    </th>
                     <th class="p-3 text-left">Akcije</th>
                 </tr>
             </thead>
@@ -48,8 +62,14 @@
                             <span class="inline-block w-4 h-4 rounded-full {{ $invoice->placeno ? 'bg-green-500' : 'bg-red-500' }}"></span>
                         </td>
                         <td class="p-3 space-x-2">
-                            <a href="{{ route('invoices.show', $invoice) }}" class="text-blue-500 hover:underline">Prikaži</a>
-                            <a href="{{ route('invoices.view-pdf', $invoice) }}" class="text-blue-500 hover:underline">PDF</a>
+                            <a href="{{ route('invoices.show', $invoice) }}" class="text-black hover:text-gray-700"><i class="fas fa-eye"></i></a>
+                            <a href="{{ route('invoices.edit', $invoice) }}" class="text-black hover:text-gray-700"><i class="fas fa-edit"></i></a>
+                            <form action="{{ route('invoices.destroy', $invoice) }}" method="POST" style="display:inline;" onsubmit="return confirm('Jeste li sigurni da želite obrisati ovu fakturu?');">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="text-black hover:text-gray-700"><i class="fas fa-trash"></i></button>
+                            </form>
+                            <a href="{{ route('invoices.view-pdf', $invoice) }}" class="text-black hover:text-gray-700"><i class="fas fa-file-pdf"></i></a>
                         </td>
                     </tr>
                 @endforeach
@@ -80,9 +100,15 @@
                     </p>
                     <span class="inline-block w-4 h-4 rounded-full {{ $invoice->placeno ? 'bg-green-500' : 'bg-red-500' }}"></span>
                 </div>
-                <div class="flex space-x-2">
-                    <a href="{{ route('invoices.show', $invoice) }}" class="text-blue-500 hover:underline">Prikaži</a>
-                    <a href="{{ route('invoices.view-pdf', $invoice) }}" class="text-blue-500 hover:underline">PDF</a>
+                <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2">
+                    <a href="{{ route('invoices.show', $invoice) }}" class="text-black hover:text-gray-700"><i class="fas fa-eye"></i></a>
+                    <a href="{{ route('invoices.edit', $invoice) }}" class="text-black hover:text-gray-700"><i class="fas fa-edit"></i></a>
+                    <form action="{{ route('invoices.destroy', $invoice) }}" method="POST" style="display:inline;" onsubmit="return confirm('Jeste li sigurni da želite obrisati ovu fakturu?');">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="text-black hover:text-gray-700"><i class="fas fa-trash"></i></button>
+                    </form>
+                    <a href="{{ route('invoices.view-pdf', $invoice) }}" class="text-black hover:text-gray-700"><i class="fas fa-file-pdf"></i></a>
                 </div>
             </div>
         @endforeach
@@ -90,13 +116,140 @@
 
     <p class="mt-4"><strong>Ukupno uplaćeno:</strong> {{ number_format($totalPaid, 2) }} KM</p>
 
-    <!-- JavaScript za pretragu -->
+    <!-- JavaScript za pretragu, sortiranje i filter datuma -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script>
+        let sortDirection = {};
+        let lastSortedColumn = null;
+
+        // Inicijalizacija Flatpickr
+        flatpickr('#startDate', {
+            dateFormat: 'd.m.Y',
+            onChange: function(selectedDates, dateStr, instance) {
+                filterByDate();
+            }
+        });
+        flatpickr('#endDate', {
+            dateFormat: 'd.m.Y',
+            onChange: function(selectedDates, dateStr, instance) {
+                filterByDate();
+            }
+        });
+
+        function sortTable(column) {
+            const tableRows = document.querySelectorAll('#invoiceTable tbody tr');
+            const cards = document.querySelectorAll('#invoiceCards > div');
+
+            if (!sortDirection[column]) sortDirection[column] = 'asc';
+            else sortDirection[column] = sortDirection[column] === 'asc' ? 'desc' : 'asc';
+
+            if (lastSortedColumn && lastSortedColumn !== column) {
+                const lastHeader = document.querySelector(`[data-sort="${lastSortedColumn}"]`);
+                if (lastHeader) lastHeader.classList.remove('bg-gray-300');
+            }
+
+            const header = document.querySelector(`[data-sort="${column}"]`);
+            if (header) header.classList.toggle('bg-gray-300', true);
+
+            const rowsArray = Array.from(tableRows);
+            rowsArray.sort((a, b) => {
+                let valueA, valueB;
+                switch (column) {
+                    case 'broj_fakture':
+                        valueA = a.cells[0].textContent.trim();
+                        valueB = b.cells[0].textContent.trim();
+                        return sortDirection[column] === 'asc' ? valueA.localeCompare(valueB) : valueB.localeCompare(valueA);
+                    case 'datum_izdavanja':
+                        valueA = a.cells[1].textContent.trim() === '-' ? '' : a.cells[1].textContent.trim();
+                        valueB = b.cells[1].textContent.trim() === '-' ? '' : b.cells[1].textContent.trim();
+                        return sortDirection[column] === 'asc' ? new Date(valueA || '1970-01-01') - new Date(valueB || '1970-01-01') : new Date(valueB || '1970-01-01') - new Date(valueA || '1970-01-01');
+                    case 'client':
+                        valueA = a.cells[2].textContent.trim();
+                        valueB = b.cells[2].textContent.trim();
+                        return sortDirection[column] === 'asc' ? valueA.localeCompare(valueB) : valueB.localeCompare(valueA);
+                    case 'cijena':
+                        valueA = parseFloat(a.cells[3].textContent.replace(/[^0-9.]/g, ''));
+                        valueB = parseFloat(b.cells[3].textContent.replace(/[^0-9.]/g, ''));
+                        return sortDirection[column] === 'asc' ? valueA - valueB : valueB - valueA;
+                    case 'placeno':
+                        valueA = a.cells[4].querySelector('span').classList.contains('bg-green-500');
+                        valueB = b.cells[4].querySelector('span').classList.contains('bg-green-500');
+                        return sortDirection[column] === 'asc' ? (valueA === valueB ? 0 : valueA ? -1 : 1) : (valueA === valueB ? 0 : valueA ? 1 : -1);
+                }
+            });
+
+            rowsArray.forEach(row => {
+                document.querySelector('#invoiceTable tbody').appendChild(row);
+            });
+
+            const cardsArray = Array.from(cards);
+            cardsArray.sort((a, b) => {
+                let valueA, valueB;
+                switch (column) {
+                    case 'broj_fakture':
+                        valueA = a.querySelector('p.font-semibold').textContent.trim();
+                        valueB = b.querySelector('p.font-semibold').textContent.trim();
+                        return sortDirection[column] === 'asc' ? valueA.localeCompare(valueB) : valueB.localeCompare(valueA);
+                    case 'datum_izdavanja':
+                        valueA = a.querySelector('p.text-gray-600').textContent.trim() === '-' ? '' : a.querySelector('p.text-gray-600').textContent.trim();
+                        valueB = b.querySelector('p.text-gray-600').textContent.trim() === '-' ? '' : b.querySelector('p.text-gray-600').textContent.trim();
+                        return sortDirection[column] === 'asc' ? new Date(valueA || '1970-01-01') - new Date(valueB || '1970-01-01') : new Date(valueB || '1970-01-01') - new Date(valueA || '1970-01-01');
+                    case 'client':
+                        valueA = a.querySelectorAll('p')[1].textContent.trim();
+                        valueB = b.querySelectorAll('p')[1].textContent.trim();
+                        return sortDirection[column] === 'asc' ? valueA.localeCompare(valueB) : valueB.localeCompare(valueA);
+                    case 'cijena':
+                        valueA = parseFloat(a.querySelector('p.mr-2').textContent.replace(/[^0-9.]/g, ''));
+                        valueB = parseFloat(b.querySelector('p.mr-2').textContent.replace(/[^0-9.]/g, ''));
+                        return sortDirection[column] === 'asc' ? valueA - valueB : valueB - valueA;
+                    case 'placeno':
+                        valueA = a.querySelector('span').classList.contains('bg-green-500');
+                        valueB = b.querySelector('span').classList.contains('bg-green-500');
+                        return sortDirection[column] === 'asc' ? (valueA === valueB ? 0 : valueA ? -1 : 1) : (valueA === valueB ? 0 : valueA ? 1 : -1);
+                }
+            });
+
+            cardsArray.forEach(card => {
+                document.getElementById('invoiceCards').appendChild(card);
+            });
+
+            lastSortedColumn = column;
+        }
+
+        function filterByDate() {
+            const startDateInput = document.getElementById('startDate').value;
+            const endDateInput = document.getElementById('endDate').value;
+
+            let startDate = startDateInput ? new Date(startDateInput.split('.').reverse().join('-')) : null;
+            let endDate = endDateInput ? new Date(endDateInput.split('.').reverse().join('-')) : null;
+
+            if (startDate && !isNaN(startDate)) startDate = startDate.toISOString().split('T')[0];
+            if (endDate && !isNaN(endDate)) endDate = endDate.toISOString().split('T')[0];
+
+            const tableRows = document.querySelectorAll('#invoiceTable tbody tr');
+            const cards = document.querySelectorAll('#invoiceCards > div');
+
+            tableRows.forEach(row => {
+                const dateCell = row.cells[1].textContent.trim();
+                const date = dateCell === '-' ? null : new Date(dateCell.split('.').reverse().join('-')).toISOString().split('T')[0];
+                const isVisible = (!startDate || !date || date >= startDate) && (!endDate || !date || date <= endDate);
+                row.style.display = isVisible ? '' : 'none';
+            });
+
+            cards.forEach(card => {
+                const dateText = card.querySelector('p.text-gray-600').textContent.trim();
+                const date = dateText === '-' ? null : new Date(dateText.split('.').reverse().join('-')).toISOString().split('T')[0];
+                const isVisible = (!startDate || !date || date >= startDate) && (!endDate || !date || date <= endDate);
+                card.style.display = isVisible ? '' : 'none';
+            });
+
+            // Ponovno primijeni pretragu ako je uneseno nešto u searchInput
+            filterInvoices();
+        }
+
         function filterInvoices() {
-            // Dobijanje unosa iz search polja
             const input = document.getElementById('searchInput').value.toLowerCase();
 
-            // Filtriranje tabele (desktop prikaz)
             const tableRows = document.querySelectorAll('#invoiceTable tbody tr');
             tableRows.forEach(row => {
                 const cells = row.getElementsByTagName('td');
@@ -107,14 +260,13 @@
                         break;
                     }
                 }
-                row.style.display = match ? '' : 'none';
+                row.style.display = match && (row.style.display !== 'none' || row.style.display === '') ? '' : 'none';
             });
 
-            // Filtriranje kartica (mobilni prikaz)
             const cards = document.querySelectorAll('#invoiceCards > div');
             cards.forEach(card => {
                 const text = card.textContent.toLowerCase();
-                card.style.display = text.includes(input) ? '' : 'none';
+                card.style.display = text.includes(input) && (card.style.display !== 'none' || card.style.display === '') ? '' : 'none';
             });
         }
     </script>

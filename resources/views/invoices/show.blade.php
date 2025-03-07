@@ -40,8 +40,35 @@
         @endif
         <div class="mb-4">
             <label class="block text-gray-700">Datum plaćanja</label>
-            <input type="date" name="datum_placanja" value="{{ $invoice->datum_placanja ? $invoice->datum_placanja->format('Y-m-d') : '' }}" class="w-full border p-2 rounded">
+            <input type="text" name="datum_placanja" id="datum_placanja" value="{{ $invoice->datum_placanja ? $invoice->datum_placanja->format('d.m.Y') : '' }}" class="w-full border p-2 rounded flatpickr-input" readonly>
         </div>
         <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Ažuriraj</button>
     </form>
+
+    <!-- Flatpickr biblioteka -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+        // Inicijalizacija Flatpickr za datum_placanja
+        flatpickr('#datum_placanja', {
+            dateFormat: 'd.m.Y',
+            defaultDate: "{{ $invoice->datum_placanja ? $invoice->datum_placanja->format('d.m.Y') : '' }}",
+            onChange: function(selectedDates, dateStr, instance) {
+                const isoDate = selectedDates[0] ? selectedDates[0].toISOString().split('T')[0] : '';
+                document.getElementById('datum_placanja').value = dateStr;
+                document.getElementById('datum_placanja').setAttribute('data-iso', isoDate);
+            }
+        });
+
+        // Ažuriranje forme prije slanja da se pošalje ISO format
+        document.querySelector('form').addEventListener('submit', function(e) {
+            const dateInput = document.getElementById('datum_placanja');
+            const isoDate = dateInput.getAttribute('data-iso');
+            if (isoDate) {
+                dateInput.value = isoDate;
+            } else if (!dateInput.value) {
+                dateInput.value = ''; // Ako je polje prazno, pošalji prazan string
+            }
+        });
+    </script>
 @endsection

@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-    <h1 class="text-2xl font-bold mb-4">Nova faktura</h1>
+    <h1 class="text-2xl font-bold mb-4">Uredi fakturu</h1>
 
-    <!-- Prikaz poruka o uspjehu, greškama ili upozorenjima -->
+    <!-- Prikaz poruka -->
     @if (session('success'))
         <div class="bg-green-100 text-green-700 p-4 rounded mb-4">
             {{ session('success') }}
@@ -20,14 +20,15 @@
         </div>
     @endif
 
-    <form method="POST" action="{{ route('invoices.store') }}">
+    <form method="POST" action="{{ route('invoices.update', $invoice) }}">
         @csrf
+        @method('PUT')
         <div class="mb-4">
             <label for="klijent_id" class="block text-gray-700">Klijent</label>
             <select id="klijent_id" name="klijent_id" class="w-full border p-2 rounded @error('klijent_id') border-red-500 @enderror">
                 <option value="">Odaberite klijenta</option>
                 @foreach ($clients as $client)
-                    <option value="{{ $client->id }}" {{ old('klijent_id') == $client->id ? 'selected' : '' }}>
+                    <option value="{{ $client->id }}" {{ old('klijent_id', $invoice->klijent_id) == $client->id ? 'selected' : '' }}>
                         {{ $client->naziv_firme }}
                     </option>
                 @endforeach
@@ -38,35 +39,35 @@
         </div>
         <div class="mb-4">
             <label for="broj_fakture" class="block text-gray-700">Broj fakture</label>
-            <input id="broj_fakture" type="text" name="broj_fakture" value="{{ $broj_fakture }}" readonly class="w-full border p-2 rounded bg-gray-100 @error('broj_fakture') border-red-500 @enderror">
+            <input id="broj_fakture" type="text" name="broj_fakture" value="{{ $invoice->broj_fakture }}" readonly class="w-full border p-2 rounded bg-gray-100 @error('broj_fakture') border-red-500 @enderror">
             @error('broj_fakture')
                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
             @enderror
         </div>
         <div class="mb-4">
             <label for="datum_izdavanja" class="block text-gray-700">Datum izdavanja</label>
-            <input id="datum_izdavanja" type="text" name="datum_izdavanja" value="{{ old('datum_izdavanja', now()->format('d.m.Y')) }}" class="w-full border p-2 rounded flatpickr-input @error('datum_izdavanja') border-red-500 @enderror" readonly>
+            <input id="datum_izdavanja" type="text" name="datum_izdavanja" value="{{ old('datum_izdavanja', $invoice->datum_izdavanja ? $invoice->datum_izdavanja->format('d.m.Y') : '') }}" class="w-full border p-2 rounded flatpickr-input @error('datum_izdavanja') border-red-500 @enderror" readonly>
             @error('datum_izdavanja')
                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
             @enderror
         </div>
         <div class="mb-4">
             <label for="opis_posla" class="block text-gray-700">Opis posla</label>
-            <textarea id="opis_posla" name="opis_posla" class="w-full border p-2 rounded @error('opis_posla') border-red-500 @enderror">{{ old('opis_posla') }}</textarea>
+            <textarea id="opis_posla" name="opis_posla" class="w-full border p-2 rounded @error('opis_posla') border-red-500 @enderror">{{ old('opis_posla', $invoice->opis_posla) }}</textarea>
             @error('opis_posla')
                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
             @enderror
         </div>
         <div class="mb-4">
             <label for="kolicina" class="block text-gray-700">Količina</label>
-            <input id="kolicina" type="number" name="kolicina" value="{{ old('kolicina', 1) }}" class="w-full border p-2 rounded @error('kolicina') border-red-500 @enderror">
+            <input id="kolicina" type="number" name="kolicina" value="{{ old('kolicina', $invoice->kolicina) }}" class="w-full border p-2 rounded @error('kolicina') border-red-500 @enderror">
             @error('kolicina')
                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
             @enderror
         </div>
         <div class="mb-4">
             <label for="cijena" class="block text-gray-700">Cijena</label>
-            <input id="cijena" type="number" step="0.01" name="cijena" value="{{ old('cijena') }}" class="w-full border p-2 rounded @error('cijena') border-red-500 @enderror">
+            <input id="cijena" type="number" step="0.01" name="cijena" value="{{ old('cijena', $invoice->cijena) }}" class="w-full border p-2 rounded @error('cijena') border-red-500 @enderror">
             @error('cijena')
                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
             @enderror
@@ -74,29 +75,25 @@
         <div class="mb-4">
             <label for="valuta" class="block text-gray-700">Valuta</label>
             <select id="valuta" name="valuta" class="w-full border p-2 rounded @error('valuta') border-red-500 @enderror">
-                <option value="BAM" {{ old('valuta', 'BAM') == 'BAM' ? 'selected' : '' }}>BAM</option>
-                <option value="EUR" {{ old('valuta') == 'EUR' ? 'selected' : '' }}>EUR</option>
+                <option value="BAM" {{ old('valuta', $invoice->valuta) == 'BAM' ? 'selected' : '' }}>BAM</option>
+                <option value="EUR" {{ old('valuta', $invoice->valuta) == 'EUR' ? 'selected' : '' }}>EUR</option>
             </select>
             @error('valuta')
                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
             @enderror
         </div>
-        <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Kreiraj</button>
+        <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Ažuriraj</button>
     </form>
 
-    <!-- Flatpickr biblioteka -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script>
         // Inicijalizacija Flatpickr za datum_izdavanja
         flatpickr('#datum_izdavanja', {
             dateFormat: 'd.m.Y',
-            defaultDate: "{{ old('datum_izdavanja', now()->format('d.m.Y')) }}", // Postavi zadani datum
+            defaultDate: "{{ old('datum_izdavanja', $invoice->datum_izdavanja ? $invoice->datum_izdavanja->format('d.m.Y') : now()->format('d.m.Y')) }}",
             onChange: function(selectedDates, dateStr, instance) {
-                // Pretvori datum u ISO format za slanje forme
                 const isoDate = selectedDates[0] ? selectedDates[0].toISOString().split('T')[0] : '';
-                document.getElementById('datum_izdavanja').value = dateStr; // Zadrži prikazani format
-                document.getElementById('datum_izdavanja').setAttribute('data-iso', isoDate); // Spremi ISO format za validaciju
+                document.getElementById('datum_izdavanja').value = dateStr;
+                document.getElementById('datum_izdavanja').setAttribute('data-iso', isoDate);
             }
         });
 
@@ -105,7 +102,7 @@
             const dateInput = document.getElementById('datum_izdavanja');
             const isoDate = dateInput.getAttribute('data-iso');
             if (isoDate) {
-                dateInput.value = isoDate; // Postavi ISO format za slanje
+                dateInput.value = isoDate;
             }
         });
     </script>

@@ -60,7 +60,6 @@ class InvoiceController extends Controller
             ],
             'broj_fakture' => [
                 'required',
-                // Provjeravamo jedinstvenost broj_fakture unutar korisnika
                 Rule::unique('invoices')->where(function ($query) use ($user) {
                     return $query->where('user_id', $user->id);
                 }),
@@ -73,7 +72,7 @@ class InvoiceController extends Controller
         ]);
 
         try {
-            $validated['user_id'] = $user->id; // Dodajemo user_id prilikom kreiranja
+            $validated['user_id'] = $user->id;
             Invoice::create($validated);
             return redirect()->route('invoices.index')->with('success', 'Faktura kreirana.');
         } catch (\Exception $e) {
@@ -91,6 +90,17 @@ class InvoiceController extends Controller
         return view('invoices.show', compact('invoice'));
     }
 
+    public function edit(Invoice $invoice)
+    {
+        $user = Auth::user();
+        if ($invoice->user_id !== $user->id) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        $clients = Client::where('user_id', $user->id)->get();
+        return view('invoices.edit', compact('invoice', 'clients'));
+    }
+
     public function update(Request $request, Invoice $invoice)
     {
         $user = Auth::user();
@@ -98,40 +108,56 @@ class InvoiceController extends Controller
             abort(403, 'Unauthorized action.');
         }
 
-        $request->validate([
+        $validated = $request->validate([
+            'klijent_id' => [
+                'required',
+                'exists:clients,id',
+                function ($attribute, $value, $fail) use ($user) {
+                    $client = Client::find($value);
+                    if (!$client || $client->user_id !== $user->id) {
+                        $fail('Odabrani klijent ne pripada trenutnom korisniku.');
+                    }
+                },
+            ],
+            'datum_izdavanja' => 'required|date',
+            'opis_posla' => 'required',
+            'kolicina' => 'required|integer|min:1',
+            'cijena' => 'required|numeric',
+            'valuta' => 'required|in:BAM,EUR',
             'placeno' => 'sometimes|boolean',
             'datum_placanja' => 'sometimes|nullable|date',
             'uplaceni_iznos_eur' => 'sometimes|nullable|numeric',
         ]);
 
-        $invoice->update([
-            'placeno' => $request->has('placeno'),
-            'datum_placanja' => $request->datum_placanja,
-            'uplaceni_iznos_eur' => $request->uplaceni_iznos_eur,
-        ]);
-
-        \Log::info('Checking email sending conditions', [
-            'placeno' => $request->has('placeno'),
-            'send_payment_email' => $user->send_payment_email,
-            'user_email' => $user->email,
-        ]);
-
-        // Slanje e-maila ako je faktura označena kao plaćena i ako je opcija uključena
-    // if ($request->has('placeno') && $user->send_payment_email) {
-    //    \Mail::to($user->email)->send(new \App\Mail\PaymentConfirmation($invoice));
-    
-    if ($request->has('placeno') && $user->send_payment_email) {
         try {
-            \Mail::to($user->email)->send(new \App\Mail\PaymentConfirmation($invoice));
-            \Log::info('Email sent successfully to: ' . $user->email);
+            $invoice->update($validated);
+            if ($request->has('placeno') && $user->send_payment_email) {
+                try {
+                    \Mail::to($user->email)->send(new \App\Mail\PaymentConfirmation($invoice));
+                    \Log::info('Email sent successfully to: ' . $user->email);
+                } catch (\Exception $e) {
+                    \Log::error('Failed to send email: ' . $e->getMessage());
+                }
+            }
+            return redirect()->route('invoices.show', $invoice)->with('success', 'Faktura ažurirana.');
         } catch (\Exception $e) {
-            \Log::error('Failed to send email: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Došlo je do greške prilikom ažuriranja fakture: ' . $e->getMessage())->withInput();
         }
     }
-    
-    
 
-        return redirect()->route('invoices.show', $invoice)->with('success', 'Faktura ažurirana.');
+    public function destroy(Invoice $invoice)
+    {
+        $user = Auth::user();
+        if ($invoice->user_id !== $user->id) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        try {
+            $invoice->delete();
+            return redirect()->route('invoices.index')->with('success', 'Faktura obrisana.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Došlo je do greške prilikom brisanja fakture: ' . $e->getMessage());
+        }
     }
 
     public function viewPdf(Invoice $invoice)
@@ -219,9 +245,8 @@ class InvoiceController extends Controller
         return redirect()->back()->with('success', 'Napomena obrisana.');
     }
 
-
     public function export()
-{
-    return Excel::download(new InvoicesExport, 'invoices.xlsx');
-}
+    {
+        return Excel::download(new InvoicesExport, 'invoices.xlsx');
+    }
 }
