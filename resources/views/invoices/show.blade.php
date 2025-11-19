@@ -25,7 +25,7 @@
         @endif
     </div>
 
-    <form method="POST" action="{{ route('invoices.update', $invoice) }}" class="bg-white p-6 rounded shadow-md">
+    <form method="POST" action="{{ route('invoices.update-payment-status', $invoice) }}" class="bg-white p-6 rounded shadow-md">
         @csrf
         @method('PUT')
         <div class="mb-4 flex items-center">
