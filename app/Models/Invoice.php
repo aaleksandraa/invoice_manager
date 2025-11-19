@@ -7,9 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class Invoice extends Model
 {
     protected $fillable = [
-        'broj_fakture', 'datum_izdavanja', 'klijent_id', 'opis_posla', 
-        'kolicina', 'cijena', 'valuta', 'placeno', 'datum_placanja', 
-        'uplaceni_iznos_eur', 'user_id', 'name', 'email'
+        'broj_fakture', 'datum_izdavanja', 'klijent_id', 'opis_posla',
+        'kolicina', 'cijena', 'valuta', 'placeno', 'datum_placanja',
+        'uplaceni_iznos_eur', 'user_id', 'name', 'email',
     ];
 
     protected $casts = [
@@ -35,8 +35,8 @@ class Invoice extends Model
 
     public function getPaidBamAmountAttribute()
     {
-        return $this->valuta === 'EUR' && $this->uplaceni_iznos_eur 
-            ? $this->uplaceni_iznos_eur * 1.95583 
+        return $this->valuta === 'EUR' && $this->uplaceni_iznos_eur
+            ? $this->uplaceni_iznos_eur * 1.95583
             : $this->cijena;
     }
 }

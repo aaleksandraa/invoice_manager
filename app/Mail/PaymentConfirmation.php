@@ -2,13 +2,10 @@
 
 namespace App\Mail;
 
+use App\Models\Invoice;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
-use Illuminate\Mail\Mailables\Content;
-use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
-use App\Models\Invoice; 
 
 class PaymentConfirmation extends Mailable
 {
@@ -24,6 +21,6 @@ class PaymentConfirmation extends Mailable
     public function build()
     {
         return $this->subject('Hvala vam za plaćanje!')
-                    ->view('emails.payment_confirmation');
+            ->view('emails.payment_confirmation');
     }
 }
