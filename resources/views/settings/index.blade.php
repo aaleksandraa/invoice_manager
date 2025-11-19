@@ -14,7 +14,9 @@
         </div>
     @endif
 
-    <div class="bg-white p-6 rounded-lg shadow-lg">
+    <!-- General Settings -->
+    <div class="bg-white p-6 rounded-lg shadow-lg mb-6">
+        <h2 class="text-xl font-bold mb-4 text-gray-800">Opća podešavanja</h2>
         <form method="POST" action="{{ route('settings.update') }}" class="grid grid-cols-1 sm:grid-cols-2 gap-6">
             @csrf
             @method('PUT')
@@ -28,6 +30,92 @@
             <div class="mt-6 text-center sm:col-span-2">
                 <button type="submit" class="inline-block bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition duration-300 ease-in-out transform hover:-translate-y-1 shadow-md hover:shadow-lg">
                     Sačuvaj podešavanja
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- SMTP Settings -->
+    <div class="bg-white p-6 rounded-lg shadow-lg">
+        <h2 class="text-xl font-bold mb-4 text-gray-800">SMTP podešavanja</h2>
+        <form method="POST" action="{{ route('settings.update-smtp') }}">
+            @csrf
+            @method('PUT')
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div class="mb-4">
+                    <label for="smtp_host" class="block text-gray-700 font-semibold mb-2">SMTP Server/Host</label>
+                    <input type="text" name="smtp_host" id="smtp_host" value="{{ old('smtp_host', $smtpSettings->smtp_host ?? '') }}" 
+                           class="w-full border p-2 rounded @error('smtp_host') border-red-500 @enderror" required>
+                    @error('smtp_host')
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <div class="mb-4">
+                    <label for="smtp_port" class="block text-gray-700 font-semibold mb-2">SMTP Port</label>
+                    <input type="number" name="smtp_port" id="smtp_port" value="{{ old('smtp_port', $smtpSettings->smtp_port ?? 587) }}" 
+                           class="w-full border p-2 rounded @error('smtp_port') border-red-500 @enderror" required>
+                    @error('smtp_port')
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <div class="mb-4">
+                    <label for="smtp_username" class="block text-gray-700 font-semibold mb-2">SMTP Username</label>
+                    <input type="text" name="smtp_username" id="smtp_username" value="{{ old('smtp_username', $smtpSettings->smtp_username ?? '') }}" 
+                           class="w-full border p-2 rounded @error('smtp_username') border-red-500 @enderror" required>
+                    @error('smtp_username')
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <div class="mb-4">
+                    <label for="smtp_password" class="block text-gray-700 font-semibold mb-2">SMTP Password</label>
+                    <input type="password" name="smtp_password" id="smtp_password" value="" 
+                           class="w-full border p-2 rounded @error('smtp_password') border-red-500 @enderror" 
+                           placeholder="{{ $smtpSettings ? '••••••••' : '' }}">
+                    @if($smtpSettings)
+                        <p class="text-gray-600 text-sm mt-1">Ostavite prazno da zadržite trenutnu lozinku</p>
+                    @endif
+                    @error('smtp_password')
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <div class="mb-4">
+                    <label for="from_email" class="block text-gray-700 font-semibold mb-2">From Email Address</label>
+                    <input type="email" name="from_email" id="from_email" value="{{ old('from_email', $smtpSettings->from_email ?? '') }}" 
+                           class="w-full border p-2 rounded @error('from_email') border-red-500 @enderror" required>
+                    @error('from_email')
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <div class="mb-4">
+                    <label for="from_name" class="block text-gray-700 font-semibold mb-2">From Name</label>
+                    <input type="text" name="from_name" id="from_name" value="{{ old('from_name', $smtpSettings->from_name ?? '') }}" 
+                           class="w-full border p-2 rounded @error('from_name') border-red-500 @enderror" required>
+                    @error('from_name')
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <div class="mb-4">
+                    <label for="encryption" class="block text-gray-700 font-semibold mb-2">Encryption Type</label>
+                    <select name="encryption" id="encryption" class="w-full border p-2 rounded @error('encryption') border-red-500 @enderror" required>
+                        <option value="tls" {{ old('encryption', $smtpSettings->encryption ?? 'tls') == 'tls' ? 'selected' : '' }}>TLS</option>
+                        <option value="ssl" {{ old('encryption', $smtpSettings->encryption ?? 'tls') == 'ssl' ? 'selected' : '' }}>SSL</option>
+                        <option value="none" {{ old('encryption', $smtpSettings->encryption ?? 'tls') == 'none' ? 'selected' : '' }}>None</option>
+                    </select>
+                    @error('encryption')
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+            </div>
+
+            <div class="mt-6 text-center">
+                <button type="submit" class="inline-block bg-green-500 text-white px-6 py-2 rounded-lg hover:bg-green-600 transition duration-300 ease-in-out transform hover:-translate-y-1 shadow-md hover:shadow-lg">
+                    Sačuvaj SMTP podešavanja
                 </button>
             </div>
         </form>

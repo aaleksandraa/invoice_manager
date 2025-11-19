@@ -23,6 +23,7 @@ Route::middleware('auth')->group(function () {
     Route::put('/company-profile', [CompanyProfileController::class, 'update'])->name('company-profile.update');
     Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
     Route::put('/settings', [SettingsController::class, 'update'])->name('settings.update');
+    Route::put('/settings/smtp', [SettingsController::class, 'updateSmtp'])->name('settings.update-smtp');
 });
 
 Route::get('/invoices/export', [InvoiceController::class, 'export'])->name('invoices.export');
