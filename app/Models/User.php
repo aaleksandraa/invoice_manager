@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
@@ -48,6 +47,7 @@ class User extends Authenticatable
             'send_payment_email' => 'boolean', // Dodano za osiguravanje booleanskog tretmana
         ];
     }
+
     public function companyProfile()
     {
         return $this->hasOne(CompanyProfile::class);

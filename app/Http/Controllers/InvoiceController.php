@@ -296,4 +296,21 @@ class InvoiceController extends Controller
     {
         return Excel::download(new InvoicesExport, 'invoices.xlsx');
     }
+
+    public function sendEmail(Invoice $invoice)
+    {
+        $user = Auth::user();
+        if ($invoice->user_id !== $user->id) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        try {
+            $mailService = new \App\Services\MailService;
+            $mailService->sendInvoiceEmail($invoice, \App\Mail\InvoiceMail::class, 'invoice');
+
+            return redirect()->back()->with('success', 'Email je uspješno poslan klijentu.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Greška pri slanju emaila: '.$e->getMessage());
+        }
+    }
 }
