@@ -22,6 +22,8 @@ class User extends Authenticatable
         'email',
         'password',
         'send_payment_email',
+        'reminder_enabled',
+        'reminder_interval',
     ];
 
     /**
@@ -45,6 +47,8 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'send_payment_email' => 'boolean', // Dodano za osiguravanje booleanskog tretmana
+            'reminder_enabled' => 'boolean',
+            'reminder_interval' => 'integer',
         ];
     }
 

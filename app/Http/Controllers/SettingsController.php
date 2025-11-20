@@ -60,4 +60,21 @@ class SettingsController extends Controller
 
         return redirect()->route('settings.index')->with('success', 'SMTP podešavanja su uspješno sačuvana.');
     }
+
+    public function updateReminders(Request $request)
+    {
+        $user = Auth::user();
+
+        $validated = $request->validate([
+            'reminder_enabled' => 'boolean',
+            'reminder_interval' => 'required|integer|in:5,10',
+        ]);
+
+        // Handle checkbox: if not present, it means unchecked
+        $validated['reminder_enabled'] = $request->has('reminder_enabled');
+
+        $user->update($validated);
+
+        return redirect()->route('settings.index')->with('success', 'Podešavanja podsetnika su uspješno sačuvana.');
+    }
 }

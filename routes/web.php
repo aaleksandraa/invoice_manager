@@ -25,6 +25,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
     Route::put('/settings', [SettingsController::class, 'update'])->name('settings.update');
     Route::put('/settings/smtp', [SettingsController::class, 'updateSmtp'])->name('settings.update-smtp');
+    Route::put('/settings/reminders', [SettingsController::class, 'updateReminders'])->name('settings.update-reminders');
 });
 
 Route::get('/invoices/export', [InvoiceController::class, 'export'])->name('invoices.export');
