@@ -43,4 +43,51 @@ class ClientController extends Controller
 
         return redirect()->route('clients.index')->with('success', 'Klijent kreiran.');
     }
+
+    public function edit(Client $client)
+    {
+        $user = Auth::user();
+        if ($client->user_id !== $user->id) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        return view('clients.edit', compact('client'));
+    }
+
+    public function update(Request $request, Client $client)
+    {
+        $user = Auth::user();
+        if ($client->user_id !== $user->id) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        $request->validate([
+            'naziv_firme' => 'required',
+            'adresa' => 'required',
+            'postanski_broj_mjesto_drzava' => 'required',
+            'pdv_broj' => 'required',
+            'email' => 'required|email',
+            'kontakt_telefon' => 'required',
+        ]);
+
+        $client->update($request->all());
+
+        return redirect()->route('clients.index')->with('success', 'Klijent ažuriran.');
+    }
+
+    public function destroy(Client $client)
+    {
+        $user = Auth::user();
+        if ($client->user_id !== $user->id) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        try {
+            $client->delete();
+
+            return redirect()->route('clients.index')->with('success', 'Klijent obrisan.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Došlo je do greške prilikom brisanja klijenta: '.$e->getMessage());
+        }
+    }
 }

@@ -35,6 +35,41 @@
         </form>
     </div>
 
+    <!-- Payment Reminder Settings -->
+    <div class="bg-white p-6 rounded-lg shadow-lg mb-6">
+        <h2 class="text-xl font-bold mb-4 text-gray-800">Podsetnici za plaćanje</h2>
+        <form method="POST" action="{{ route('settings.update-reminders') }}">
+            @csrf
+            @method('PUT')
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div class="mb-4 flex items-center">
+                    <input type="checkbox" name="reminder_enabled" id="reminder_enabled" {{ $user->reminder_enabled ? 'checked' : '' }} class="mr-2 h-5 w-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                    <label for="reminder_enabled" class="text-gray-700 font-semibold text-sm sm:text-base flex items-center">
+                        <i class="fas fa-bell mr-2 text-gray-500"></i> Omogući automatske podsetnice za plaćanje
+                    </label>
+                </div>
+                
+                <div class="mb-4">
+                    <label for="reminder_interval" class="block text-gray-700 font-semibold mb-2">Interval podsetnika</label>
+                    <select name="reminder_interval" id="reminder_interval" class="w-full border p-2 rounded @error('reminder_interval') border-red-500 @enderror">
+                        <option value="5" {{ old('reminder_interval', $user->reminder_interval) == 5 ? 'selected' : '' }}>Svakih 5 dana</option>
+                        <option value="10" {{ old('reminder_interval', $user->reminder_interval) == 10 ? 'selected' : '' }}>Svakih 10 dana</option>
+                    </select>
+                    <p class="text-gray-600 text-sm mt-1">Prvi podsetnik šalje se nakon {{ $user->reminder_interval }} dana, drugi nakon {{ $user->reminder_interval * 2 }} dana</p>
+                    @error('reminder_interval')
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+            </div>
+
+            <div class="mt-6 text-center">
+                <button type="submit" class="inline-block bg-purple-500 text-white px-6 py-2 rounded-lg hover:bg-purple-600 transition duration-300 ease-in-out transform hover:-translate-y-1 shadow-md hover:shadow-lg">
+                    Sačuvaj podešavanja podsetnika
+                </button>
+            </div>
+        </form>
+    </div>
+
     <!-- SMTP Settings -->
     <div class="bg-white p-6 rounded-lg shadow-lg">
         <h2 class="text-xl font-bold mb-4 text-gray-800">SMTP podešavanja</h2>

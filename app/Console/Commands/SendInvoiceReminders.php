@@ -46,10 +46,16 @@ class SendInvoiceReminders extends Command
                 continue;
             }
 
-            $daysSinceIssued = $invoice->datum_izdavanja->diffInDays($now);
+            // Skip if user has reminders disabled
+            if (! $invoice->user->reminder_enabled) {
+                continue;
+            }
 
-            // Send second reminder after 10 days
-            if ($daysSinceIssued >= 10) {
+            $daysSinceIssued = $invoice->datum_izdavanja->diffInDays($now);
+            $reminderInterval = $invoice->user->reminder_interval ?? 5;
+
+            // Send second reminder after (interval * 2) days
+            if ($daysSinceIssued >= ($reminderInterval * 2)) {
                 if (! $mailService->hasEmailBeenSent($invoice, 'second_reminder')) {
                     try {
                         $mailService->sendInvoiceEmail($invoice, SecondReminderMail::class, 'second_reminder');
@@ -60,8 +66,8 @@ class SendInvoiceReminders extends Command
                     }
                 }
             }
-            // Send first reminder after 5 days
-            elseif ($daysSinceIssued >= 5) {
+            // Send first reminder after interval days
+            elseif ($daysSinceIssued >= $reminderInterval) {
                 if (! $mailService->hasEmailBeenSent($invoice, 'first_reminder')) {
                     try {
                         $mailService->sendInvoiceEmail($invoice, FirstReminderMail::class, 'first_reminder');
