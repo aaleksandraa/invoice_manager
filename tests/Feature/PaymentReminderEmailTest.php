@@ -83,8 +83,8 @@ class PaymentReminderEmailTest extends TestCase
             'status' => 'sent',
         ]);
 
-        // Since the mail implements ShouldQueue, it will be queued instead of sent immediately
-        Mail::assertQueued(PaymentReminderMail::class, function ($mail) use ($invoice) {
+        // Email is sent synchronously
+        Mail::assertSent(PaymentReminderMail::class, function ($mail) use ($invoice) {
             return $mail->invoice->id === $invoice->id;
         });
     }
