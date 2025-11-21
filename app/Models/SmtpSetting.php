@@ -2,11 +2,13 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Crypt;
 
 class SmtpSetting extends Model
 {
+    use HasFactory;
     protected $fillable = [
         'user_id',
         'smtp_host',

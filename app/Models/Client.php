@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Client extends Model
 {
+    use HasFactory;
     protected $fillable = [
         'naziv_firme', 'adresa', 'postanski_broj_mjesto_drzava', 'pdv_broj', 'email', 'kontakt_telefon', 'user_id',
     ];
