@@ -305,11 +305,23 @@ class InvoiceController extends Controller
         }
 
         try {
-            $mailService = new \App\Services\MailService;
-            $mailService->sendInvoiceEmail($invoice, \App\Mail\InvoiceMail::class, 'invoice');
+            // Load the client relationship to ensure it's available
+            $invoice->load('client');
 
-            return redirect()->back()->with('success', 'Email je uspješno poslan klijentu.');
+            // Validate that client has email
+            if (! $invoice->client || ! $invoice->client->email) {
+                return redirect()->back()->with('error', 'Klijent nema definisanu email adresu. Molimo dodajte email adresu klijentu prije slanja.');
+            }
+
+            $mailService = new \App\Services\MailService;
+            $mailService->sendInvoiceEmail($invoice, \App\Mail\PaymentReminderMail::class, 'payment_reminder');
+
+            return redirect()->back()->with('success', 'Email opomene je uspješno poslan klijentu na adresu: '.$invoice->client->email);
         } catch (\Exception $e) {
+            \Log::error('Error in InvoiceController::sendEmail', [
+                'invoice_id' => $invoice->id,
+                'error' => $e->getMessage(),
+            ]);
             return redirect()->back()->with('error', 'Greška pri slanju emaila: '.$e->getMessage());
         }
     }
