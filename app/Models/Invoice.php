@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Invoice extends Model
 {
+    use HasFactory;
     protected $fillable = [
         'broj_fakture', 'datum_izdavanja', 'klijent_id', 'opis_posla',
         'kolicina', 'cijena', 'valuta', 'placeno', 'datum_placanja',
