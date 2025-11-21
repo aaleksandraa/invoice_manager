@@ -325,4 +325,33 @@ class InvoiceController extends Controller
             return redirect()->back()->with('error', 'Greška pri slanju emaila: '.$e->getMessage());
         }
     }
+
+    public function sendInvoice(Invoice $invoice)
+    {
+        $user = Auth::user();
+        if ($invoice->user_id !== $user->id) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        try {
+            // Load the client relationship to ensure it's available
+            $invoice->load('client');
+
+            // Validate that client has email
+            if (! $invoice->client || ! $invoice->client->email) {
+                return redirect()->back()->with('error', 'Klijent nema definisanu email adresu. Molimo dodajte email adresu klijentu prije slanja.');
+            }
+
+            $mailService = new \App\Services\MailService;
+            $mailService->sendInvoiceEmail($invoice, \App\Mail\InvoiceMail::class, 'invoice');
+
+            return redirect()->back()->with('success', 'Faktura je uspješno poslana emailom klijentu na adresu: '.$invoice->client->email);
+        } catch (\Exception $e) {
+            \Log::error('Error in InvoiceController::sendInvoice', [
+                'invoice_id' => $invoice->id,
+                'error' => $e->getMessage(),
+            ]);
+            return redirect()->back()->with('error', 'Greška pri slanju fakture: '.$e->getMessage());
+        }
+    }
 }
