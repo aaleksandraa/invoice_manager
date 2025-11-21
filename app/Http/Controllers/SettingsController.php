@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\SmtpSetting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class SettingsController extends Controller
 {
@@ -92,23 +95,23 @@ class SettingsController extends Controller
 
         try {
             // Configure SMTP for this user
-            \Config::set('mail.default', 'smtp');
-            \Config::set('mail.mailers.smtp.transport', 'smtp');
-            \Config::set('mail.mailers.smtp.host', $smtpSettings->smtp_host);
-            \Config::set('mail.mailers.smtp.port', $smtpSettings->smtp_port);
-            \Config::set('mail.mailers.smtp.username', $smtpSettings->smtp_username);
-            \Config::set('mail.mailers.smtp.password', $smtpSettings->smtp_password);
-            \Config::set('mail.mailers.smtp.encryption', $smtpSettings->encryption === 'none' ? null : $smtpSettings->encryption);
-            \Config::set('mail.from.address', $smtpSettings->from_email);
-            \Config::set('mail.from.name', $smtpSettings->from_name);
+            Config::set('mail.default', 'smtp');
+            Config::set('mail.mailers.smtp.transport', 'smtp');
+            Config::set('mail.mailers.smtp.host', $smtpSettings->smtp_host);
+            Config::set('mail.mailers.smtp.port', $smtpSettings->smtp_port);
+            Config::set('mail.mailers.smtp.username', $smtpSettings->smtp_username);
+            Config::set('mail.mailers.smtp.password', $smtpSettings->smtp_password);
+            Config::set('mail.mailers.smtp.encryption', $smtpSettings->encryption === 'none' ? null : $smtpSettings->encryption);
+            Config::set('mail.from.address', $smtpSettings->from_email);
+            Config::set('mail.from.name', $smtpSettings->from_name);
 
             // Send test email to the logged-in user
-            \Mail::raw('Ovo je testni email za provjeru SMTP konekcije. Ako vidite ovu poruku, vaša SMTP konfiguracija radi ispravno.', function ($message) use ($user, $smtpSettings) {
+            Mail::raw('Ovo je testni email za provjeru SMTP konekcije. Ako vidite ovu poruku, vaša SMTP konfiguracija radi ispravno.', function ($message) use ($user) {
                 $message->to($user->email)
                     ->subject('Test SMTP Konekcije - Invoice Manager');
             });
 
-            \Log::info('SMTP test email sent successfully', [
+            Log::info('SMTP test email sent successfully', [
                 'user_id' => $user->id,
                 'user_email' => $user->email,
             ]);
@@ -118,7 +121,7 @@ class SettingsController extends Controller
                 'message' => 'Test email je uspješno poslan na adresu: '.$user->email.'. Molimo provjerite svoj inbox.',
             ]);
         } catch (\Exception $e) {
-            \Log::error('SMTP test failed', [
+            Log::error('SMTP test failed', [
                 'user_id' => $user->id,
                 'error' => $e->getMessage(),
             ]);

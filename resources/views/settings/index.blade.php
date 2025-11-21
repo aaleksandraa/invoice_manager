@@ -189,10 +189,14 @@
                 
                 if (data.success) {
                     resultDiv.className = 'mt-4 bg-green-100 text-green-700 p-4 rounded-lg shadow-md';
-                    resultDiv.innerHTML = '<i class="fas fa-check-circle mr-2"></i>' + data.message;
+                    // Safely set message using textContent to prevent XSS
+                    resultDiv.innerHTML = '<i class="fas fa-check-circle mr-2"></i><span></span>';
+                    resultDiv.querySelector('span').textContent = data.message;
                 } else {
                     resultDiv.className = 'mt-4 bg-red-100 text-red-700 p-4 rounded-lg shadow-md';
-                    resultDiv.innerHTML = '<i class="fas fa-exclamation-circle mr-2"></i>' + data.message;
+                    // Safely set message using textContent to prevent XSS
+                    resultDiv.innerHTML = '<i class="fas fa-exclamation-circle mr-2"></i><span></span>';
+                    resultDiv.querySelector('span').textContent = data.message;
                 }
                 
                 // Re-enable button
@@ -203,7 +207,9 @@
                 // Show error
                 resultDiv.classList.remove('hidden');
                 resultDiv.className = 'mt-4 bg-red-100 text-red-700 p-4 rounded-lg shadow-md';
-                resultDiv.innerHTML = '<i class="fas fa-exclamation-circle mr-2"></i>Greška pri slanju zahtjeva: ' + error.message;
+                // Safely set message using textContent to prevent XSS
+                resultDiv.innerHTML = '<i class="fas fa-exclamation-circle mr-2"></i><span></span>';
+                resultDiv.querySelector('span').textContent = 'Greška pri slanju zahtjeva: ' + error.message;
                 
                 // Re-enable button
                 button.disabled = false;
