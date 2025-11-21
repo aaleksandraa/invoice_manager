@@ -148,11 +148,73 @@
                 </div>
             </div>
 
-            <div class="mt-6 text-center">
+            <div class="mt-6 text-center flex flex-col sm:flex-row justify-center gap-4">
                 <button type="submit" class="inline-block bg-green-500 text-white px-6 py-2 rounded-lg hover:bg-green-600 transition duration-300 ease-in-out transform hover:-translate-y-1 shadow-md hover:shadow-lg">
                     Sačuvaj SMTP podešavanja
                 </button>
+                <button type="button" id="testSmtpBtn" class="inline-block bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition duration-300 ease-in-out transform hover:-translate-y-1 shadow-md hover:shadow-lg">
+                    <i class="fas fa-plug mr-2"></i>Test konekcije
+                </button>
             </div>
         </form>
+        
+        <!-- Test connection result -->
+        <div id="smtpTestResult" class="mt-4 hidden"></div>
     </div>
+
+    <script>
+        document.getElementById('testSmtpBtn').addEventListener('click', function() {
+            const button = this;
+            const resultDiv = document.getElementById('smtpTestResult');
+            
+            // Disable button and show loading state
+            button.disabled = true;
+            button.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Testiranje...';
+            
+            // Hide previous result
+            resultDiv.classList.add('hidden');
+            
+            // Send test request
+            fetch('{{ route('settings.test-smtp') }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Show result
+                resultDiv.classList.remove('hidden');
+                
+                if (data.success) {
+                    resultDiv.className = 'mt-4 bg-green-100 text-green-700 p-4 rounded-lg shadow-md';
+                    // Safely set message using textContent to prevent XSS
+                    resultDiv.innerHTML = '<i class="fas fa-check-circle mr-2"></i><span></span>';
+                    resultDiv.querySelector('span').textContent = data.message;
+                } else {
+                    resultDiv.className = 'mt-4 bg-red-100 text-red-700 p-4 rounded-lg shadow-md';
+                    // Safely set message using textContent to prevent XSS
+                    resultDiv.innerHTML = '<i class="fas fa-exclamation-circle mr-2"></i><span></span>';
+                    resultDiv.querySelector('span').textContent = data.message;
+                }
+                
+                // Re-enable button
+                button.disabled = false;
+                button.innerHTML = '<i class="fas fa-plug mr-2"></i>Test konekcije';
+            })
+            .catch(error => {
+                // Show error
+                resultDiv.classList.remove('hidden');
+                resultDiv.className = 'mt-4 bg-red-100 text-red-700 p-4 rounded-lg shadow-md';
+                // Safely set message using textContent to prevent XSS
+                resultDiv.innerHTML = '<i class="fas fa-exclamation-circle mr-2"></i><span></span>';
+                resultDiv.querySelector('span').textContent = 'Greška pri slanju zahtjeva: ' + error.message;
+                
+                // Re-enable button
+                button.disabled = false;
+                button.innerHTML = '<i class="fas fa-plug mr-2"></i>Test konekcije';
+            });
+        });
+    </script>
 @endsection
