@@ -70,9 +70,13 @@
                                 <button type="submit" class="text-black hover:text-gray-700" title="Obriši"><i class="fas fa-trash"></i></button>
                             </form>
                             <a href="{{ route('invoices.view-pdf', $invoice) }}" class="text-black hover:text-gray-700" title="Pregled PDF"><i class="fas fa-file-pdf"></i></a>
-                            <form action="{{ route('invoices.send-email', $invoice) }}" method="POST" style="display:inline;" onsubmit="return confirm('Jeste li sigurni da želite poslati email klijentu?');">
+                            <form action="{{ route('invoices.send-invoice', $invoice) }}" method="POST" style="display:inline;" onsubmit="return confirm('Jeste li sigurni da želite poslati fakturu emailom klijentu?');">
                                 @csrf
-                                <button type="submit" class="text-black hover:text-gray-700" title="Pošalji email"><i class="fas fa-envelope"></i></button>
+                                <button type="submit" class="text-black hover:text-gray-700" title="Pošalji fakturu"><i class="fas fa-paper-plane"></i></button>
+                            </form>
+                            <form action="{{ route('invoices.send-email', $invoice) }}" method="POST" style="display:inline;" onsubmit="return confirm('Jeste li sigurni da želite poslati opomenu klijentu?');">
+                                @csrf
+                                <button type="submit" class="text-black hover:text-gray-700" title="Pošalji opomenu"><i class="fas fa-bell"></i></button>
                             </form>
                         </td>
                     </tr>
@@ -113,9 +117,13 @@
                         <button type="submit" class="text-black hover:text-gray-700"><i class="fas fa-trash"></i></button>
                     </form>
                     <a href="{{ route('invoices.view-pdf', $invoice) }}" class="text-black hover:text-gray-700"><i class="fas fa-file-pdf"></i></a>
-                    <form action="{{ route('invoices.send-email', $invoice) }}" method="POST" style="display:inline;" onsubmit="return confirm('Jeste li sigurni da želite poslati email klijentu?');">
+                    <form action="{{ route('invoices.send-invoice', $invoice) }}" method="POST" style="display:inline;" onsubmit="return confirm('Jeste li sigurni da želite poslati fakturu emailom klijentu?');">
                         @csrf
-                        <button type="submit" class="text-black hover:text-gray-700"><i class="fas fa-envelope"></i></button>
+                        <button type="submit" class="text-black hover:text-gray-700"><i class="fas fa-paper-plane"></i></button>
+                    </form>
+                    <form action="{{ route('invoices.send-email', $invoice) }}" method="POST" style="display:inline;" onsubmit="return confirm('Jeste li sigurni da želite poslati opomenu klijentu?');">
+                        @csrf
+                        <button type="submit" class="text-black hover:text-gray-700"><i class="fas fa-bell"></i></button>
                     </form>
                 </div>
             </div>

@@ -14,6 +14,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/invoices/{invoice}/download', [InvoiceController::class, 'download'])->name('invoices.download');
     Route::put('/invoices/{invoice}/payment-status', [InvoiceController::class, 'updatePaymentStatus'])->name('invoices.update-payment-status');
     Route::post('/invoices/{invoice}/send-email', [InvoiceController::class, 'sendEmail'])->name('invoices.send-email');
+    Route::post('/invoices/{invoice}/send-invoice', [InvoiceController::class, 'sendInvoice'])->name('invoices.send-invoice');
     Route::resource('clients', ClientController::class);
     Route::get('/payments', [InvoiceController::class, 'payments'])->name('invoices.payments');
     Route::post('/notes', [InvoiceController::class, 'storeNote'])->name('notes.store');
