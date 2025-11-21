@@ -88,10 +88,15 @@ class MailService
 
             return true;
         } catch (\Exception $e) {
+            $recipientEmail = 'unknown';
+            if ($invoice->client) {
+                $recipientEmail = $invoice->client->email ?? 'unknown';
+            }
+
             \Log::error('Failed to send email', [
                 'invoice_id' => $invoice->id,
                 'user_id' => $invoice->user_id,
-                'recipient_email' => $invoice->client->email ?? 'unknown',
+                'recipient_email' => $recipientEmail,
                 'email_type' => $emailType,
                 'error' => $e->getMessage(),
                 'trace' => $e->getTraceAsString(),
@@ -101,7 +106,7 @@ class MailService
             EmailLog::create([
                 'invoice_id' => $invoice->id,
                 'user_id' => $invoice->user_id,
-                'recipient_email' => $invoice->client->email ?? 'unknown',
+                'recipient_email' => $recipientEmail,
                 'email_type' => $emailType,
                 'status' => 'failed',
                 'error_message' => $e->getMessage(),

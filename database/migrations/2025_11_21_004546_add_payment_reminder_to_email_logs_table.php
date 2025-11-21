@@ -34,12 +34,23 @@ return new class extends Migration
                 
                 // Copy data if old table exists and has data
                 if (Schema::hasTable('email_logs_old')) {
-                    DB::statement('INSERT INTO email_logs SELECT * FROM email_logs_old');
+                    // Only copy data with valid email_type values
+                    DB::statement("INSERT INTO email_logs (id, invoice_id, user_id, recipient_email, email_type, status, error_message, sent_at, created_at, updated_at) 
+                        SELECT id, invoice_id, user_id, recipient_email, email_type, status, error_message, sent_at, created_at, updated_at 
+                        FROM email_logs_old 
+                        WHERE email_type IN ('invoice', 'first_reminder', 'second_reminder')");
                     Schema::drop('email_logs_old');
                 }
             } else {
-                // For MySQL/PostgreSQL, use raw SQL to alter the enum
-                DB::statement("ALTER TABLE email_logs MODIFY COLUMN email_type ENUM('invoice', 'first_reminder', 'second_reminder', 'payment_reminder')");
+                // For MySQL/PostgreSQL, we need different syntax
+                $driver = DB::connection()->getDriverName();
+                if ($driver === 'mysql') {
+                    DB::statement("ALTER TABLE email_logs MODIFY COLUMN email_type ENUM('invoice', 'first_reminder', 'second_reminder', 'payment_reminder')");
+                } elseif ($driver === 'pgsql') {
+                    // PostgreSQL requires a different approach
+                    DB::statement("ALTER TABLE email_logs ALTER COLUMN email_type TYPE VARCHAR(50)");
+                    // Then add check constraint or use enum type if available
+                }
             }
         }
     }
