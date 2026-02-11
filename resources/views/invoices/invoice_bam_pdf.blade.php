@@ -5,7 +5,7 @@
     <title>Faktura</title>
     <style>
         @page { margin: 15mm 20mm; }
-        body { font-family: DejaVu Sans; font-size: 9pt; color: #414042; margin: 0; padding: 0; position: relative; min-height: 250mm; }
+        body { font-family: DejaVu Sans; font-size: 9pt; color: #414042; margin: 0; padding: 0; }
         table { width: 100%; border-collapse: collapse; }
         .header-table td { vertical-align: top; padding: 0; border: none; }
         .logo-img { height: 40pt; }
@@ -15,13 +15,13 @@
         .info-title { font-weight: bold; font-size: 9pt; margin-bottom: 3pt; }
         .invoice-table th { background-color: #e6e7e8; padding: 6pt; text-align: left; font-weight: bold; border: 1pt solid #d0d0d0; font-size: 9pt; }
         .invoice-table td { padding: 6pt; border: 1pt solid #d0d0d0; font-size: 9pt; }
-        .total-box { background-color: #414042; color: white; padding: 8pt; margin: 10pt 0 20pt 0; font-weight: bold; }
+        .total-box { background-color: #414042; color: white; padding: 8pt; margin: 10pt 0 60pt 0; font-weight: bold; }
         .total-box table { width: 100%; }
         .total-box td { color: white; border: none; padding: 0; }
-        .signature-table { position: absolute; bottom: 35mm; left: 20mm; right: 20mm; }
+        .signature-table { margin: 0 0 30pt 0; }
         .signature-table td { width: 45%; text-align: center; border: none; padding: 0 5pt; }
         .signature-line { border-top: 1pt solid #414042; padding-top: 4pt; font-size: 7pt; font-style: italic; color: #666; }
-        .footer { border-top: 1pt solid #e6e7e8; padding-top: 8pt; text-align: center; font-size: 8pt; line-height: 1.4; position: absolute; bottom: 10mm; left: 20mm; right: 20mm; }
+        .footer { border-top: 1pt solid #e6e7e8; padding-top: 8pt; text-align: center; font-size: 8pt; line-height: 1.4; margin-top: 20pt; }
         .footer-bold { font-weight: bold; }
         .footer-italic { font-style: italic; color: #666; margin-top: 4pt; }
     </style>
