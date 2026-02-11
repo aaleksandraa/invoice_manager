@@ -5,29 +5,29 @@
     <title>Faktura</title>
     <style>
         @page { margin: 15mm 20mm; }
-        body { font-family: DejaVu Sans; font-size: 9pt; color: #414042; margin: 0; padding: 0; }
+        body { font-family: DejaVu Sans; font-size: 11pt; color: #414042; margin: 0; padding: 0; }
         table { width: 100%; border-collapse: collapse; }
         .header-table td { vertical-align: top; padding: 0; border: none; }
-        .logo-text { font-size: 16pt; font-weight: bold; color: #414042; }
-        .logo-img { height: 40pt; }
-        .invoice-info { font-size: 9pt; text-align: right; line-height: 1.6; }
-        .invoice-info-label { font-weight: normal; font-size: 9pt; }
-        .invoice-info-value { font-weight: bold; font-size: 9pt; }
-        .website-bar { background-color: #e6e7e8; padding: 5pt; text-align: right; margin: 10pt 0; font-weight: bold; }
-        .info-table td { vertical-align: top; padding: 5pt 10pt 5pt 0; border: none; font-size: 8pt; line-height: 1.4; }
-        .info-title { font-weight: bold; font-size: 9pt; margin-bottom: 3pt; }
-        .invoice-table th { background-color: #e6e7e8; padding: 6pt; text-align: left; font-weight: bold; border: 1pt solid #d0d0d0; font-size: 9pt; }
-        .invoice-table td { padding: 6pt; border: 1pt solid #d0d0d0; font-size: 9pt; }
-        .total-box { background-color: #414042; color: white; padding: 8pt; margin: 10pt 0 20pt 0; font-weight: bold; }
+        .logo-text { font-size: 22pt; font-weight: bold; color: #414042; }
+        .logo-img { height: 50pt; }
+        .invoice-info { font-size: 11pt; text-align: right; line-height: 1.6; }
+        .invoice-info-label { font-weight: normal; font-size: 11pt; }
+        .invoice-info-value { font-weight: bold; font-size: 11pt; }
+        .website-bar { background-color: #e6e7e8; padding: 7pt; text-align: right; margin: 10pt 0; font-weight: bold; font-size: 11pt; }
+        .info-table td { vertical-align: top; padding: 5pt 10pt 5pt 0; border: none; font-size: 10pt; line-height: 1.6; }
+        .info-title { font-weight: bold; font-size: 11pt; margin-bottom: 3pt; }
+        .invoice-table th { background-color: #e6e7e8; padding: 8pt; text-align: left; font-weight: bold; border: 1pt solid #d0d0d0; font-size: 11pt; }
+        .invoice-table td { padding: 8pt; border: 1pt solid #d0d0d0; font-size: 11pt; }
+        .total-box { background-color: #414042; color: white; padding: 10pt; margin: 10pt 0 20pt 0; font-weight: bold; font-size: 12pt; }
         .total-box table { width: 100%; }
         .total-box td { color: white; border: none; padding: 0; }
-        .signature-section { position: fixed; bottom: 100pt; left: 20mm; right: 20mm; }
+        .signature-section { position: fixed; bottom: 120pt; left: 20mm; right: 20mm; }
         .signature-table { margin: 0; width: 100%; }
         .signature-table td { text-align: center; border: none; padding: 0 5pt; vertical-align: bottom; }
-        .signature-line { border-top: 1pt solid #414042; padding-top: 8pt; font-size: 7pt; font-style: italic; color: #666; text-align: center; }
-        .footer { position: fixed; bottom: 15mm; left: 20mm; right: 20mm; border-top: 1pt solid #e6e7e8; padding-top: 8pt; text-align: center; font-size: 8pt; line-height: 1.4; }
-        .footer-bold { font-weight: bold; }
-        .footer-italic { font-style: italic; color: #666; margin-top: 4pt; }
+        .signature-line { border-top: 1pt solid #414042; padding-top: 18pt; font-size: 10pt; font-style: italic; color: #666; text-align: center; }
+        .footer { position: fixed; bottom: 15mm; left: 20mm; right: 20mm; border-top: 1pt solid #e6e7e8; padding-top: 12pt; text-align: center; font-size: 10pt; line-height: 1.6; }
+        .footer-bold { font-weight: bold; font-size: 10pt; }
+        .footer-italic { font-style: italic; color: #666; margin-top: 6pt; font-size: 10pt; }
     </style>
 </head>
 <body>
@@ -35,11 +35,11 @@
     <table class="header-table" style="margin-bottom: 15pt;">
         <tr>
             <td style="width: 50%;">
-                <div class="logo-text">Wizionar</div>
+                <img src="https://wizionar.com/wp-content/uploads/2023/09/wizionarLogoAsset-7@2x.png" class="logo-img" alt="Wizionar Logo">
             </td>
             <td style="width: 50%;">
                 <div class="invoice-info">
-                    <span class="invoice-info-label">Račun br.:</span> <span class="invoice-info-value">#{{ $invoice->broj_fakture }}</span><br>
+                    <span class="invoice-info-label">Račun br.:</span> <span class="invoice-info-value">{{ str_replace('##', '#', $invoice->broj_fakture) }}</span><br>
                     <span class="invoice-info-label">Datum i mjesto izdavanja:</span> <span class="invoice-info-value">{{ $invoice->datum_izdavanja ? $invoice->datum_izdavanja->format('d.m.Y') : '-' }}., Miloševac</span>
                 </div>
             </td>

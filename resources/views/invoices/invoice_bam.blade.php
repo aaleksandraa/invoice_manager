@@ -14,7 +14,7 @@
         body {
             font-family: 'Poppins', sans-serif;
             color: #414042;
-            font-size: 11px;
+            font-size: 13px;
         }
 
         .container {
@@ -39,7 +39,7 @@
 
         .invoice-info {
             text-align: right;
-            font-size: 11px;
+            font-size: 13px;
             line-height: 1.6;
         }
 
@@ -75,7 +75,7 @@
 
         .info-box p {
             line-height: 1.6;
-            font-size: 10px;
+            font-size: 12px;
         }
 
         /* Table */
@@ -93,14 +93,14 @@
             padding: 10px;
             text-align: left;
             font-weight: 600;
-            font-size: 11px;
+            font-size: 13px;
             border: 1px solid #d0d0d0;
         }
 
         td {
             padding: 10px;
             border: 1px solid #d0d0d0;
-            font-size: 11px;
+            font-size: 13px;
         }
 
         /* Total */
@@ -120,7 +120,7 @@
         .signature-section {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 60px;
+            margin-bottom: 80px;
         }
 
         .signature-box {
@@ -130,8 +130,8 @@
 
         .signature-line {
             border-top: 1px solid #414042;
-            padding-top: 8px;
-            font-size: 9px;
+            padding-top: 18px;
+            font-size: 11px;
             font-style: italic;
             color: #666;
         }
@@ -144,7 +144,7 @@
         }
 
         .footer p {
-            font-size: 10px;
+            font-size: 12px;
             line-height: 1.6;
             margin-bottom: 5px;
         }
@@ -168,7 +168,7 @@
                 <img src="https://wizionar.com/wp-content/uploads/2023/09/wizionarLogoAsset-7@2x.png" alt="Wizionar Logo">
             </div>
             <div class="invoice-info">
-                <p><strong>Račun br.: {{ $invoice->broj_fakture }}</strong></p>
+                <p><strong>Račun br.: {{ str_replace('##', '#', $invoice->broj_fakture) }}</strong></p>
                 <p>Datum i mjesto izdavanja: <strong>{{ $invoice->datum_izdavanja ? $invoice->datum_izdavanja->format('d.m.Y') : '-' }}., Miloševac</strong></p>
             </div>
         </div>
