@@ -10,10 +10,10 @@
         .header-table td { vertical-align: top; padding: 0; border: none; }
         .logo-text { font-size: 22pt; font-weight: bold; color: #414042; }
         .logo-img { max-height: 50pt; width: auto; display: block; }
-        .invoice-info { font-size: 10pt; text-align: right; line-height: 1.3; }
+        .invoice-info { font-size: 10pt; text-align: right; line-height: 1.1; }
         .invoice-info-label { font-weight: normal; font-size: 8pt; }
         .invoice-info-value { font-weight: bold; }
-        .invoice-date-place { font-weight: bold; font-size: 10pt; margin-top: 2pt; }
+        .invoice-date-place { font-weight: bold; font-size: 10pt; margin-top: 1pt; }
         .website-bar { background-color: #e6e7e8; padding: 6pt; text-align: right; margin: 8pt 0; font-weight: bold; font-size: 10pt; }
         .info-table td { vertical-align: top; padding: 3pt 8pt 3pt 0; border: none; font-size: 10pt; line-height: 1.3; }
         .info-title { font-weight: bold; font-size: 10pt; margin-bottom: 2pt; }
@@ -45,7 +45,7 @@
             <td style="width: 50%;">
                 <div class="invoice-info">
                     <span class="invoice-info-label">Račun br.:</span> <span class="invoice-info-value">{{ str_replace('##', '#', $invoice->broj_fakture) }}</span><br>
-                    <div class="invoice-info-label" style="margin-top: 4pt;">Datum i mjesto izdavanja:</div>
+                    <div class="invoice-info-label" style="margin-top: 0pt;">Datum i mjesto izdavanja:</div>
                     <div class="invoice-date-place">{{ $invoice->datum_izdavanja ? $invoice->datum_izdavanja->format('d.m.Y') : '-' }}, Miloševac</div>
                 </div>
             </td>
