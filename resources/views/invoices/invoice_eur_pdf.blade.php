@@ -71,7 +71,7 @@
                 <div>Tel: +387 66 / 882 - 702</div>
             </td>
             <td style="width: 4%;"></td>
-            <td style="width: 48%; vertical-align: top; text-align: right;">
+            <td style="width: 48%; vertical-align: top;">
                 <div class="info-title">Invoice to:</div>
                 <div>{{ $invoice->client->naziv_firme }}</div>
                 <div>{{ $invoice->client->adresa }}</div>
