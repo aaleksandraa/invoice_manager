@@ -19,7 +19,10 @@ Kada se faktura šalje emailom, PDF prilog ne koristi PDF-optimizovane view temp
 
 #### Acceptance Criteria
 
-1. WHEN InvoiceMail generiše PDF prilog, THE System SHALL koristiti PDF-optimizovane view template-e
+1. WHEN bilo koja Mailable klasa generiše PDF prilog fakture, THE System SHALL koristiti PDF-optimizovane view template-e
 2. WHEN faktura je u BAM valuti, THE System SHALL koristiti `invoices.invoice_bam_pdf` view
 3. WHEN faktura je u EUR valuti, THE System SHALL koristiti `invoices.invoice_eur_pdf` view
 4. WHEN se faktura preuzima (download) i kada se šalje emailom, THE System SHALL koristiti iste view template-e
+5. WHEN PaymentReminderMail šalje email, THE System SHALL koristiti PDF-optimizovane view-ove
+6. WHEN FirstReminderMail šalje email, THE System SHALL koristiti PDF-optimizovane view-ove
+7. WHEN SecondReminderMail šalje email, THE System SHALL koristiti PDF-optimizovane view-ove

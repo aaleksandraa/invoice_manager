@@ -56,7 +56,7 @@ class InvoiceMail extends Mailable
     public function attachments(): array
     {
         $this->invoice->load('client');
-        $view = $this->invoice->valuta === 'BAM' ? 'invoices.invoice_bam' : 'invoices.invoice_eur';
+        $view = $this->invoice->valuta === 'BAM' ? 'invoices.invoice_bam_pdf' : 'invoices.invoice_eur_pdf';
         $pdf = Pdf::loadView($view, ['invoice' => $this->invoice])
             ->setPaper('a4', 'portrait');
         $safeFileName = str_replace('/', '-', $this->invoice->broj_fakture);

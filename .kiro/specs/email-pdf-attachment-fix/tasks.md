@@ -6,19 +6,26 @@ Ispravka bug-a u `InvoiceMail` klasi gdje se koriste pogrešni view template-i z
 
 ## Tasks
 
-- [ ] 1. Ispravi view selection u InvoiceMail klasi
+- [ ] 1. Ispravi view selection u PaymentReminderMail klasi
   - Promijeni `attachments()` metodu da koristi PDF-optimizovane view-ove
   - Koristi `invoice_bam_pdf` umjesto `invoice_bam`
   - Koristi `invoice_eur_pdf` umjesto `invoice_eur`
-  - _Requirements: 1.1, 1.2, 1.3, 1.4_
+  - _Requirements: 1.1, 1.2, 1.3, 1.5_
 
-- [ ]* 2. Dodaj unit test za InvoiceMail
-  - Test da se koristi ispravan view za BAM fakturu
-  - Test da se koristi ispravan view za EUR fakturu
-  - _Requirements: 1.2, 1.3_
+- [ ] 2. Ispravi view selection u FirstReminderMail klasi
+  - Promijeni `attachments()` metodu da koristi PDF-optimizovane view-ove
+  - Koristi `invoice_bam_pdf` umjesto `invoice_bam`
+  - Koristi `invoice_eur_pdf` umjesto `invoice_eur`
+  - _Requirements: 1.1, 1.2, 1.3, 1.6_
 
-- [ ]* 3. Dodaj integration test za email slanje
-  - Test slanja emaila sa BAM fakturom
-  - Test slanja emaila sa EUR fakturom
-  - Provjeri da PDF attachment koristi ispravan template
-  - _Requirements: 1.1, 1.4_
+- [ ] 3. Ispravi view selection u SecondReminderMail klasi
+  - Promijeni `attachments()` metodu da koristi PDF-optimizovane view-ove
+  - Koristi `invoice_bam_pdf` umjesto `invoice_bam`
+  - Koristi `invoice_eur_pdf` umjesto `invoice_eur`
+  - _Requirements: 1.1, 1.2, 1.3, 1.7_
+
+- [ ]* 4. Dodaj unit testove za sve Mailable klase
+  - Test da PaymentReminderMail koristi ispravan view za BAM i EUR
+  - Test da FirstReminderMail koristi ispravan view za BAM i EUR
+  - Test da SecondReminderMail koristi ispravan view za BAM i EUR
+  - _Requirements: 1.2, 1.3, 1.5, 1.6, 1.7_

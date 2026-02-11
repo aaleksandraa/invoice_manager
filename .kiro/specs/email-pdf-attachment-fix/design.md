@@ -10,14 +10,21 @@ Promjena je minimalna i lokalizovana u `InvoiceMail` klasi. Potrebno je samo pro
 
 ## Components and Interfaces
 
-### InvoiceMail::attachments()
+### Mailable Classes sa PDF Attachments
 
-**Trenutna implementacija:**
+Sve sljedeće klase trebaju koristiti PDF-optimizovane view-ove:
+
+1. **InvoiceMail** - ✅ Već ispravan (koristi `invoice_bam_pdf` i `invoice_eur_pdf`)
+2. **PaymentReminderMail** - ❌ Koristi stare view-ove
+3. **FirstReminderMail** - ❌ Koristi stare view-ove
+4. **SecondReminderMail** - ❌ Koristi stare view-ove
+
+**Trenutna implementacija (pogrešna):**
 ```php
 $view = $this->invoice->valuta === 'BAM' ? 'invoices.invoice_bam' : 'invoices.invoice_eur';
 ```
 
-**Nova implementacija:**
+**Nova implementacija (ispravna):**
 ```php
 $view = $this->invoice->valuta === 'BAM' ? 'invoices.invoice_bam_pdf' : 'invoices.invoice_eur_pdf';
 ```
@@ -40,9 +47,9 @@ Nema promjena u data modelima.
 
 ### Property 2: Currency-Based View Selection
 
-*For any* invoice with BAM currency, the system should use `invoice_bam_pdf` view for email attachments, and *for any* invoice with EUR currency, the system should use `invoice_eur_pdf` view.
+*For any* Mailable klasa koja šalje fakturu (InvoiceMail, PaymentReminderMail, FirstReminderMail, SecondReminderMail), *for any* invoice with BAM currency, the system should use `invoice_bam_pdf` view for email attachments, and *for any* invoice with EUR currency, the system should use `invoice_eur_pdf` view.
 
-**Validates: Requirements 1.2, 1.3**
+**Validates: Requirements 1.2, 1.3, 1.5, 1.6, 1.7**
 
 ## Error Handling
 
