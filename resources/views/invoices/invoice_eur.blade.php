@@ -6,8 +6,9 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 40px;
+            margin: 30px;
             color: #333;
+            line-height: 1.3;
         }
         .container {
             max-width: 800px;
@@ -15,78 +16,80 @@
         }
         .header {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
         .header img {
             max-width: 150px;
         }
         .header h2 {
-            font-size: 24px;
-            margin: 10px 0;
+            font-size: 22px;
+            margin: 8px 0;
         }
         .header p {
-            font-size: 14px;
+            font-size: 13px;
             color: #555;
         }
         .details {
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
         .details p {
-            margin: 5px 0;
-            font-size: 14px;
+            margin: 3px 0;
+            font-size: 13px;
+            line-height: 1.3;
         }
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 20px;
-            margin-bottom: 20px;
+            margin-top: 15px;
+            margin-bottom: 15px;
         }
         th, td {
             border: 1px solid #ddd;
-            padding: 10px;
+            padding: 8px;
             text-align: left;
-            font-size: 14px;
+            font-size: 13px;
         }
         th {
             background-color: #f5f5f5;
             font-weight: bold;
         }
         .total {
-            font-size: 16px;
+            font-size: 15px;
             font-weight: bold;
-            margin-top: 10px;
+            margin-top: 8px;
         }
         .footer {
-            margin-top: 20px;
-            font-size: 12px;
+            margin-top: 15px;
+            font-size: 11px;
             color: #555;
+            line-height: 1.3;
         }
         .footer p {
-            margin: 5px 0;
+            margin: 3px 0;
         }
         .signature {
-            margin-top: 40px;
+            margin-top: 30px;
             display: flex;
             justify-content: space-between;
         }
         .signature p {
-            font-size: 12px;
+            font-size: 11px;
             border-top: 1px solid #ddd;
-            padding-top: 10px;
+            padding-top: 8px;
             width: 200px;
             text-align: center;
         }
         .download-btn {
             display: block;
-            width: 200px;
-            margin: 20px auto;
+            width: 180px;
+            margin: 15px auto;
             text-align: center;
             background-color: #2563eb;
             color: white;
-            padding: 10px 20px;
+            padding: 8px 16px;
             text-decoration: none;
             border-radius: 5px;
-            font-size: 14px;
+            font-size: 13px;
         }
         .download-btn:hover {
             background-color: #1d4ed8;

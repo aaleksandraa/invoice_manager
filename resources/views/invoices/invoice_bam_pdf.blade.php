@@ -5,31 +5,31 @@
     <title>Faktura</title>
     <style>
         @page { margin: 15mm 20mm; }
-        body { font-family: DejaVu Sans, sans-serif; font-size: 3.8806mm; font-weight: 400; color: #414042; margin: 0; padding: 0; line-height: 6mm; position: relative; }
+        body { font-family: DejaVu Sans, sans-serif; font-size: 10pt; color: #414042; margin: 0; padding: 0; line-height: 1.2; position: relative; }
         table { width: 100%; border-collapse: collapse; }
         .header-table td { vertical-align: top; padding: 0; border: none; }
         .logo-text { font-size: 22pt; font-weight: bold; color: #414042; }
         .logo-img { max-height: 50pt; width: auto; display: block; }
-        .invoice-info { font-size: 3.8806mm; text-align: right; line-height: 6mm; font-weight: 400; }
-        .invoice-info-label { font-weight: 400; font-size: 3.8806mm; }
-        .invoice-info-value { font-weight: bold; font-size: 3.8806mm; }
-        .website-bar { background-color: #e6e7e8; padding: 7pt; text-align: right; margin: 10pt 0; font-weight: bold; font-size: 3.8806mm; }
-        .info-table td { vertical-align: top; padding: 5pt 10pt 5pt 0; border: none; font-size: 3.8806mm; line-height: 6mm; font-weight: 400; }
-        .info-title { font-weight: bold; font-size: 3.8806mm; margin-bottom: 3pt; }
-        .invoice-table th { background-color: #e6e7e8; padding: 8pt; text-align: left; font-weight: bold; border: 1pt solid #d0d0d0; font-size: 3.8806mm; }
-        .invoice-table td { padding: 8pt; border: 1pt solid #d0d0d0; font-size: 3.8806mm; line-height: 6mm; font-weight: 400; }
-        .total-box { background-color: #414042; color: white; padding: 10pt; margin: 10pt 0 20pt 0; font-weight: bold; font-size: 12pt; }
+        .invoice-info { font-size: 10pt; text-align: right; line-height: 1.3; }
+        .invoice-info-label { font-weight: normal; }
+        .invoice-info-value { font-weight: bold; }
+        .website-bar { background-color: #e6e7e8; padding: 6pt; text-align: right; margin: 8pt 0; font-weight: bold; font-size: 10pt; }
+        .info-table td { vertical-align: top; padding: 3pt 8pt 3pt 0; border: none; font-size: 10pt; line-height: 1.3; }
+        .info-title { font-weight: bold; font-size: 10pt; margin-bottom: 2pt; }
+        .invoice-table th { background-color: #e6e7e8; padding: 6pt; text-align: left; font-weight: bold; border: 1pt solid #d0d0d0; font-size: 10pt; }
+        .invoice-table td { padding: 6pt; border: 1pt solid #d0d0d0; font-size: 10pt; line-height: 1.2; }
+        .total-box { background-color: #414042; color: white; padding: 8pt; margin: 8pt 0 15pt 0; font-weight: bold; font-size: 11pt; }
         .total-box table { width: 100%; }
         .total-box td { color: white; border: none; padding: 0; }
         .page-wrapper { position: relative; min-height: 100vh; }
         .content-wrapper { padding-bottom: 180pt; }
-        .signature-section { margin-top: 50pt; page-break-inside: avoid; }
+        .signature-section { margin-top: 40pt; page-break-inside: avoid; }
         .signature-table { margin: 0; width: 100%; }
         .signature-table td { text-align: center; border: none; padding: 0 5pt; vertical-align: bottom; }
-        .signature-line { padding-top: 5pt; font-size: 3.8806mm; font-style: italic; color: #666; text-align: center; line-height: 6mm; font-weight: 400; }
-        .footer { margin-top: 20pt; border-top: 1pt solid #e6e7e8; padding-top: 12pt; text-align: center; font-size: 3.8806mm; line-height: 6mm; font-weight: 400; page-break-inside: avoid; }
-        .footer-bold { font-weight: bold; font-size: 3.8806mm; }
-        .footer-italic { font-style: italic; color: #666; margin-top: 6pt; font-size: 3.8806mm; font-weight: 400; }
+        .signature-line { padding-top: 4pt; font-size: 9pt; font-style: italic; color: #666; text-align: center; line-height: 1.2; }
+        .footer { margin-top: 15pt; border-top: 1pt solid #e6e7e8; padding-top: 10pt; text-align: center; font-size: 9pt; line-height: 1.3; page-break-inside: avoid; }
+        .footer-bold { font-weight: bold; }
+        .footer-italic { font-style: italic; color: #666; margin-top: 5pt; }
     </style>
 </head>
 <body>
