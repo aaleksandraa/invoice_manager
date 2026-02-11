@@ -90,6 +90,22 @@
         <div class="mb-12"></div>
     @endforeach
 
+    <!-- Ukupan zbir svih mjeseci -->
+    @if($monthlyPayments->isNotEmpty())
+        <div class="mt-8 mb-12">
+            <div class="bg-gradient-to-r from-orange-500 to-orange-600 text-white p-6 rounded-lg shadow-lg">
+                <div class="flex justify-between items-center">
+                    <h2 class="text-2xl font-bold">
+                        UKUPNO ZA {{ $selectedYear === 'all' ? 'SVE GODINE' : $selectedYear }}. GODINU
+                    </h2>
+                    <p class="text-3xl font-bold">
+                        {{ number_format($totalAllMonths, 2) }} KM
+                    </p>
+                </div>
+            </div>
+        </div>
+    @endif
+
     <!-- Sekcija za napomene -->
     <div class="mt-12 bg-white p-6 rounded shadow-md">
         <h2 class="text-xl font-semibold mb-4">Napomene</h2>

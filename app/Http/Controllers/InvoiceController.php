@@ -290,9 +290,12 @@ class InvoiceController extends Controller
             return $invoice->datum_placanja->format('F Y');
         });
 
+        // Calculate total for all months in selected year/period
+        $totalAllMonths = $invoices->sum('paid_bam_amount');
+
         $notes = Note::where('user_id', $user->id)->get();
 
-        return view('invoices.payments', compact('monthlyPayments', 'notes', 'availableYears', 'selectedYear'));
+        return view('invoices.payments', compact('monthlyPayments', 'notes', 'availableYears', 'selectedYear', 'totalAllMonths'));
     }
 
     public function storeNote(Request $request)

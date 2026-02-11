@@ -305,4 +305,67 @@ class InvoiceYearFilteringTest extends TestCase
         $response->assertSee('Test work 2026');
         $response->assertDontSee('Test work 2025');
     }
+
+    /**
+     * Test that total sum is displayed on payments page
+     */
+    public function test_total_sum_is_displayed_on_payments_page(): void
+    {
+        $user = User::factory()->create();
+        $client = Client::create([
+            'naziv_firme' => 'Test Client',
+            'adresa' => 'Test Address',
+            'postanski_broj_mjesto_drzava' => '71000 Sarajevo',
+            'pdv_broj' => '123456789',
+            'email' => 'test@example.com',
+            'kontakt_telefon' => '123456789',
+            'user_id' => $user->id,
+        ]);
+
+        // Create multiple paid invoices for 2025
+        Invoice::create([
+            'broj_fakture' => '#1/2025',
+            'datum_izdavanja' => '2025-01-01',
+            'klijent_id' => $client->id,
+            'opis_posla' => 'Test work 1',
+            'kolicina' => 1,
+            'cijena' => 100.00,
+            'valuta' => 'BAM',
+            'placeno' => true,
+            'datum_placanja' => '2025-01-15',
+            'user_id' => $user->id,
+        ]);
+
+        Invoice::create([
+            'broj_fakture' => '#2/2025',
+            'datum_izdavanja' => '2025-02-01',
+            'klijent_id' => $client->id,
+            'opis_posla' => 'Test work 2',
+            'kolicina' => 1,
+            'cijena' => 200.00,
+            'valuta' => 'BAM',
+            'placeno' => true,
+            'datum_placanja' => '2025-02-15',
+            'user_id' => $user->id,
+        ]);
+
+        Invoice::create([
+            'broj_fakture' => '#3/2025',
+            'datum_izdavanja' => '2025-03-01',
+            'klijent_id' => $client->id,
+            'opis_posla' => 'Test work 3',
+            'kolicina' => 1,
+            'cijena' => 150.00,
+            'valuta' => 'BAM',
+            'placeno' => true,
+            'datum_placanja' => '2025-03-15',
+            'user_id' => $user->id,
+        ]);
+
+        // Test that total sum is displayed (100 + 200 + 150 = 450)
+        $response = $this->actingAs($user)->get(route('invoices.payments', ['year' => 2025]));
+        $response->assertStatus(200);
+        $response->assertSee('450.00');
+        $response->assertSee('UKUPNO ZA 2025. GODINU');
+    }
 }
