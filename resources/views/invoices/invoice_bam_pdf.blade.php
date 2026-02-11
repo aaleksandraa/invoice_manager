@@ -11,8 +11,9 @@
         .logo-text { font-size: 22pt; font-weight: bold; color: #414042; }
         .logo-img { max-height: 50pt; width: auto; display: block; }
         .invoice-info { font-size: 10pt; text-align: right; line-height: 1.3; }
-        .invoice-info-label { font-weight: normal; }
+        .invoice-info-label { font-weight: normal; font-size: 8pt; }
         .invoice-info-value { font-weight: bold; }
+        .invoice-date-place { font-weight: bold; font-size: 10pt; margin-top: 2pt; }
         .website-bar { background-color: #e6e7e8; padding: 6pt; text-align: right; margin: 8pt 0; font-weight: bold; font-size: 10pt; }
         .info-table td { vertical-align: top; padding: 3pt 8pt 3pt 0; border: none; font-size: 10pt; line-height: 1.3; }
         .info-title { font-weight: bold; font-size: 10pt; margin-bottom: 2pt; }
@@ -22,12 +23,12 @@
         .total-box table { width: 100%; }
         .total-box td { color: white; border: none; padding: 0; }
         .page-wrapper { position: relative; min-height: 100vh; }
-        .content-wrapper { padding-bottom: 180pt; }
-        .signature-section { margin-top: 40pt; page-break-inside: avoid; }
+        .content-wrapper { padding-bottom: 140pt; }
+        .signature-section { margin-top: 60pt; page-break-inside: avoid; }
         .signature-table { margin: 0; width: 100%; }
         .signature-table td { text-align: center; border: none; padding: 0 5pt; vertical-align: bottom; }
         .signature-line { padding-top: 4pt; font-size: 9pt; font-style: italic; color: #666; text-align: center; line-height: 1.2; }
-        .footer { margin-top: 15pt; border-top: 1pt solid #e6e7e8; padding-top: 10pt; text-align: center; font-size: 9pt; line-height: 1.3; page-break-inside: avoid; }
+        .footer { margin-top: 20pt; border-top: 1pt solid #e6e7e8; padding-top: 8pt; padding-bottom: 5pt; text-align: center; font-size: 9pt; line-height: 1.3; page-break-inside: avoid; }
         .footer-bold { font-weight: bold; }
         .footer-italic { font-style: italic; color: #666; margin-top: 5pt; }
     </style>
@@ -44,7 +45,8 @@
             <td style="width: 50%;">
                 <div class="invoice-info">
                     <span class="invoice-info-label">Račun br.:</span> <span class="invoice-info-value">{{ str_replace('##', '#', $invoice->broj_fakture) }}</span><br>
-                    <span class="invoice-info-label">Datum i mjesto izdavanja:</span> <span class="invoice-info-value">{{ $invoice->datum_izdavanja ? $invoice->datum_izdavanja->format('d.m.Y') : '-' }}, Miloševac</span>
+                    <div class="invoice-info-label" style="margin-top: 4pt;">Datum i mjesto izdavanja:</div>
+                    <div class="invoice-date-place">{{ $invoice->datum_izdavanja ? $invoice->datum_izdavanja->format('d.m.Y') : '-' }}, Miloševac</div>
                 </div>
             </td>
         </tr>
