@@ -4,7 +4,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <title>Invoice</title>
     <style>
-        @page { margin: 15mm 20mm 10mm 20mm; }
+        @page { margin: 15mm 20mm 8mm 20mm; }
         body { font-family: DejaVu Sans, sans-serif; font-size: 10pt; color: #414042; margin: 0; padding: 0; line-height: 1.2; position: relative; }
         table { width: 100%; border-collapse: collapse; }
         .header-table td { vertical-align: top; padding: 0; border: none; }
@@ -14,22 +14,22 @@
         .invoice-info-label { font-weight: normal; font-size: 8pt; }
         .invoice-info-value { font-weight: bold; }
         .invoice-date-place { font-weight: bold; font-size: 10pt; margin-top: 1pt; }
-        .website-bar { background-color: #e6e7e8; padding: 6pt; text-align: right; margin: 8pt 0; font-weight: bold; font-size: 10pt; }
-        .info-table td { vertical-align: top; padding: 3pt 8pt 3pt 0; border: none; font-size: 10pt; line-height: 1.3; }
+        .website-bar { background-color: #e6e7e8; padding: 6pt; text-align: right; margin: 6pt 0; font-weight: bold; font-size: 10pt; }
+        .info-table td { vertical-align: top; padding: 2pt 8pt 2pt 0; border: none; font-size: 10pt; line-height: 1.2; }
         .info-title { font-weight: bold; font-size: 10pt; margin-bottom: 2pt; }
-        .invoice-table th { background-color: #e6e7e8; padding: 6pt; text-align: left; font-weight: bold; border: 1pt solid #d0d0d0; font-size: 10pt; }
-        .invoice-table td { padding: 6pt; border: 1pt solid #d0d0d0; font-size: 10pt; line-height: 1.2; }
-        .payment-note { font-size: 8pt; color: #666; font-style: italic; margin: 5pt 0 8pt 0; }
-        .total-box { background-color: #414042; color: white; padding: 8pt; margin: 8pt 0 15pt 0; font-weight: bold; font-size: 11pt; }
+        .invoice-table th { background-color: #e6e7e8; padding: 5pt; text-align: left; font-weight: bold; border: 1pt solid #d0d0d0; font-size: 10pt; }
+        .invoice-table td { padding: 5pt; border: 1pt solid #d0d0d0; font-size: 10pt; line-height: 1.2; }
+        .payment-note { font-size: 8pt; color: #666; font-style: italic; margin: 4pt 0 6pt 0; }
+        .total-box { background-color: #414042; color: white; padding: 8pt; margin: 6pt 0 10pt 0; font-weight: bold; font-size: 11pt; }
         .total-box table { width: 100%; }
         .total-box td { color: white; border: none; padding: 0; }
         .page-wrapper { position: relative; min-height: 100vh; }
-        .content-wrapper { padding-bottom: 80pt; }
-        .signature-section { margin-top: 60pt; page-break-inside: avoid; }
+        .content-wrapper { padding-bottom: 0; }
+        .signature-section { margin-top: 30pt; page-break-inside: avoid; }
         .signature-table { margin: 0; width: 100%; }
         .signature-table td { text-align: center; border: none; padding: 0 5pt; vertical-align: bottom; }
         .signature-line { padding-top: 4pt; font-size: 9pt; font-style: italic; color: #666; text-align: center; line-height: 1.2; }
-        .footer { margin-top: 20pt; border-top: 1pt solid #e6e7e8; padding-top: 8pt; padding-bottom: 5pt; text-align: center; font-size: 9pt; line-height: 1.3; page-break-inside: avoid; }
+        .footer { margin-top: 15pt; border-top: 1pt solid #e6e7e8; padding-top: 6pt; padding-bottom: 3pt; text-align: center; font-size: 9pt; line-height: 1.3; page-break-inside: avoid; }
         .footer-bold { font-weight: bold; }
         .footer-italic { font-style: italic; color: #666; margin-top: 5pt; }
     </style>
@@ -38,7 +38,7 @@
     <div class="page-wrapper">
     <div class="content-wrapper">
     <!-- Header -->
-    <table class="header-table" style="margin-bottom: 15pt;">
+    <table class="header-table" style="margin-bottom: 8pt;">
         <tr>
             <td style="width: 50%;">
                 <img src="{{ public_path('wizionar-logo.png') }}" class="logo-img" alt="Wizionar Logo">
@@ -57,7 +57,7 @@
     <div class="website-bar">www.wizionar.com</div>
 
     <!-- Info section -->
-    <table class="info-table" style="margin-bottom: 15pt;">
+    <table class="info-table" style="margin-bottom: 8pt;">
         <tr>
             <td style="width: 48%; vertical-align: top;">
                 <div class="info-title">Računarsko programiranje "Wizionar"</div>
@@ -82,7 +82,7 @@
     </table>
 
     <!-- Invoice table -->
-    <table class="invoice-table" style="margin: 10pt 0;">
+    <table class="invoice-table" style="margin: 8pt 0;">
         <thead>
             <tr>
                 <th style="width: 60%;">Description</th>
