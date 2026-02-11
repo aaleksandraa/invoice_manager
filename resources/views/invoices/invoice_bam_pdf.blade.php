@@ -44,7 +44,7 @@
             <td style="width: 50%;">
                 <div class="invoice-info">
                     <span class="invoice-info-label">Račun br.:</span> <span class="invoice-info-value">{{ str_replace('##', '#', $invoice->broj_fakture) }}</span><br>
-                    <span class="invoice-info-value">{{ $invoice->datum_izdavanja ? $invoice->datum_izdavanja->format('d.m.Y') : '-' }}, Miloševac</span>
+                    <span class="invoice-info-label">Datum i mjesto izdavanja:</span> <span class="invoice-info-value">{{ $invoice->datum_izdavanja ? $invoice->datum_izdavanja->format('d.m.Y') : '-' }}, Miloševac</span>
                 </div>
             </td>
         </tr>

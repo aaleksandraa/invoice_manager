@@ -169,7 +169,7 @@
             </div>
             <div class="invoice-info">
                 <p><strong>Račun br.: {{ str_replace('##', '#', $invoice->broj_fakture) }}</strong></p>
-                <p><strong>{{ $invoice->datum_izdavanja ? $invoice->datum_izdavanja->format('d.m.Y') : '-' }}, Miloševac</strong></p>
+                <p>Datum i mjesto izdavanja: <strong>{{ $invoice->datum_izdavanja ? $invoice->datum_izdavanja->format('d.m.Y') : '-' }}, Miloševac</strong></p>
             </div>
         </div>
 
