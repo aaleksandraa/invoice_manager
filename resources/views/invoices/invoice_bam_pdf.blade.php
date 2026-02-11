@@ -8,21 +8,20 @@
         body { font-family: DejaVu Sans; font-size: 9pt; color: #414042; margin: 0; padding: 0; position: relative; min-height: 250mm; }
         table { width: 100%; border-collapse: collapse; }
         .header-table td { vertical-align: top; padding: 0; border: none; }
-        .logo-text { font-size: 24pt; font-weight: bold; color: #414042; }
-        .logo-subtitle { font-size: 8pt; color: #666; margin-top: 2pt; }
+        .logo-img { height: 40pt; }
         .invoice-info { font-size: 9pt; text-align: right; line-height: 1.5; }
         .website-bar { background-color: #e6e7e8; padding: 5pt; text-align: right; margin: 10pt 0; font-weight: bold; }
         .info-table td { vertical-align: top; padding: 5pt 10pt 5pt 0; border: none; font-size: 8pt; line-height: 1.4; }
         .info-title { font-weight: bold; font-size: 9pt; margin-bottom: 3pt; }
         .invoice-table th { background-color: #e6e7e8; padding: 6pt; text-align: left; font-weight: bold; border: 1pt solid #d0d0d0; font-size: 9pt; }
         .invoice-table td { padding: 6pt; border: 1pt solid #d0d0d0; font-size: 9pt; }
-        .total-box { background-color: #414042; color: white; padding: 8pt; margin: 10pt 0 40pt 0; font-weight: bold; }
+        .total-box { background-color: #414042; color: white; padding: 8pt; margin: 10pt 0 20pt 0; font-weight: bold; }
         .total-box table { width: 100%; }
         .total-box td { color: white; border: none; padding: 0; }
-        .signature-table { margin: 40pt 0 60pt 0; }
+        .signature-table { position: absolute; bottom: 35mm; left: 20mm; right: 20mm; }
         .signature-table td { width: 45%; text-align: center; border: none; padding: 0 5pt; }
         .signature-line { border-top: 1pt solid #414042; padding-top: 4pt; font-size: 7pt; font-style: italic; color: #666; }
-        .footer { border-top: 1pt solid #e6e7e8; padding-top: 8pt; text-align: center; font-size: 8pt; line-height: 1.4; position: absolute; bottom: 10mm; left: 0; right: 0; }
+        .footer { border-top: 1pt solid #e6e7e8; padding-top: 8pt; text-align: center; font-size: 8pt; line-height: 1.4; position: absolute; bottom: 10mm; left: 20mm; right: 20mm; }
         .footer-bold { font-weight: bold; }
         .footer-italic { font-style: italic; color: #666; margin-top: 4pt; }
     </style>
@@ -32,13 +31,12 @@
     <table class="header-table" style="margin-bottom: 15pt;">
         <tr>
             <td style="width: 50%;">
-                <div class="logo-text">wizionar</div>
-                <div class="logo-subtitle">Step forward.</div>
+                <img src="https://wizionar.com/wp-content/uploads/2024/11/wizionar-logo-1.png" alt="Wizionar" class="logo-img">
             </td>
             <td style="width: 50%;">
                 <div class="invoice-info">
                     <strong>Račun br.: {{ $invoice->broj_fakture }}</strong><br>
-                    Datum i mjesto izdavanja: {{ $invoice->datum_izdavanja ? $invoice->datum_izdavanja->format('d.m.Y') : '-' }}., Miloševac
+                    <span style="font-size: 8pt;">Datum i mjesto izdavanja: {{ $invoice->datum_izdavanja ? $invoice->datum_izdavanja->format('d.m.Y') : '-' }}., Miloševac</span>
                 </div>
             </td>
         </tr>
@@ -50,7 +48,7 @@
     <!-- Info section -->
     <table class="info-table" style="margin-bottom: 15pt;">
         <tr>
-            <td style="width: 48%;">
+            <td style="width: 48%; vertical-align: top;">
                 <div class="info-title">Računarsko programiranje "Wizionar"</div>
                 <div>Aleksandra Davidović s.p. Miloševac</div>
                 <div>Adresa: Mali lug 117, 74485 Miloševac</div>
@@ -60,15 +58,13 @@
                 <div>Telefon: +387 66 / 882 - 702</div>
             </td>
             <td style="width: 4%;"></td>
-            <td style="width: 48%;">
-                <div style="text-align: right;">
-                    <div class="info-title">Račun za:</div>
-                    <div>{{ $invoice->client->naziv_firme }}</div>
-                    <div>{{ $invoice->client->adresa }}</div>
-                    <div>{{ $invoice->client->postanski_broj_mjesto_drzava }}</div>
-                    <div>JIB: {{ $invoice->client->pdv_broj }}</div>
-                    <div>Email: {{ $invoice->client->email }}</div>
-                </div>
+            <td style="width: 48%; vertical-align: top; text-align: right;">
+                <div class="info-title">Račun za:</div>
+                <div>{{ $invoice->client->naziv_firme }}</div>
+                <div>{{ $invoice->client->adresa }}</div>
+                <div>{{ $invoice->client->postanski_broj_mjesto_drzava }}</div>
+                <div>JIB: {{ $invoice->client->pdv_broj }}</div>
+                <div>Email: {{ $invoice->client->email }}</div>
             </td>
         </tr>
     </table>
