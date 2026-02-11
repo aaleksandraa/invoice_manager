@@ -3,165 +3,258 @@
 <head>
     <meta charset="UTF-8">
     <title>Invoice {{ $invoice->broj_fakture }}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 30px;
-            color: #333;
-            line-height: 1.3;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: #414042;
+            font-size: 13px;
+        }
+
         .container {
-            max-width: 800px;
+            width: 210mm;
+            height: 297mm;
+            padding: 15mm 20mm;
             margin: 0 auto;
         }
+
+        /* Header - Logo i Invoice info */
         .header {
-            text-align: center;
-            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
         }
-        .header img {
-            max-width: 150px;
+
+        .logo-section img {
+            width: 200px;
+            height: auto;
         }
-        .header h2 {
-            font-size: 22px;
-            margin: 8px 0;
-        }
-        .header p {
+
+        .invoice-info {
+            text-align: right;
             font-size: 13px;
-            color: #555;
+            line-height: 1.6;
         }
-        .details {
-            margin-bottom: 15px;
+
+        .invoice-info strong {
+            font-weight: 600;
         }
-        .details p {
-            margin: 3px 0;
-            font-size: 13px;
-            line-height: 1.3;
+
+        /* Website bar */
+        .website-bar {
+            background-color: #e6e7e8;
+            padding: 8px 15px;
+            border-radius: 5px;
+            text-align: right;
+            margin-bottom: 25px;
+            font-weight: 600;
         }
+
+        /* Info section - Izdavalac i Primalac */
+        .info-section {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 25px;
+        }
+
+        .info-box {
+            width: 48%;
+        }
+
+        .info-box-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .info-box p {
+            line-height: 1.6;
+            font-size: 12px;
+        }
+
+        /* Table */
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 15px;
             margin-bottom: 15px;
         }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
+
+        thead {
+            background-color: #e6e7e8;
+        }
+
+        th {
+            padding: 10px;
             text-align: left;
+            font-weight: 600;
+            font-size: 13px;
+            border: 1px solid #d0d0d0;
+        }
+
+        td {
+            padding: 10px;
+            border: 1px solid #d0d0d0;
             font-size: 13px;
         }
-        th {
-            background-color: #f5f5f5;
-            font-weight: bold;
-        }
-        .total {
-            font-size: 15px;
-            font-weight: bold;
-            margin-top: 8px;
-        }
-        .footer {
-            margin-top: 15px;
+
+        /* Payment instruction note */
+        .payment-note {
             font-size: 11px;
-            color: #555;
-            line-height: 1.3;
+            color: #666;
+            font-style: italic;
+            margin-bottom: 15px;
         }
-        .footer p {
-            margin: 3px 0;
-        }
-        .signature {
-            margin-top: 30px;
+
+        /* Total */
+        .total-section {
+            background-color: #414042;
+            color: white;
+            padding: 12px 15px;
+            border-radius: 5px;
             display: flex;
             justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            margin-bottom: 80px;
         }
-        .signature p {
+
+        /* Signature lines */
+        .signature-section {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 80px;
+        }
+
+        .signature-box {
+            width: 45%;
+            text-align: center;
+        }
+
+        .signature-line {
+            border-top: 1px solid #414042;
+            padding-top: 18px;
             font-size: 11px;
-            border-top: 1px solid #ddd;
-            padding-top: 8px;
-            width: 200px;
+            font-style: italic;
+            color: #666;
+        }
+
+        /* Footer */
+        .footer {
+            border-top: 1px solid #e6e7e8;
+            padding-top: 15px;
             text-align: center;
         }
-        .download-btn {
-            display: block;
-            width: 180px;
-            margin: 15px auto;
-            text-align: center;
-            background-color: #2563eb;
-            color: white;
-            padding: 8px 16px;
-            text-decoration: none;
-            border-radius: 5px;
-            font-size: 13px;
+
+        .footer p {
+            font-size: 12px;
+            line-height: 1.6;
+            margin-bottom: 5px;
         }
-        .download-btn:hover {
-            background-color: #1d4ed8;
+
+        .footer .company-name {
+            font-weight: 600;
+        }
+
+        .footer .note {
+            font-style: italic;
+            color: #666;
+            margin-top: 10px;
         }
     </style>
 </head>
 <body>
     <div class="container">
+        <!-- Header -->
         <div class="header">
-            <img src="https://wizionar.com/wp-content/uploads/2023/09/wizionarLogoAsset-7@2x.png" alt="Wizionar Logo">
-            <h2>Wizionar - Step forward</h2>
-            <p>www.wizionar.com</p>
+            <div class="logo-section">
+                <img src="https://wizionar.com/wp-content/uploads/2023/09/wizionarLogoAsset-7@2x.png" alt="Wizionar Logo">
+            </div>
+            <div class="invoice-info">
+                <p><strong>Invoice Number: {{ str_replace('##', '#', $invoice->broj_fakture) }}</strong></p>
+                <p style="margin-top: 12px; margin-bottom: 2px;">Invoice Date:</p>
+                <p style="margin-top: 0;"><strong>{{ $invoice->datum_izdavanja ? $invoice->datum_izdavanja->format('d.m.Y') : '-' }}, Miloševac</strong></p>
+            </div>
         </div>
 
-        <div class="details">
-            <p><strong>Invoice No.:</strong> {{ $invoice->broj_fakture }}</p>
-            <p><strong>Date and Place of Issue:</strong> {{ $invoice->datum_izdavanja ? $invoice->datum_izdavanja->format('d.m.Y') : '-' }}, Miloševac</p>
+        <!-- Website bar -->
+        <div class="website-bar">
+            www.wizionar.com
         </div>
 
-        <div class="details">
-            <p><strong>Computer Programming "Wizionar"</strong></p>
-            <p>Aleksandra Davidović s.p. Miloševac</p>
-            <p>Address: Mali lug 117, 74485 Miloševac, Bosnia and Herzegovina</p>
-            <p>Tax ID: 4512696590007</p>
-            <p>Bank Account: AtosBank 5676512500038858</p>
-            <p>Email: info@wizionar.com</p>
-            <p>Phone: +387 66 / 882 - 702</p>
+        <!-- Info section -->
+        <div class="info-section">
+            <div class="info-box">
+                <p class="info-box-title">Računarsko programiranje "Wizionar"</p>
+                <p>Aleksandra Davidović s.p. Miloševac</p>
+                <p>Adresa: Mali lug 117, 74485 Miloševac</p>
+                <p>JIB / JMB: 4512696590007</p>
+                <p>Račun AtosBank: 5676512500038858</p>
+                <p>IBAN: BA395676510000114506</p>
+                <p>SWIFT: SABRBA2B</p>
+                <p>Email: info@wizionar.com</p>
+                <p>Tel: +387 66 / 882 - 702</p>
+            </div>
+            <div class="info-box">
+                <p class="info-box-title">Invoice to:</p>
+                <p>{{ $invoice->client->naziv_firme }}</p>
+                <p>{{ $invoice->client->adresa }}</p>
+                <p>{{ $invoice->client->postanski_broj_mjesto_drzava }}</p>
+                <p>VAT: {{ $invoice->client->pdv_broj }}</p>
+                <p>Email: {{ $invoice->client->email }}</p>
+            </div>
         </div>
 
-        <div class="details">
-            <p><strong>Invoice for:</strong></p>
-            <p>{{ $invoice->client->naziv_firme }}</p>
-            <p>{{ $invoice->client->adresa }}</p>
-            <p>{{ $invoice->client->postanski_broj_mjesto_drzava }}</p>
-            <p>VAT ID: {{ $invoice->client->pdv_broj }}</p>
-            <p>Email: {{ $invoice->client->email }}</p>
-        </div>
-
+        <!-- Table -->
         <table>
             <thead>
                 <tr>
-                    <th>Description of Services</th>
-                    <th>Quantity</th>
-                    <th>Price (EUR)</th>
+                    <th style="width: 60%;">Description</th>
+                    <th style="width: 15%;">Quantity</th>
+                    <th style="width: 25%;">Amount (EUR)</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <td>{{ $invoice->opis_posla }}</td>
-                    <td>{{ $invoice->kolicina }}</td>
-                    <td>{{ number_format($invoice->cijena, 2) }} EUR</td>
+                    <td style="text-align: center;">{{ $invoice->kolicina }}</td>
+                    <td style="text-align: right;">{{ number_format($invoice->cijena, 2) }} EUR</td>
                 </tr>
             </tbody>
         </table>
 
-        <p class="total">Total Price: {{ number_format($invoice->cijena, 2) }} EUR ({{ number_format($invoice->bam_amount, 2) }} KM)</p>
-        <p>Exchange rate: 1 EUR = 1.95583 KM</p>
-
-        <div class="signature">
-            <p>Signature and Stamp of the Issuer</p>
-            <p>Signature and Stamp of the Recipient</p>
+        <!-- Payment instruction note -->
+        <div class="payment-note">
+            Please ensure that the payment instruction is set to 'OUR'
         </div>
 
+        <!-- Total -->
+        <div class="total-section">
+            <span>Total in EUR:</span>
+            <span>{{ number_format($invoice->cijena, 2) }} EUR</span>
+        </div>
+
+        <!-- Signature lines -->
+        <div class="signature-section">
+            <div class="signature-box">
+                <div class="signature-line">Authorized by</div>
+            </div>
+            <div class="signature-box">
+                <div class="signature-line">Customer</div>
+            </div>
+        </div>
+
+        <!-- Footer -->
         <div class="footer">
-            <p>Computer Programming "Wizionar" Aleksandra Davidović s.p. Miloševac</p>
-            <p>Tax ID: 4512696590007 | Bank Account: AtosBank 5676512500038858</p>
-            <p>VAT not applicable as the entity is not in the VAT system</p>
-            <p>Payment currency: EUR</p>
+            <p class="company-name">Računarsko programiranje "Wizionar" Aleksandra Davidović s.p. Miloševac</p>
+            <p>JIB: 4512696590007 | IBAN: BA395676510000114506</p>
+            <p class="note">Wizionar is not a part of the VAT system</p>
         </div>
-
-        <!-- Dugme za preuzimanje PDF-a -->
-        <a href="{{ route('invoices.download', $invoice) }}" class="download-btn">Download</a>
     </div>
 </body>
 </html>
