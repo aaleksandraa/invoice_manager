@@ -41,7 +41,7 @@ Ažurirati EUR fakture da budu identične BAM fakturama u strukturi i sadržaju,
     - Uporedi sadržaj između web i PDF verzija
     - _Requirements: 3.1, 3.2, 3.3, 3.4_
 
-- [ ] 4. Checkpoint - Proveri da sve radi
+- [x] 4. Checkpoint - Proveri da sve radi
   - Testiraj rendering EUR faktura u browseru
   - Testiraj PDF generisanje
   - Uporedi sa BAM fakturama vizuelno
