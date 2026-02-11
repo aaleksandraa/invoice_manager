@@ -22,22 +22,22 @@ Ažurirati EUR fakture da budu identične BAM fakturama u strukturi i sadržaju,
   - Proveri da je VAT napomena na engleskom
   - _Requirements: 1.1, 1.2, 1.3, 1.4, 2.1, 2.2, 2.3, 3.3, 3.4, 4.1, 4.2, 4.3, 4.4_
 
-- [ ]* 3. Kreirati testove za EUR fakture
-  - [ ]* 3.1 Kreirati test fajl EurInvoiceDisplayTest.php
+- [x]* 3. Kreirati testove za EUR fakture
+  - [x]* 3.1 Kreirati test fajl EurInvoiceDisplayTest.php
     - Setup test sa test invoice podacima
     - _Requirements: 3.1, 3.2, 3.3, 3.4_
 
-  - [ ]* 3.2 Test za banking informacije
+  - [x]* 3.2 Test za banking informacije
     - Proveri da web verzija sadrži sve banking podatke
     - Proveri da PDF verzija sadrži sve banking podatke
     - _Requirements: 1.1, 1.2, 1.3, 1.4_
 
-  - [ ]* 3.3 Test za VAT napomenu
+  - [x]* 3.3 Test za VAT napomenu
     - Proveri da footer sadrži VAT napomenu na engleskom
     - Proveri italic styling
     - _Requirements: 2.1, 2.2, 2.3_
 
-  - [ ]* 3.4 Test za web-PDF konzistentnost
+  - [x]* 3.4 Test za web-PDF konzistentnost
     - Uporedi sadržaj između web i PDF verzija
     - _Requirements: 3.1, 3.2, 3.3, 3.4_
 

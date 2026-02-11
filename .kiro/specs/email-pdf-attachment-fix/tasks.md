@@ -6,19 +6,19 @@ Ispravka bug-a u `InvoiceMail` klasi gdje se koriste pogrešni view template-i z
 
 ## Tasks
 
-- [ ] 1. Ispravi view selection u PaymentReminderMail klasi
+- [x] 1. Ispravi view selection u PaymentReminderMail klasi
   - Promijeni `attachments()` metodu da koristi PDF-optimizovane view-ove
   - Koristi `invoice_bam_pdf` umjesto `invoice_bam`
   - Koristi `invoice_eur_pdf` umjesto `invoice_eur`
   - _Requirements: 1.1, 1.2, 1.3, 1.5_
 
-- [ ] 2. Ispravi view selection u FirstReminderMail klasi
+- [x] 2. Ispravi view selection u FirstReminderMail klasi
   - Promijeni `attachments()` metodu da koristi PDF-optimizovane view-ove
   - Koristi `invoice_bam_pdf` umjesto `invoice_bam`
   - Koristi `invoice_eur_pdf` umjesto `invoice_eur`
   - _Requirements: 1.1, 1.2, 1.3, 1.6_
 
-- [ ] 3. Ispravi view selection u SecondReminderMail klasi
+- [x] 3. Ispravi view selection u SecondReminderMail klasi
   - Promijeni `attachments()` metodu da koristi PDF-optimizovane view-ove
   - Koristi `invoice_bam_pdf` umjesto `invoice_bam`
   - Koristi `invoice_eur_pdf` umjesto `invoice_eur`
