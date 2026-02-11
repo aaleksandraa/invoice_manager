@@ -5,170 +5,161 @@
     <title>Faktura {{ $invoice->broj_fakture }}</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: 'Poppins', sans-serif;
+        * {
             margin: 0;
             padding: 0;
-            color: #414042;
-        }
-        .container {
-            width: 210mm; /* A4 širina */
-            min-height: 297mm; /* A4 visina */
-            margin: 0 auto;
-            padding: 20mm; /* Margine unutar A4 papira */
             box-sizing: border-box;
         }
-        .header {
-            margin-bottom: 20px;
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: #414042;
+            font-size: 11px;
         }
-        .header img {
-            width: 175px;
-            height: 60px;
-            display: block;
+
+        .container {
+            width: 210mm;
+            height: 297mm;
+            padding: 15mm 20mm;
             margin: 0 auto;
         }
-        .header .step-forward {
-            font-size: 11px;
-            font-weight: 600; /* Poppins SemiBold */
-            text-align: center;
-            margin-bottom: 16px;
+
+        /* Header - Logo i Račun info */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
         }
-        .header .invoice-info {
-            font-size: 11px;
-            font-weight: 600; /* Poppins SemiBold */
-            margin-bottom: 16px; /* Razmak između redova */
-            text-align: left;
+
+        .logo-section img {
+            width: 150px;
+            height: auto;
         }
-        .header .website {
+
+        .invoice-info {
+            text-align: right;
             font-size: 11px;
-            font-weight: 600; /* Poppins SemiBold */
-            color: #414042;
+            line-height: 1.6;
+        }
+
+        .invoice-info strong {
+            font-weight: 600;
+        }
+
+        /* Website bar */
+        .website-bar {
             background-color: #e6e7e8;
-            width: 376px;
-            height: 12px;
-            line-height: 12px;
-            display: block;
+            padding: 8px 15px;
             border-radius: 5px;
-            margin: 10px auto;
-            text-align: center;
+            text-align: right;
+            margin-bottom: 25px;
+            font-weight: 600;
         }
+
+        /* Info section - Izdavalac i Primalac */
         .info-section {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
-        .info-section .left {
-            width: 45%;
+
+        .info-box {
+            width: 48%;
         }
-        .info-section .right {
-            width: 55%;
+
+        .info-box-title {
+            font-weight: 600;
+            margin-bottom: 8px;
         }
-        .info-section p {
-            font-size: 11px;
-            margin-bottom: 16px; /* Razmak između redova */
+
+        .info-box p {
+            line-height: 1.6;
+            font-size: 10px;
         }
-        .info-section .left p:first-child,
-        .info-section .right p:first-child {
-            font-weight: 600; /* Poppins SemiBold */
-        }
-        .info-section .left p:not(:first-child),
-        .info-section .right p:not(:first-child) {
-            font-weight: 400; /* Poppins Regular */
-        }
+
+        /* Table */
         table {
-            width: 502px;
+            width: 100%;
             border-collapse: collapse;
-            margin: 0 0 20px 0;
+            margin-bottom: 15px;
         }
-        th, td {
-            border: 0.5px solid #e6e7e8;
+
+        thead {
+            background-color: #e6e7e8;
+        }
+
+        th {
             padding: 10px;
             text-align: left;
+            font-weight: 600;
             font-size: 11px;
+            border: 1px solid #d0d0d0;
         }
-        th {
-            background-color: #e6e7e8;
-            font-weight: 600; /* Poppins SemiBold */
-            border-top-left-radius: 5px;
-            border-top-right-radius: 5px;
-            border-bottom-left-radius: 0;
-            border-bottom-right-radius: 0;
-            height: 28px;
-            line-height: 28px;
-            padding: 0 10px;
-        }
+
         td {
-            border-bottom-left-radius: 0;
-            border-bottom-right-radius: 0;
-        }
-        .total {
-            width: 502px;
-            margin: 0 0 20px 0;
-            display: flex;
-            align-items: center;
-        }
-        .total .label {
+            padding: 10px;
+            border: 1px solid #d0d0d0;
             font-size: 11px;
-            font-weight: 600; /* Poppins SemiBold */
-            color: #414042;
-            background-color: #e6e7e8;
-            height: 28px;
-            line-height: 28px;
-            padding: 0 10px;
-            border-radius: 5px;
-            margin: 0;
         }
-        .total .amount {
-            font-size: 11px;
-            font-weight: 400; /* Poppins Regular */
-            color: #414042;
-            background-color: #e6e7e8;
-            height: 28px;
-            line-height: 28px;
-            padding: 0 10px;
+
+        /* Total */
+        .total-section {
+            background-color: #414042;
+            color: white;
+            padding: 12px 15px;
             border-radius: 5px;
-            margin: 0;
-        }
-        .signature {
-            margin-top: 40px;
             display: flex;
             justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            margin-bottom: 80px;
         }
-        .signature p {
-            font-size: 8px;
-            font-style: italic;
-            font-weight: 500; /* Poppins Medium Italic */
-            color: #414042;
-            border-top: 1px solid #e6e7e8;
-            padding-top: 10px;
-            width: 167.4px;
+
+        /* Signature lines */
+        .signature-section {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 60px;
+        }
+
+        .signature-box {
+            width: 45%;
             text-align: center;
         }
-        .footer {
-            margin-top: 20px;
-            font-size: 11px;
-            color: #414042;
-            border-top: 1px solid #e6e7e8;
-            width: 497px;
-            padding-top: 10px;
-            margin: 20px 0;
-        }
-        .footer p {
-            margin-bottom: 16px; /* Razmak između redova */
-        }
-        .footer p:first-child {
-            font-weight: 600; /* Poppins SemiBold */
-        }
-        .footer p:not(:first-child) {
-            font-weight: 400; /* Poppins Regular */
-        }
-        .footer .note {
-            font-size: 11px;
+
+        .signature-line {
+            border-top: 1px solid #414042;
+            padding-top: 8px;
+            font-size: 9px;
             font-style: italic;
-            font-weight: 500; /* Poppins Medium Italic */
-            margin-top: 10px;
-            margin-bottom: 0; /* Zadnji red u footer-u ne treba dodatni razmak */
+            color: #666;
         }
+
+        /* Footer */
+        .footer {
+            border-top: 1px solid #e6e7e8;
+            padding-top: 15px;
+            text-align: center;
+        }
+
+        .footer p {
+            font-size: 10px;
+            line-height: 1.6;
+            margin-bottom: 5px;
+        }
+
+        .footer .company-name {
+            font-weight: 600;
+        }
+
+        .footer .note {
+            font-style: italic;
+            color: #666;
+            margin-top: 10px;
+        }
+
+        /* Download button - only for web view */
         .download-btn {
             display: block;
             width: 200px;
@@ -181,24 +172,40 @@
             border-radius: 5px;
             font-size: 14px;
         }
+
         .download-btn:hover {
             background-color: #1d4ed8;
+        }
+
+        @media print {
+            .download-btn {
+                display: none;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
+        <!-- Header -->
         <div class="header">
-            <img src="https://wizionar.com/wp-content/uploads/2023/09/wizionarLogoAsset-7@2x.png" alt="Wizionar Logo">
-            <p class="step-forward">Step forward.</p>
-            <p class="invoice-info">Račun br.: {{ $invoice->broj_fakture }}</p>
-            <p class="invoice-info">Datum i mjesto izdavanja: {{ $invoice->datum_izdavanja ? $invoice->datum_izdavanja->format('d.m.Y') : '-' }}., Miloševac</p>
-            <p class="website">www.wizionar.com</p>
+            <div class="logo-section">
+                <img src="https://wizionar.com/wp-content/uploads/2023/09/wizionarLogoAsset-7@2x.png" alt="Wizionar Logo">
+            </div>
+            <div class="invoice-info">
+                <p><strong>Račun br.: {{ $invoice->broj_fakture }}</strong></p>
+                <p>Datum i mjesto izdavanja: <strong>{{ $invoice->datum_izdavanja ? $invoice->datum_izdavanja->format('d.m.Y') : '-' }}., Miloševac</strong></p>
+            </div>
         </div>
 
+        <!-- Website bar -->
+        <div class="website-bar">
+            www.wizionar.com
+        </div>
+
+        <!-- Info section -->
         <div class="info-section">
-            <div class="left">
-                <p>Računarsko programiranje "Wizionar"</p>
+            <div class="info-box">
+                <p class="info-box-title">Računarsko programiranje "Wizionar"</p>
                 <p>Aleksandra Davidović s.p. Miloševac</p>
                 <p>Adresa: Mali lug 117, 74485 Miloševac</p>
                 <p>JIB / JMB: 4512696590007</p>
@@ -206,50 +213,58 @@
                 <p>Email: info@wizionar.com</p>
                 <p>Telefon: +387 66 / 882 - 702</p>
             </div>
-            <div class="right">
-                <p>Račun za:</p>
+            <div class="info-box">
+                <p class="info-box-title">Račun za:</p>
                 <p>{{ $invoice->client->naziv_firme }}</p>
                 <p>{{ $invoice->client->adresa }}</p>
                 <p>{{ $invoice->client->postanski_broj_mjesto_drzava }}</p>
-                <p>PDV: {{ $invoice->client->pdv_broj }}</p>
+                <p>JIB: {{ $invoice->client->pdv_broj }}</p>
                 <p>Email: {{ $invoice->client->email }}</p>
             </div>
         </div>
 
+        <!-- Table -->
         <table>
             <thead>
                 <tr>
-                    <th>Detaljan opis posla</th>
-                    <th>Količina</th>
-                    <th>Cijena (KM)</th>
+                    <th style="width: 60%;">Detaljan opis posla</th>
+                    <th style="width: 15%;">Količina</th>
+                    <th style="width: 25%;">Cijena (KM)</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <td>{{ $invoice->opis_posla }}</td>
-                    <td>{{ $invoice->kolicina }}</td>
-                    <td>{{ number_format($invoice->cijena, 2) }} KM</td>
+                    <td style="text-align: center;">{{ $invoice->kolicina }}</td>
+                    <td style="text-align: right;">{{ number_format($invoice->cijena, 2) }} KM</td>
                 </tr>
             </tbody>
         </table>
 
-        <div class="total">
-            <span class="label">Ukupna cijena:</span>
-            <span class="amount">{{ number_format($invoice->cijena, 2) }} KM</span>
+        <!-- Total -->
+        <div class="total-section">
+            <span>Ukupna cijena:</span>
+            <span>{{ number_format($invoice->cijena, 2) }} KM</span>
         </div>
 
-        <div class="signature">
-            <p>potpis i pečat izdavaoca računa</p>
-            <p>potpis i pečat primaoca računa</p>
+        <!-- Signature lines -->
+        <div class="signature-section">
+            <div class="signature-box">
+                <div class="signature-line">potpis i pečat izdavaoca računa</div>
+            </div>
+            <div class="signature-box">
+                <div class="signature-line">potpis i pečat primaoca računa</div>
+            </div>
         </div>
 
+        <!-- Footer -->
         <div class="footer">
-            <p>Računarsko programiranje "Wizionar" Aleksandra Davidović s.p. Miloševac</p>
+            <p class="company-name">Računarsko programiranje "Wizionar" Aleksandra Davidović s.p. Miloševac</p>
             <p>JIB: 4512696590007 | Račun AtosBank: 5676512500038858</p>
-            <p class="note">PDV nije obračunat, jer lice nije u PDV sistemu / Valuta plaćanja: konvertibilna marka (KM)</p>
+            <p class="note">PDV nije obračunat, jer lice nije u PDV sistemu i Valuta plaćanja: konvertibilna marka (KM)</p>
         </div>
 
-        <!-- Dugme za preuzimanje PDF-a -->
+        <!-- Download button (only visible in web view) -->
         <a href="{{ route('invoices.download', $invoice) }}" class="download-btn">Download</a>
     </div>
 </body>
