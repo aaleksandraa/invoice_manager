@@ -18,21 +18,27 @@
     @foreach ($monthlyPayments as $month => $invoices)
         <!-- Prevod mjeseca na bosanski -->
         @php
-            $translatedMonth = match($month) {
-                'January ' . date('Y') => 'Januar ' . date('Y'),
-                'February ' . date('Y') => 'Februar ' . date('Y'),
-                'March ' . date('Y') => 'Mart ' . date('Y'),
-                'April ' . date('Y') => 'April ' . date('Y'),
-                'May ' . date('Y') => 'Maj ' . date('Y'),
-                'June ' . date('Y') => 'Juni ' . date('Y'),
-                'July ' . date('Y') => 'Juli ' . date('Y'),
-                'August ' . date('Y') => 'August ' . date('Y'),
-                'September ' . date('Y') => 'Septembar ' . date('Y'),
-                'October ' . date('Y') => 'Oktobar ' . date('Y'),
-                'November ' . date('Y') => 'Novembar ' . date('Y'),
-                'December ' . date('Y') => 'Decembar ' . date('Y'),
-                default => $month,
-            };
+            // Extract month and year from the key (e.g., "November 2025")
+            $parts = explode(' ', $month);
+            $englishMonth = $parts[0] ?? '';
+            $year = $parts[1] ?? date('Y');
+
+            $monthTranslations = [
+                'January' => 'Januar',
+                'February' => 'Februar',
+                'March' => 'Mart',
+                'April' => 'April',
+                'May' => 'Maj',
+                'June' => 'Juni',
+                'July' => 'Juli',
+                'August' => 'August',
+                'September' => 'Septembar',
+                'October' => 'Oktobar',
+                'November' => 'Novembar',
+                'December' => 'Decembar',
+            ];
+
+            $translatedMonth = ($monthTranslations[$englishMonth] ?? $englishMonth) . ' ' . $year;
         @endphp
 
         <h2 class="text-xl font-semibold mt-4">{{ $translatedMonth }}</h2>
@@ -93,12 +99,12 @@
     <!-- Ukupan zbir svih mjeseci -->
     @if($monthlyPayments->isNotEmpty())
         <div class="mt-8 mb-12">
-            <div class="bg-gradient-to-r from-orange-500 to-orange-600 text-white p-6 rounded-lg shadow-lg">
-                <div class="flex justify-between items-center">
-                    <h2 class="text-2xl font-bold">
+            <div class="bg-black text-white p-6 rounded-lg shadow-xl border-2 border-gray-700">
+                <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
+                    <h2 class="text-xl sm:text-2xl font-bold">
                         UKUPNO ZA {{ $selectedYear === 'all' ? 'SVE GODINE' : $selectedYear }}. GODINU
                     </h2>
-                    <p class="text-3xl font-bold">
+                    <p class="text-2xl sm:text-3xl font-bold text-orange-400">
                         {{ number_format($totalAllMonths, 2) }} KM
                     </p>
                 </div>

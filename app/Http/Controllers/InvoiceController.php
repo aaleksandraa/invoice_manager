@@ -161,6 +161,17 @@ class InvoiceController extends Controller
             'uplaceni_iznos_eur' => 'sometimes|nullable|numeric',
         ]);
 
+        // If marked as paid but no payment date provided, use today's date
+        if (isset($validated['placeno']) && $validated['placeno'] && empty($validated['datum_placanja'])) {
+            $validated['datum_placanja'] = now()->format('Y-m-d');
+        }
+
+        // If marked as unpaid, clear payment date and amount
+        if (isset($validated['placeno']) && !$validated['placeno']) {
+            $validated['datum_placanja'] = null;
+            $validated['uplaceni_iznos_eur'] = null;
+        }
+
         try {
             $invoice->update($validated);
             if ($request->has('placeno') && $user->send_payment_email) {
@@ -198,6 +209,11 @@ class InvoiceController extends Controller
         if (! $validated['placeno']) {
             $validated['datum_placanja'] = null;
             $validated['uplaceni_iznos_eur'] = null;
+        } else {
+            // If paid but no payment date provided, use today's date
+            if (empty($validated['datum_placanja'])) {
+                $validated['datum_placanja'] = now()->format('Y-m-d');
+            }
         }
 
         try {
@@ -270,6 +286,7 @@ class InvoiceController extends Controller
         // Get all available years from user's paid invoices
         $availableYears = Invoice::where('user_id', $user->id)
             ->where('placeno', true)
+            ->whereNotNull('datum_placanja')
             ->selectRaw('DISTINCT YEAR(datum_placanja) as year')
             ->orderBy('year', 'desc')
             ->pluck('year')
@@ -278,7 +295,9 @@ class InvoiceController extends Controller
         // Filter invoices by selected year
         $query = Invoice::where('user_id', $user->id)
             ->where('placeno', true)
-            ->with('client');
+            ->whereNotNull('datum_placanja')
+            ->with('client')
+            ->orderBy('datum_placanja', 'asc');
 
         if ($selectedYear !== 'all') {
             $query->whereYear('datum_placanja', $selectedYear);
