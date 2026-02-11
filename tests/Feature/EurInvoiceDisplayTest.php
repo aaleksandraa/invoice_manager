@@ -50,8 +50,9 @@ class EurInvoiceDisplayTest extends TestCase
         // Check for SWIFT
         $response->assertSee('SWIFT: SABRBA2B', false);
 
-        // Check for AtosBank account
-        $response->assertSee('Račun AtosBank: 5676512500038858', false);
+        // EUR invoices should NOT have "Račun AtosBank" in the issuer section
+        // It should only be in the footer as IBAN
+        $response->assertDontSee('Račun AtosBank: 5676512500038858', false);
 
         // Check for company name with proper encoding
         $response->assertSee('Računarsko programiranje "Wizionar"', false);
@@ -109,5 +110,16 @@ class EurInvoiceDisplayTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertSee("Please ensure that the payment instruction is set to 'OUR'", false);
+    }
+
+    public function test_eur_pdf_invoice_generates_successfully()
+    {
+        $invoice = $this->createTestInvoice();
+
+        $response = $this->actingAs($invoice->user)
+            ->get(route('invoices.download', ['invoice' => $invoice->id, 'view' => true]));
+
+        $response->assertStatus(200);
+        $response->assertHeader('Content-Type', 'application/pdf');
     }
 }

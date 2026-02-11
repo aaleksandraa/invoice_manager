@@ -196,7 +196,6 @@
                 <p>JIB / JMB: 4512696590007</p>
                 <p>IBAN: BA395676510000114506</p>
                 <p>SWIFT: SABRBA2B</p>
-                <p>Račun AtosBank: 5676512500038858</p>
                 <p>Email: info@wizionar.com</p>
                 <p>Tel: +387 66 / 882 - 702</p>
             </div>

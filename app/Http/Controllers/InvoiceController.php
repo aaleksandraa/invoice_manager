@@ -104,11 +104,21 @@ class InvoiceController extends Controller
         }
     }
 
-    public function show(Invoice $invoice)
+    public function show(Request $request, Invoice $invoice)
     {
         $user = Auth::user();
         if ($invoice->user_id !== $user->id) {
             abort(403, 'Unauthorized action.');
+        }
+
+        // Check if currency parameter is provided for direct invoice view
+        $currency = $request->get('currency');
+        if ($currency === 'eur') {
+            $invoice->load('client');
+            return view('invoices.invoice_eur', compact('invoice'));
+        } elseif ($currency === 'bam') {
+            $invoice->load('client');
+            return view('invoices.invoice_bam', compact('invoice'));
         }
 
         return view('invoices.show', compact('invoice'));
@@ -271,7 +281,7 @@ class InvoiceController extends Controller
 
         $invoice->load('client');
         // Use separate PDF-optimized view for download
-        $view = $invoice->valuta === 'BAM' ? 'invoices.invoice_bam_pdf' : 'invoices.invoice_eur';
+        $view = $invoice->valuta === 'BAM' ? 'invoices.invoice_bam_pdf' : 'invoices.invoice_eur_pdf';
         $pdf = Pdf::loadView($view, compact('invoice'))
             ->setPaper('a4', 'portrait');
         $safeFileName = str_replace('/', '-', $invoice->broj_fakture);
