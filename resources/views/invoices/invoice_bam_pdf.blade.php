@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <title>Faktura</title>
     <style>
         @page { margin: 15mm 20mm; }
-        body { font-family: 'Poppins', sans-serif; font-size: 3.8806mm; font-weight: 400; color: #414042; margin: 0; padding: 0; line-height: 6mm; }
+        body { font-family: DejaVu Sans, sans-serif; font-size: 3.8806mm; font-weight: 400; color: #414042; margin: 0; padding: 0; line-height: 6mm; position: relative; }
         table { width: 100%; border-collapse: collapse; }
         .header-table td { vertical-align: top; padding: 0; border: none; }
         .logo-text { font-size: 22pt; font-weight: bold; color: #414042; }
-        .logo-img { height: 50pt; }
+        .logo-img { max-height: 50pt; width: auto; display: block; }
         .invoice-info { font-size: 3.8806mm; text-align: right; line-height: 6mm; font-weight: 400; }
         .invoice-info-label { font-weight: 400; font-size: 3.8806mm; }
         .invoice-info-value { font-weight: bold; font-size: 3.8806mm; }
@@ -21,21 +21,29 @@
         .total-box { background-color: #414042; color: white; padding: 10pt; margin: 10pt 0 20pt 0; font-weight: bold; font-size: 12pt; }
         .total-box table { width: 100%; }
         .total-box td { color: white; border: none; padding: 0; }
-        .signature-section { margin-top: 40pt; margin-bottom: 30pt; }
+        .page-wrapper { position: relative; min-height: 100vh; }
+        .content-wrapper { padding-bottom: 180pt; }
+        .signature-section { margin-top: 50pt; page-break-inside: avoid; }
         .signature-table { margin: 0; width: 100%; }
         .signature-table td { text-align: center; border: none; padding: 0 5pt; vertical-align: bottom; }
         .signature-line { padding-top: 5pt; font-size: 3.8806mm; font-style: italic; color: #666; text-align: center; line-height: 6mm; font-weight: 400; }
-        .footer { border-top: 1pt solid #e6e7e8; padding-top: 12pt; text-align: center; font-size: 3.8806mm; line-height: 6mm; margin-top: 20pt; font-weight: 400; }
+        .footer { margin-top: 20pt; border-top: 1pt solid #e6e7e8; padding-top: 12pt; text-align: center; font-size: 3.8806mm; line-height: 6mm; font-weight: 400; page-break-inside: avoid; }
         .footer-bold { font-weight: bold; font-size: 3.8806mm; }
         .footer-italic { font-style: italic; color: #666; margin-top: 6pt; font-size: 3.8806mm; font-weight: 400; }
     </style>
 </head>
 <body>
+    <div class="page-wrapper">
+    <div class="content-wrapper">
     <!-- Header -->
     <table class="header-table" style="margin-bottom: 15pt;">
         <tr>
             <td style="width: 50%;">
-                <img src="https://wizionar.com/wp-content/uploads/2023/09/wizionarLogoAsset-7@2x.png" class="logo-img" alt="Wizionar Logo">
+                @if($invoice->user && $invoice->user->companyProfile && $invoice->user->companyProfile->logo)
+                    <img src="{{ storage_path('app/public/' . $invoice->user->companyProfile->logo) }}" class="logo-img" alt="Logo">
+                @else
+                    <div class="logo-text">Wizionar Logo</div>
+                @endif
             </td>
             <td style="width: 50%;">
                 <div class="invoice-info">
@@ -100,6 +108,7 @@
             </tr>
         </table>
     </div>
+    </div>
 
     <!-- Signature lines -->
     <div class="signature-section">
@@ -123,6 +132,7 @@
         <div class="footer-bold">Računarsko programiranje "Wizionar" Aleksandra Davidović s.p. Miloševac</div>
         <div style="margin-top: 3pt;">JIB: 4512696590007 | Račun AtosBank: 5676512500038858</div>
         <div class="footer-italic">PDV nije obračunat, jer lice nije u PDV sistemu i Valuta plaćanja: konvertibilna marka (KM)</div>
+    </div>
     </div>
 </body>
 </html>
