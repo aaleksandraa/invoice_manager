@@ -19,8 +19,8 @@
         .total-box table { width: 100%; }
         .total-box td { color: white; border: none; padding: 0; }
         .signature-table { margin: 0 0 30pt 0; }
-        .signature-table td { width: 45%; text-align: center; border: none; padding: 0 5pt; }
-        .signature-line { border-top: 1pt solid #414042; padding-top: 4pt; font-size: 7pt; font-style: italic; color: #666; }
+        .signature-table td { text-align: center; border: none; padding: 0 5pt; vertical-align: bottom; }
+        .signature-line { border-top: 1pt solid #414042; padding-top: 8pt; font-size: 7pt; font-style: italic; color: #666; text-align: center; }
         .footer { border-top: 1pt solid #e6e7e8; padding-top: 8pt; text-align: center; font-size: 8pt; line-height: 1.4; margin-top: 20pt; }
         .footer-bold { font-weight: bold; }
         .footer-italic { font-style: italic; color: #666; margin-top: 4pt; }
