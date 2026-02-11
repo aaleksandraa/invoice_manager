@@ -158,30 +158,6 @@
             color: #666;
             margin-top: 10px;
         }
-
-        /* Download button - only for web view */
-        .download-btn {
-            display: block;
-            width: 200px;
-            margin: 20px auto;
-            text-align: center;
-            background-color: #2563eb;
-            color: white;
-            padding: 10px 20px;
-            text-decoration: none;
-            border-radius: 5px;
-            font-size: 14px;
-        }
-
-        .download-btn:hover {
-            background-color: #1d4ed8;
-        }
-
-        @media print {
-            .download-btn {
-                display: none;
-            }
-        }
     </style>
 </head>
 <body>
@@ -263,9 +239,6 @@
             <p>JIB: 4512696590007 | Račun AtosBank: 5676512500038858</p>
             <p class="note">PDV nije obračunat, jer lice nije u PDV sistemu i Valuta plaćanja: konvertibilna marka (KM)</p>
         </div>
-
-        <!-- Download button (only visible in web view) -->
-        <a href="{{ route('invoices.download', $invoice) }}" class="download-btn">Download</a>
     </div>
 </body>
 </html>

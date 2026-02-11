@@ -270,7 +270,8 @@ class InvoiceController extends Controller
         }
 
         $invoice->load('client');
-        $view = $invoice->valuta === 'BAM' ? 'invoices.invoice_bam' : 'invoices.invoice_eur';
+        // Use separate PDF-optimized view for download
+        $view = $invoice->valuta === 'BAM' ? 'invoices.invoice_bam_pdf' : 'invoices.invoice_eur';
         $pdf = Pdf::loadView($view, compact('invoice'))
             ->setPaper('a4', 'portrait');
         $safeFileName = str_replace('/', '-', $invoice->broj_fakture);
