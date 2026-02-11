@@ -14,13 +14,29 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class InvoiceController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $user = Auth::user();
-        $invoices = Invoice::where('user_id', $user->id)->with('client')->get();
+        $selectedYear = $request->get('year', now()->year);
+
+        // Get all available years from user's invoices
+        $availableYears = Invoice::where('user_id', $user->id)
+            ->selectRaw('DISTINCT YEAR(datum_izdavanja) as year')
+            ->orderBy('year', 'desc')
+            ->pluck('year')
+            ->toArray();
+
+        // Filter invoices by selected year
+        $query = Invoice::where('user_id', $user->id)->with('client');
+
+        if ($selectedYear !== 'all') {
+            $query->whereYear('datum_izdavanja', $selectedYear);
+        }
+
+        $invoices = $query->get();
         $totalPaid = $invoices->where('placeno', true)->sum('paid_bam_amount');
 
-        return view('invoices.index', compact('invoices', 'totalPaid'));
+        return view('invoices.index', compact('invoices', 'totalPaid', 'availableYears', 'selectedYear'));
     }
 
     public function create()
@@ -32,8 +48,15 @@ class InvoiceController extends Controller
             return redirect()->route('clients.create')->with('warning', 'Morate kreirati klijenta prije nego što možete kreirati fakturu.');
         }
 
-        $lastInvoice = Invoice::where('user_id', $user->id)->orderBy('id', 'desc')->first();
-        $broj_fakture = $lastInvoice ? '#'.((int) str_replace('#', '', explode('/', $lastInvoice->broj_fakture)[0]) + 1).'/'.now()->year : '#1/'.now()->year;
+        $currentYear = now()->year;
+
+        // Get last invoice for current year only
+        $lastInvoice = Invoice::where('user_id', $user->id)
+            ->whereYear('datum_izdavanja', $currentYear)
+            ->orderBy('id', 'desc')
+            ->first();
+
+        $broj_fakture = $lastInvoice ? '#'.((int) str_replace('#', '', explode('/', $lastInvoice->broj_fakture)[0]) + 1).'/'.$currentYear : '#1/'.$currentYear;
 
         return view('invoices.create', compact('clients', 'broj_fakture'));
     }
@@ -120,6 +143,13 @@ class InvoiceController extends Controller
                         $fail('Odabrani klijent ne pripada trenutnom korisniku.');
                     }
                 },
+            ],
+            'broj_fakture' => [
+                'required',
+                'regex:/^#\d+\/\d{4}$/',
+                Rule::unique('invoices')->where(function ($query) use ($user) {
+                    return $query->where('user_id', $user->id);
+                })->ignore($invoice->id),
             ],
             'datum_izdavanja' => 'required|date',
             'opis_posla' => 'required',
@@ -232,13 +262,29 @@ class InvoiceController extends Controller
         return $pdf->download($safeFileName.'.pdf');
     }
 
-    public function payments()
+    public function payments(Request $request)
     {
         $user = Auth::user();
-        $invoices = Invoice::where('user_id', $user->id)
+        $selectedYear = $request->get('year', now()->year);
+
+        // Get all available years from user's paid invoices
+        $availableYears = Invoice::where('user_id', $user->id)
             ->where('placeno', true)
-            ->with('client')
-            ->get();
+            ->selectRaw('DISTINCT YEAR(datum_placanja) as year')
+            ->orderBy('year', 'desc')
+            ->pluck('year')
+            ->toArray();
+
+        // Filter invoices by selected year
+        $query = Invoice::where('user_id', $user->id)
+            ->where('placeno', true)
+            ->with('client');
+
+        if ($selectedYear !== 'all') {
+            $query->whereYear('datum_placanja', $selectedYear);
+        }
+
+        $invoices = $query->get();
 
         $monthlyPayments = $invoices->groupBy(function ($invoice) {
             return $invoice->datum_placanja->format('F Y');
@@ -246,7 +292,7 @@ class InvoiceController extends Controller
 
         $notes = Note::where('user_id', $user->id)->get();
 
-        return view('invoices.payments', compact('monthlyPayments', 'notes'));
+        return view('invoices.payments', compact('monthlyPayments', 'notes', 'availableYears', 'selectedYear'));
     }
 
     public function storeNote(Request $request)

@@ -39,7 +39,8 @@
         </div>
         <div class="mb-4">
             <label for="broj_fakture" class="block text-gray-700">Broj fakture</label>
-            <input id="broj_fakture" type="text" name="broj_fakture" value="{{ $invoice->broj_fakture }}" readonly class="w-full border p-2 rounded bg-gray-100 @error('broj_fakture') border-red-500 @enderror">
+            <input id="broj_fakture" type="text" name="broj_fakture" value="{{ old('broj_fakture', $invoice->broj_fakture) }}" class="w-full border p-2 rounded @error('broj_fakture') border-red-500 @enderror" placeholder="#1/2026">
+            <p class="text-gray-500 text-sm mt-1">Format: #broj/godina (npr. #1/2026)</p>
             @error('broj_fakture')
                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
             @enderror

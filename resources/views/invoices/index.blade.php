@@ -7,6 +7,18 @@
         <h1 class="text-2xl font-bold mb-4 sm:mb-0">Lista faktura</h1>
         <div class="flex flex-col sm:flex-row sm:items-center sm:space-x-4">
             <a href="{{ route('invoices.create') }}" class="bg-orange-600 text-white px-4 py-2 rounded hover:bg-orange-700 mb-4 sm:mb-0">Nova faktura</a>
+
+            <!-- Year Filter -->
+            <div class="flex items-center space-x-2 mb-4 sm:mb-0">
+                <label for="yearFilter" class="text-gray-700">Godina:</label>
+                <select id="yearFilter" class="border p-2 rounded" onchange="filterByYear(this.value)">
+                    <option value="all" {{ $selectedYear === 'all' ? 'selected' : '' }}>Sve godine</option>
+                    @foreach($availableYears as $year)
+                        <option value="{{ $year }}" {{ $selectedYear == $year ? 'selected' : '' }}>{{ $year }}</option>
+                    @endforeach
+                </select>
+            </div>
+
             <!-- Filter datuma -->
             <div class="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-2 mb-4 sm:mb-0">
                 <label for="startDate" class="text-gray-700">Od:</label>
@@ -137,6 +149,17 @@
     <script>
         let sortDirection = {};
         let lastSortedColumn = null;
+
+        // Function to filter by year
+        function filterByYear(year) {
+            const url = new URL(window.location.href);
+            if (year === 'all') {
+                url.searchParams.delete('year');
+            } else {
+                url.searchParams.set('year', year);
+            }
+            window.location.href = url.toString();
+        }
 
         // Inicijalizacija Flatpickr
         flatpickr('#startDate', {

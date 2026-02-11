@@ -1,7 +1,20 @@
 @extends('layouts.app')
 
 @section('content')
-    
+    <!-- Year Filter -->
+    <div class="mb-6 flex items-center space-x-4">
+        <h1 class="text-2xl font-bold">Plaćanja</h1>
+        <div class="flex items-center space-x-2">
+            <label for="yearFilter" class="text-gray-700">Godina:</label>
+            <select id="yearFilter" class="border p-2 rounded" onchange="filterByYear(this.value)">
+                <option value="all" {{ $selectedYear === 'all' ? 'selected' : '' }}>Sve godine</option>
+                @foreach($availableYears as $year)
+                    <option value="{{ $year }}" {{ $selectedYear == $year ? 'selected' : '' }}>{{ $year }}</option>
+                @endforeach
+            </select>
+        </div>
+    </div>
+
     @foreach ($monthlyPayments as $month => $invoices)
         <!-- Prevod mjeseca na bosanski -->
         @php
@@ -153,6 +166,17 @@
 
     <!-- Skripta za prikaz/sakrivanje forme za uređivanje -->
     <script>
+        // Function to filter by year
+        function filterByYear(year) {
+            const url = new URL(window.location.href);
+            if (year === 'all') {
+                url.searchParams.delete('year');
+            } else {
+                url.searchParams.set('year', year);
+            }
+            window.location.href = url.toString();
+        }
+
         function showEditForm(noteId) {
             // Sakrij sve forme za uređivanje
             document.querySelectorAll('.edit-form').forEach(form => form.classList.add('hidden'));
