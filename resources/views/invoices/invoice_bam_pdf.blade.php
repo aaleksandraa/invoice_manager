@@ -9,7 +9,7 @@
         table { width: 100%; border-collapse: collapse; }
         .header-table td { vertical-align: top; padding: 0; border: none; }
         .logo-text { font-size: 22pt; font-weight: bold; color: #414042; }
-        .logo-img { max-height: 50pt; width: auto; display: block; }
+        .logo-img { max-height: 35pt; width: auto; display: block; }
         .invoice-info { font-size: 10pt; text-align: right; line-height: 1.3; }
         .invoice-info-label { font-weight: normal; }
         .invoice-info-value { font-weight: bold; }
@@ -39,16 +39,12 @@
     <table class="header-table" style="margin-bottom: 15pt;">
         <tr>
             <td style="width: 50%;">
-                @if($invoice->user && $invoice->user->companyProfile && $invoice->user->companyProfile->logo)
-                    <img src="{{ storage_path('app/public/' . $invoice->user->companyProfile->logo) }}" class="logo-img" alt="Logo">
-                @else
-                    <div class="logo-text">Wizionar Logo</div>
-                @endif
+                <img src="{{ public_path('wizionar-logo.png') }}" class="logo-img" alt="Wizionar Logo">
             </td>
             <td style="width: 50%;">
                 <div class="invoice-info">
                     <span class="invoice-info-label">Račun br.:</span> <span class="invoice-info-value">{{ str_replace('##', '#', $invoice->broj_fakture) }}</span><br>
-                    <span class="invoice-info-label">Datum i mjesto izdavanja:</span> <span class="invoice-info-value">{{ $invoice->datum_izdavanja ? $invoice->datum_izdavanja->format('d.m.Y') : '-' }}., Miloševac</span>
+                    <span class="invoice-info-label">Datum i mjesto izdavanja:</span> <span class="invoice-info-value">{{ $invoice->datum_izdavanja ? $invoice->datum_izdavanja->format('d.m.Y') : '-' }}, Miloševac</span>
                 </div>
             </td>
         </tr>
