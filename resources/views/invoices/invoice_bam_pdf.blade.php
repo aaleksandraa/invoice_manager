@@ -5,29 +5,29 @@
     <title>Faktura</title>
     <style>
         @page { margin: 15mm 20mm; }
-        body { font-family: DejaVu Sans; font-size: 11pt; color: #414042; margin: 0; padding: 0; }
+        body { font-family: 'Poppins', sans-serif; font-size: 3.8806mm; font-weight: 400; color: #414042; margin: 0; padding: 0; line-height: 6mm; }
         table { width: 100%; border-collapse: collapse; }
         .header-table td { vertical-align: top; padding: 0; border: none; }
         .logo-text { font-size: 22pt; font-weight: bold; color: #414042; }
         .logo-img { height: 50pt; }
-        .invoice-info { font-size: 11pt; text-align: right; line-height: 1.6; }
-        .invoice-info-label { font-weight: normal; font-size: 11pt; }
-        .invoice-info-value { font-weight: bold; font-size: 11pt; }
-        .website-bar { background-color: #e6e7e8; padding: 7pt; text-align: right; margin: 10pt 0; font-weight: bold; font-size: 11pt; }
-        .info-table td { vertical-align: top; padding: 5pt 10pt 5pt 0; border: none; font-size: 10pt; line-height: 1.6; }
-        .info-title { font-weight: bold; font-size: 11pt; margin-bottom: 3pt; }
-        .invoice-table th { background-color: #e6e7e8; padding: 8pt; text-align: left; font-weight: bold; border: 1pt solid #d0d0d0; font-size: 11pt; }
-        .invoice-table td { padding: 8pt; border: 1pt solid #d0d0d0; font-size: 11pt; }
+        .invoice-info { font-size: 3.8806mm; text-align: right; line-height: 6mm; font-weight: 400; }
+        .invoice-info-label { font-weight: 400; font-size: 3.8806mm; }
+        .invoice-info-value { font-weight: bold; font-size: 3.8806mm; }
+        .website-bar { background-color: #e6e7e8; padding: 7pt; text-align: right; margin: 10pt 0; font-weight: bold; font-size: 3.8806mm; }
+        .info-table td { vertical-align: top; padding: 5pt 10pt 5pt 0; border: none; font-size: 3.8806mm; line-height: 6mm; font-weight: 400; }
+        .info-title { font-weight: bold; font-size: 3.8806mm; margin-bottom: 3pt; }
+        .invoice-table th { background-color: #e6e7e8; padding: 8pt; text-align: left; font-weight: bold; border: 1pt solid #d0d0d0; font-size: 3.8806mm; }
+        .invoice-table td { padding: 8pt; border: 1pt solid #d0d0d0; font-size: 3.8806mm; line-height: 6mm; font-weight: 400; }
         .total-box { background-color: #414042; color: white; padding: 10pt; margin: 10pt 0 20pt 0; font-weight: bold; font-size: 12pt; }
         .total-box table { width: 100%; }
         .total-box td { color: white; border: none; padding: 0; }
-        .signature-section { position: fixed; bottom: 120pt; left: 20mm; right: 20mm; }
+        .signature-section { margin-top: 40pt; margin-bottom: 30pt; }
         .signature-table { margin: 0; width: 100%; }
         .signature-table td { text-align: center; border: none; padding: 0 5pt; vertical-align: bottom; }
-        .signature-line { border-top: 1pt solid #414042; padding-top: 18pt; font-size: 10pt; font-style: italic; color: #666; text-align: center; }
-        .footer { position: fixed; bottom: 15mm; left: 20mm; right: 20mm; border-top: 1pt solid #e6e7e8; padding-top: 12pt; text-align: center; font-size: 10pt; line-height: 1.6; }
-        .footer-bold { font-weight: bold; font-size: 10pt; }
-        .footer-italic { font-style: italic; color: #666; margin-top: 6pt; font-size: 10pt; }
+        .signature-line { padding-top: 5pt; font-size: 3.8806mm; font-style: italic; color: #666; text-align: center; line-height: 6mm; font-weight: 400; }
+        .footer { border-top: 1pt solid #e6e7e8; padding-top: 12pt; text-align: center; font-size: 3.8806mm; line-height: 6mm; margin-top: 20pt; font-weight: 400; }
+        .footer-bold { font-weight: bold; font-size: 3.8806mm; }
+        .footer-italic { font-style: italic; color: #666; margin-top: 6pt; font-size: 3.8806mm; font-weight: 400; }
     </style>
 </head>
 <body>
@@ -105,9 +105,15 @@
     <div class="signature-section">
         <table class="signature-table">
             <tr>
-                <td><div class="signature-line">potpis i pečat izdavaoca računa</div></td>
+                <td style="width: 45%;">
+                    <div style="border-top: 1pt solid #414042; margin-top: 30pt;"></div>
+                    <div class="signature-line">potpis i pečat izdavaoca računa</div>
+                </td>
                 <td style="width: 10%;"></td>
-                <td><div class="signature-line">potpis i pečat primaoca računa</div></td>
+                <td style="width: 45%;">
+                    <div style="border-top: 1pt solid #414042; margin-top: 30pt;"></div>
+                    <div class="signature-line">potpis i pečat primaoca računa</div>
+                </td>
             </tr>
         </table>
     </div>
@@ -115,7 +121,7 @@
     <!-- Footer -->
     <div class="footer">
         <div class="footer-bold">Računarsko programiranje "Wizionar" Aleksandra Davidović s.p. Miloševac</div>
-        <div>JIB: 4512696590007 | Račun AtosBank: 5676512500038858</div>
+        <div style="margin-top: 3pt;">JIB: 4512696590007 | Račun AtosBank: 5676512500038858</div>
         <div class="footer-italic">PDV nije obračunat, jer lice nije u PDV sistemu i Valuta plaćanja: konvertibilna marka (KM)</div>
     </div>
 </body>
