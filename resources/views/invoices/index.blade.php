@@ -74,14 +74,15 @@
                             <span class="inline-block w-4 h-4 rounded-full {{ $invoice->placeno ? 'bg-green-500' : 'bg-red-500' }}"></span>
                         </td>
                         <td class="p-3 space-x-2">
-                            <a href="{{ route('invoices.show', $invoice) }}" class="text-black hover:text-gray-700" title="Vidi"><i class="fas fa-eye"></i></a>
+                            <a href="{{ route('invoices.view-pdf', $invoice) }}" class="text-black hover:text-gray-700" title="Vidi"><i class="fas fa-eye"></i></a>
                             <a href="{{ route('invoices.edit', $invoice) }}" class="text-black hover:text-gray-700" title="Uredi"><i class="fas fa-edit"></i></a>
                             <form action="{{ route('invoices.destroy', $invoice) }}" method="POST" style="display:inline;" onsubmit="return confirm('Jeste li sigurni da želite obrisati ovu fakturu?');">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="text-black hover:text-gray-700" title="Obriši"><i class="fas fa-trash"></i></button>
                             </form>
-                            <a href="{{ route('invoices.view-pdf', $invoice) }}" class="text-black hover:text-gray-700" title="Pregled PDF"><i class="fas fa-file-pdf"></i></a>
+                            <a href="{{ route('invoices.download', $invoice) }}?view=1" class="text-black hover:text-gray-700" title="Pregled PDF" target="_blank"><i class="fas fa-file-pdf"></i></a>
+                            <a href="{{ route('invoices.download', $invoice) }}" class="text-black hover:text-gray-700" title="Preuzmi PDF" download><i class="fas fa-download"></i></a>
                             <form action="{{ route('invoices.send-invoice', $invoice) }}" method="POST" style="display:inline;" onsubmit="return confirm('Jeste li sigurni da želite poslati fakturu emailom klijentu?');">
                                 @csrf
                                 <button type="submit" class="text-black hover:text-gray-700" title="Pošalji fakturu"><i class="fas fa-paper-plane"></i></button>
@@ -128,7 +129,8 @@
                         @method('DELETE')
                         <button type="submit" class="text-black hover:text-gray-700"><i class="fas fa-trash"></i></button>
                     </form>
-                    <a href="{{ route('invoices.view-pdf', $invoice) }}" class="text-black hover:text-gray-700"><i class="fas fa-file-pdf"></i></a>
+                    <a href="{{ route('invoices.download', $invoice) }}?view=1" class="text-black hover:text-gray-700" target="_blank"><i class="fas fa-file-pdf"></i></a>
+                    <a href="{{ route('invoices.download', $invoice) }}" class="text-black hover:text-gray-700" download><i class="fas fa-download"></i></a>
                     <form action="{{ route('invoices.send-invoice', $invoice) }}" method="POST" style="display:inline;" onsubmit="return confirm('Jeste li sigurni da želite poslati fakturu emailom klijentu?');">
                         @csrf
                         <button type="submit" class="text-black hover:text-gray-700"><i class="fas fa-paper-plane"></i></button>

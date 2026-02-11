@@ -276,6 +276,11 @@ class InvoiceController extends Controller
             ->setPaper('a4', 'portrait');
         $safeFileName = str_replace('/', '-', $invoice->broj_fakture);
 
+        // Check if user wants to view in browser or download
+        if (request()->has('view')) {
+            return $pdf->stream($safeFileName.'.pdf');
+        }
+
         return $pdf->download($safeFileName.'.pdf');
     }
 
