@@ -19,9 +19,15 @@
 
         .container {
             width: 210mm;
-            height: 297mm;
+            min-height: 297mm;
             padding: 15mm 20mm;
             margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .content {
+            flex: 1;
         }
 
         /* Header - Logo i Invoice info */
@@ -121,14 +127,16 @@
             justify-content: space-between;
             align-items: center;
             font-weight: 600;
-            margin-bottom: 80px;
+            margin-bottom: 20px;
         }
 
         /* Signature lines */
         .signature-section {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 80px;
+            margin-top: auto;
+            padding-top: 80px;
+            margin-bottom: 30px;
         }
 
         .signature-box {
@@ -170,6 +178,7 @@
 </head>
 <body>
     <div class="container">
+        <div class="content">
         <!-- Header -->
         <div class="header">
             <div class="logo-section">
@@ -236,6 +245,7 @@
         <div class="total-section">
             <span>Total in EUR:</span>
             <span>{{ number_format($invoice->cijena, 2) }} EUR</span>
+        </div>
         </div>
 
         <!-- Signature lines -->

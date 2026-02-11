@@ -23,9 +23,9 @@
         .total-box { background-color: #414042; color: white; padding: 8pt; margin: 6pt 0 10pt 0; font-weight: bold; font-size: 11pt; }
         .total-box table { width: 100%; }
         .total-box td { color: white; border: none; padding: 0; }
-        .page-wrapper { position: relative; min-height: 100vh; }
-        .content-wrapper { padding-bottom: 0; }
-        .signature-section { margin-top: 30pt; page-break-inside: avoid; }
+        .page-wrapper { position: relative; min-height: 100vh; display: flex; flex-direction: column; }
+        .content-wrapper { flex: 1; padding-bottom: 0; }
+        .signature-section { margin-top: auto; padding-top: 80pt; page-break-inside: avoid; }
         .signature-table { margin: 0; width: 100%; }
         .signature-table td { text-align: center; border: none; padding: 0 5pt; vertical-align: bottom; }
         .signature-line { padding-top: 4pt; font-size: 9pt; font-style: italic; color: #666; text-align: center; line-height: 1.2; }
