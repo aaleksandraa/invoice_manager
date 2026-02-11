@@ -4,7 +4,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <title>Invoice</title>
     <style>
-        @page { margin: 15mm 20mm; }
+        @page { margin: 15mm 20mm 10mm 20mm; }
         body { font-family: DejaVu Sans, sans-serif; font-size: 10pt; color: #414042; margin: 0; padding: 0; line-height: 1.2; position: relative; }
         table { width: 100%; border-collapse: collapse; }
         .header-table td { vertical-align: top; padding: 0; border: none; }
@@ -24,7 +24,7 @@
         .total-box table { width: 100%; }
         .total-box td { color: white; border: none; padding: 0; }
         .page-wrapper { position: relative; min-height: 100vh; }
-        .content-wrapper { padding-bottom: 140pt; }
+        .content-wrapper { padding-bottom: 80pt; }
         .signature-section { margin-top: 60pt; page-break-inside: avoid; }
         .signature-table { margin: 0; width: 100%; }
         .signature-table td { text-align: center; border: none; padding: 0 5pt; vertical-align: bottom; }
