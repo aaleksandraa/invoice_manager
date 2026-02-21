@@ -9,10 +9,15 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth')->group(function () {
     Route::get('/', [InvoiceController::class, 'index'])->name('invoices.index');
-    Route::resource('invoices', InvoiceController::class);
+
+    // IMPORTANT: Specific routes MUST come before resource routes
     Route::get('/invoices/bulk-download', [InvoiceController::class, 'bulkDownload'])->name('invoices.bulk-download');
     Route::get('/invoices/{invoice}/view-pdf', [InvoiceController::class, 'viewPdf'])->name('invoices.view-pdf');
     Route::get('/invoices/{invoice}/download', [InvoiceController::class, 'download'])->name('invoices.download');
+
+    // Resource route comes AFTER specific routes
+    Route::resource('invoices', InvoiceController::class);
+
     Route::put('/invoices/{invoice}/payment-status', [InvoiceController::class, 'updatePaymentStatus'])->name('invoices.update-payment-status');
     Route::post('/invoices/{invoice}/send-email', [InvoiceController::class, 'sendEmail'])->name('invoices.send-email');
     Route::post('/invoices/{invoice}/send-invoice', [InvoiceController::class, 'sendInvoice'])->name('invoices.send-invoice');
