@@ -24,7 +24,7 @@ Ispravka bug-a u `InvoiceMail` klasi gdje se koriste pogrešni view template-i z
   - Koristi `invoice_eur_pdf` umjesto `invoice_eur`
   - _Requirements: 1.1, 1.2, 1.3, 1.7_
 
-- [ ]* 4. Dodaj unit testove za sve Mailable klase
+- [x]* 4. Dodaj unit testove za sve Mailable klase
   - Test da PaymentReminderMail koristi ispravan view za BAM i EUR
   - Test da FirstReminderMail koristi ispravan view za BAM i EUR
   - Test da SecondReminderMail koristi ispravan view za BAM i EUR

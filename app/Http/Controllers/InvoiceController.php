@@ -203,24 +203,62 @@ class InvoiceController extends Controller
     {
         $user = Auth::user();
         if ($invoice->user_id !== $user->id) {
+            if ($request->ajax()) {
+                return response()->json(['success' => false, 'message' => 'Unauthorized'], 403);
+            }
             abort(403, 'Unauthorized action.');
         }
 
+        // For AJAX toggle - toggle the current status
+        if ($request->ajax() && !$request->has('placeno')) {
+            $newStatus = !$invoice->placeno;
+
+            $updateData = ['placeno' => $newStatus];
+
+            if ($newStatus) {
+                // Mark as paid - set payment date to today
+                $updateData['datum_placanja'] = now()->format('Y-m-d');
+            } else {
+                // Mark as unpaid - clear payment date and amount
+                $updateData['datum_placanja'] = null;
+                $updateData['uplaceni_iznos_eur'] = null;
+            }
+
+            try {
+                $invoice->update($updateData);
+
+                if ($newStatus && $user->send_payment_email) {
+                    try {
+                        \Mail::to($user->email)->send(new \App\Mail\PaymentConfirmation($invoice));
+                        \Log::info('Email sent successfully to: '.$user->email);
+                    } catch (\Exception $e) {
+                        \Log::error('Failed to send email: '.$e->getMessage());
+                    }
+                }
+
+                return response()->json([
+                    'success' => true,
+                    'placeno' => $newStatus,
+                    'message' => 'Status plaćanja ažuriran.'
+                ]);
+            } catch (\Exception $e) {
+                return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
+            }
+        }
+
+        // Original form-based logic
         $validated = $request->validate([
             'placeno' => 'boolean',
             'datum_placanja' => 'nullable|date',
             'uplaceni_iznos_eur' => 'nullable|numeric',
         ]);
 
-        // Handle checkbox: if not present, it means unchecked
         $validated['placeno'] = $request->has('placeno') ? true : false;
 
-        // If not paid, clear payment date and amount
         if (! $validated['placeno']) {
             $validated['datum_placanja'] = null;
             $validated['uplaceni_iznos_eur'] = null;
         } else {
-            // If paid but no payment date provided, use today's date
             if (empty($validated['datum_placanja'])) {
                 $validated['datum_placanja'] = now()->format('Y-m-d');
             }
