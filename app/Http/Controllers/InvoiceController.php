@@ -36,7 +36,9 @@ class InvoiceController extends Controller
         $invoices = $query->get();
         $totalPaid = $invoices->where('placeno', true)->sum('paid_bam_amount');
 
-        return view('invoices.index', compact('invoices', 'totalPaid', 'availableYears', 'selectedYear'));
+        $clients = Client::where('user_id', $user->id)->orderBy('naziv_firme')->get();
+
+        return view('invoices.index', compact('invoices', 'totalPaid', 'availableYears', 'selectedYear', 'clients'));
     }
 
     public function create()
@@ -330,6 +332,60 @@ class InvoiceController extends Controller
         }
 
         return $pdf->download($safeFileName.'.pdf');
+    }
+
+    public function bulkDownload(Request $request)
+    {
+        $user = Auth::user();
+        $selectedYear = $request->get('year', now()->year);
+
+        // Get filtered invoices (same logic as index)
+        $query = Invoice::where('user_id', $user->id)->with('client');
+
+        if ($selectedYear !== 'all') {
+            $query->whereYear('datum_izdavanja', $selectedYear);
+        }
+
+        $invoices = $query->get();
+
+        if ($invoices->isEmpty()) {
+            return redirect()->back()->with('error', 'Nema faktura za preuzimanje.');
+        }
+
+        // Create a temporary directory for PDFs
+        $tempDir = storage_path('app/temp_invoices_' . time());
+        if (!file_exists($tempDir)) {
+            mkdir($tempDir, 0755, true);
+        }
+
+        // Generate PDFs for each invoice
+        foreach ($invoices as $invoice) {
+            $invoice->load('client');
+            $view = $invoice->valuta === 'BAM' ? 'invoices.invoice_bam_pdf' : 'invoices.invoice_eur_pdf';
+            $pdf = Pdf::loadView($view, compact('invoice'))->setPaper('a4', 'portrait');
+            $safeFileName = str_replace('/', '-', $invoice->broj_fakture);
+            $pdf->save($tempDir . '/' . $safeFileName . '.pdf');
+        }
+
+        // Create ZIP file
+        $zipFileName = 'fakture_' . ($selectedYear === 'all' ? 'sve' : $selectedYear) . '_' . date('Y-m-d') . '.zip';
+        $zipPath = storage_path('app/' . $zipFileName);
+
+        $zip = new \ZipArchive();
+        if ($zip->open($zipPath, \ZipArchive::CREATE | \ZipArchive::OVERWRITE) === true) {
+            $files = glob($tempDir . '/*.pdf');
+            foreach ($files as $file) {
+                $zip->addFile($file, basename($file));
+            }
+            $zip->close();
+        }
+
+        // Clean up temporary directory
+        array_map('unlink', glob($tempDir . '/*.pdf'));
+        rmdir($tempDir);
+
+        // Download the ZIP file
+        return response()->download($zipPath)->deleteFileAfterSend(true);
     }
 
     public function payments(Request $request)

@@ -7,6 +7,9 @@
         <h1 class="text-2xl font-bold mb-4 sm:mb-0">Lista faktura</h1>
         <div class="flex flex-col sm:flex-row sm:items-center sm:space-x-4">
             <a href="{{ route('invoices.create') }}" class="bg-orange-600 text-white px-4 py-2 rounded hover:bg-orange-700 mb-4 sm:mb-0">Nova faktura</a>
+            <a href="{{ route('invoices.bulk-download') }}" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 mb-4 sm:mb-0" onclick="return confirm('Preuzeti sve prikazane fakture?');">
+                <i class="fas fa-download mr-2"></i>Preuzmi sve
+            </a>
 
             <!-- Year Filter -->
             <div class="flex items-center space-x-2 mb-4 sm:mb-0">
@@ -15,6 +18,17 @@
                     <option value="all" {{ $selectedYear === 'all' ? 'selected' : '' }}>Sve godine</option>
                     @foreach($availableYears as $year)
                         <option value="{{ $year }}" {{ $selectedYear == $year ? 'selected' : '' }}>{{ $year }}</option>
+                    @endforeach
+                </select>
+            </div>
+
+            <!-- Client Filter -->
+            <div class="flex items-center space-x-2 mb-4 sm:mb-0">
+                <label for="clientFilter" class="text-gray-700">Klijent:</label>
+                <select id="clientFilter" class="border p-2 rounded" onchange="filterByClient()">
+                    <option value="all">Svi klijenti</option>
+                    @foreach($clients as $client)
+                        <option value="{{ $client->id }}">{{ $client->naziv_firme }}</option>
                     @endforeach
                 </select>
             </div>
@@ -315,6 +329,40 @@
                 const text = card.textContent.toLowerCase();
                 card.style.display = text.includes(input) && (card.style.display !== 'none' || card.style.display === '') ? '' : 'none';
             });
+        }
+
+        // Filter by client
+        function filterByClient() {
+            const clientId = document.getElementById('clientFilter').value;
+            const tableRows = document.querySelectorAll('#invoiceTable tbody tr');
+            const cards = document.querySelectorAll('#invoiceCards > div');
+
+            tableRows.forEach(row => {
+                if (clientId === 'all') {
+                    row.style.display = '';
+                } else {
+                    const clientCell = row.cells[2].textContent.trim();
+                    const clientSelect = document.getElementById('clientFilter');
+                    const selectedOption = clientSelect.options[clientSelect.selectedIndex];
+                    const clientName = selectedOption.text;
+                    row.style.display = clientCell === clientName ? '' : 'none';
+                }
+            });
+
+            cards.forEach(card => {
+                if (clientId === 'all') {
+                    card.style.display = '';
+                } else {
+                    const clientText = card.querySelectorAll('p')[1].textContent.trim();
+                    const clientSelect = document.getElementById('clientFilter');
+                    const selectedOption = clientSelect.options[clientSelect.selectedIndex];
+                    const clientName = selectedOption.text;
+                    card.style.display = clientText === clientName ? '' : 'none';
+                }
+            });
+
+            // Reapply search filter
+            filterInvoices();
         }
 
 
