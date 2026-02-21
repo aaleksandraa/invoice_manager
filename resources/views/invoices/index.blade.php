@@ -1,19 +1,23 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="mb-4">
-    <!-- Naslov i dugme na mobilnim uređajima -->
-    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center">
+<div class="mb-6">
+    <!-- Title and Action Buttons -->
+    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-4">
         <h1 class="text-2xl font-bold mb-4 sm:mb-0">Lista faktura</h1>
-        <div class="flex flex-col sm:flex-row sm:items-center sm:space-x-4">
-            <a href="{{ route('invoices.create') }}" class="bg-orange-600 text-white px-4 py-2 rounded hover:bg-orange-700 mb-4 sm:mb-0">Nova faktura</a>
-            <a href="{{ route('invoices.bulk-download') }}" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 mb-4 sm:mb-0" onclick="return confirm('Preuzeti sve prikazane fakture?');">
-                <i class="fas fa-download mr-2"></i>Preuzmi sve
+        <div class="flex flex-col sm:flex-row gap-2">
+            <a href="{{ route('invoices.create') }}" class="bg-orange-600 text-white px-4 py-2 rounded hover:bg-orange-700 text-center">
+                <i class="fas fa-plus mr-2"></i>Nova faktura
             </a>
+        </div>
+    </div>
 
+    <!-- Filters Section -->
+    <div class="bg-white p-4 rounded shadow-md">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
             <!-- Year Filter -->
-            <div class="flex items-center space-x-2 mb-4 sm:mb-0">
-                <label for="yearFilter" class="text-gray-700">Godina:</label>
+            <div class="flex flex-col">
+                <label for="yearFilter" class="text-gray-700 text-sm font-medium mb-1">Godina:</label>
                 <select id="yearFilter" class="border p-2 rounded" onchange="filterByYear(this.value)">
                     <option value="all" {{ $selectedYear === 'all' ? 'selected' : '' }}>Sve godine</option>
                     @foreach($availableYears as $year)
@@ -23,25 +27,33 @@
             </div>
 
             <!-- Client Filter -->
-            <div class="flex items-center space-x-2 mb-4 sm:mb-0">
-                <label for="clientFilter" class="text-gray-700">Klijent:</label>
-                <select id="clientFilter" class="border p-2 rounded" onchange="filterByClient()">
+            <div class="flex flex-col">
+                <label for="clientFilter" class="text-gray-700 text-sm font-medium mb-1">Klijent:</label>
+                <select id="clientFilter" class="border p-2 rounded truncate" onchange="filterByClient()">
                     <option value="all">Svi klijenti</option>
                     @foreach($clients as $client)
-                        <option value="{{ $client->id }}">{{ $client->naziv_firme }}</option>
+                        <option value="{{ $client->id }}" class="truncate">{{ $client->naziv_firme }}</option>
                     @endforeach
                 </select>
             </div>
 
-            <!-- Filter datuma -->
-            <div class="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-2 mb-4 sm:mb-0">
-                <label for="startDate" class="text-gray-700">Od:</label>
-                <input type="text" id="startDate" class="border p-2 rounded w-full sm:w-32 flatpickr-input" placeholder="01.01.2025." readonly>
-                <label for="endDate" class="text-gray-700">Do:</label>
-                <input type="text" id="endDate" class="border p-2 rounded w-full sm:w-32 flatpickr-input" placeholder="01.12.2025." readonly>
+            <!-- Date From -->
+            <div class="flex flex-col">
+                <label for="startDate" class="text-gray-700 text-sm font-medium mb-1">Datum od:</label>
+                <input type="text" id="startDate" class="border p-2 rounded flatpickr-input" placeholder="01.01.2025." readonly>
             </div>
-            <!-- Polje za pretragu -->
-            <input type="text" id="searchInput" class="border p-2 rounded w-full sm:w-64" placeholder="Pretraži fakture..." onkeyup="filterInvoices()">
+
+            <!-- Date To -->
+            <div class="flex flex-col">
+                <label for="endDate" class="text-gray-700 text-sm font-medium mb-1">Datum do:</label>
+                <input type="text" id="endDate" class="border p-2 rounded flatpickr-input" placeholder="01.12.2025." readonly>
+            </div>
+        </div>
+
+        <!-- Search Field -->
+        <div class="flex flex-col">
+            <label for="searchInput" class="text-gray-700 text-sm font-medium mb-1">Pretraga:</label>
+            <input type="text" id="searchInput" class="border p-2 rounded" placeholder="Pretraži fakture..." onkeyup="filterInvoices()">
         </div>
     </div>
 </div>
@@ -165,6 +177,12 @@
     </div>
 
     <p class="mt-4"><strong>Ukupno uplaćeno:</strong> {{ number_format($totalPaid, 2) }} KM</p>
+
+    <div class="mt-4">
+        <a href="{{ route('invoices.bulk-download') }}" class="bg-green-600 text-white px-6 py-3 rounded hover:bg-green-700 inline-flex items-center" onclick="return confirm('Preuzeti sve prikazane fakture?');">
+            <i class="fas fa-download mr-2"></i>Preuzmi sve fakture
+        </a>
+    </div>
 
     <!-- JavaScript za pretragu, sortiranje i filter datuma -->
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
