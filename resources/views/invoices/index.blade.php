@@ -91,9 +91,9 @@
                                 @csrf
                                 <button type="submit" class="text-black hover:text-gray-700" title="Pošalji opomenu"><i class="fas fa-bell"></i></button>
                             </form>
-                            <button type="button" onclick="togglePaymentStatus({{ $invoice->id }})" class="text-black hover:text-gray-700" title="Označi kao {{ $invoice->placeno ? 'neplaćeno' : 'plaćeno' }}" data-invoice-id="{{ $invoice->id }}">
+                            <a href="{{ route('invoices.show', $invoice) }}" class="text-black hover:text-gray-700" title="Ažuriraj status plaćanja">
                                 <i class="fas fa-money-bill-wave"></i>
-                            </button>
+                            </a>
                         </td>
                     </tr>
                 @endforeach
@@ -142,9 +142,9 @@
                         @csrf
                         <button type="submit" class="text-black hover:text-gray-700"><i class="fas fa-bell"></i></button>
                     </form>
-                    <button type="button" onclick="togglePaymentStatus({{ $invoice->id }})" class="text-black hover:text-gray-700" data-invoice-id="{{ $invoice->id }}">
+                    <a href="{{ route('invoices.show', $invoice) }}" class="text-black hover:text-gray-700">
                         <i class="fas fa-money-bill-wave"></i>
-                    </button>
+                    </a>
                 </div>
             </div>
         @endforeach
@@ -317,54 +317,6 @@
             });
         }
 
-        // Toggle payment status via AJAX
-        function togglePaymentStatus(invoiceId) {
-            if (!confirm('Želite li promijeniti status plaćanja ove fakture?')) {
-                return;
-            }
 
-            fetch(`/invoices/${invoiceId}/payment-status`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                    'X-Requested-With': 'XMLHttpRequest'
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    // Update visual indicator in table
-                    const tableRow = document.querySelector(`#invoiceTable tbody tr button[data-invoice-id="${invoiceId}"]`)?.closest('tr');
-                    if (tableRow) {
-                        const indicator = tableRow.querySelector('td:nth-child(5) span');
-                        if (indicator) {
-                            indicator.classList.toggle('bg-green-500', data.placeno);
-                            indicator.classList.toggle('bg-red-500', !data.placeno);
-                        }
-                    }
-
-                    // Update visual indicator in mobile cards
-                    const mobileCard = document.querySelector(`#invoiceCards button[data-invoice-id="${invoiceId}"]`)?.closest('.bg-white');
-                    if (mobileCard) {
-                        const indicator = mobileCard.querySelector('span.rounded-full');
-                        if (indicator) {
-                            indicator.classList.toggle('bg-green-500', data.placeno);
-                            indicator.classList.toggle('bg-red-500', !data.placeno);
-                        }
-                    }
-
-                    alert(data.message);
-                    // Optionally reload to update total
-                    location.reload();
-                } else {
-                    alert('Greška: ' + data.message);
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('Došlo je do greške prilikom ažuriranja statusa plaćanja.');
-            });
-        }
     </script>
 @endsection
