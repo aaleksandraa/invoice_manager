@@ -222,7 +222,10 @@
                 <p>{{ $invoice->client->adresa }}</p>
                 <p>{{ $invoice->client->postanski_broj_mjesto_drzava }}</p>
                 @if ($invoice->client->pdv_broj)
-                    <p>VAT: {{ $invoice->client->pdv_broj }}</p>
+                    <p>JIB/VAT: {{ $invoice->client->pdv_broj }}</p>
+                @endif
+                @if ($invoice->client->pib_number)
+                    <p>PIB: {{ $invoice->client->pib_number }}</p>
                 @endif
                 <p>Email: {{ $invoice->client->email }}</p>
             </div>

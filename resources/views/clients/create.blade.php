@@ -17,8 +17,12 @@
             <input type="text" name="postanski_broj_mjesto_drzava" class="w-full border p-2 rounded">
         </div>
         <div class="mb-4">
-            <label class="block text-gray-700">PDV/JIB broj (opciono)</label>
+            <label class="block text-gray-700">JIB (Jedinstveni identifikacioni broj) - opciono</label>
             <input type="text" name="pdv_broj" value="{{ old('pdv_broj') }}" class="w-full border p-2 rounded">
+        </div>
+        <div class="mb-4">
+            <label class="block text-gray-700">PIB (Poreski identifikacioni broj) - opciono</label>
+            <input type="text" name="pib_number" value="{{ old('pib_number') }}" class="w-full border p-2 rounded">
         </div>
         <div class="mb-4">
             <label class="block text-gray-700">Email</label>

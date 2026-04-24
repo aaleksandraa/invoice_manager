@@ -84,6 +84,9 @@
                 @if ($invoice->client->pdv_broj)
                     <div>JIB: {{ $invoice->client->pdv_broj }}</div>
                 @endif
+                @if ($invoice->client->pib_number)
+                    <div>PIB: {{ $invoice->client->pib_number }}</div>
+                @endif
                 <div>Email: {{ $invoice->client->email }}</div>
             </td>
         </tr>

@@ -31,6 +31,7 @@ class ClientController extends Controller
             'adresa' => 'required',
             'postanski_broj_mjesto_drzava' => 'required',
             'pdv_broj' => 'nullable|string|max:50',
+            'pib_number' => 'nullable|string|max:50',
             'email' => 'required|email',
             'kontakt_telefon' => 'required',
         ]);
@@ -66,6 +67,7 @@ class ClientController extends Controller
             'adresa' => 'required',
             'postanski_broj_mjesto_drzava' => 'required',
             'pdv_broj' => 'nullable|string|max:50',
+            'pib_number' => 'nullable|string|max:50',
             'email' => 'required|email',
             'kontakt_telefon' => 'required',
         ]);

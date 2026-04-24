@@ -27,9 +27,16 @@
             @enderror
         </div>
         <div class="mb-4">
-            <label for="pdv_broj" class="block text-gray-700 font-semibold mb-2">PDV/JIB broj (opciono)</label>
+            <label for="pdv_broj" class="block text-gray-700 font-semibold mb-2">JIB (Jedinstveni identifikacioni broj) - opciono</label>
             <input type="text" name="pdv_broj" id="pdv_broj" value="{{ old('pdv_broj', $client->pdv_broj) }}" class="w-full border p-2 rounded @error('pdv_broj') border-red-500 @enderror">
             @error('pdv_broj')
+                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+            @enderror
+        </div>
+        <div class="mb-4">
+            <label for="pib_number" class="block text-gray-700 font-semibold mb-2">PIB (Poreski identifikacioni broj) - opciono</label>
+            <input type="text" name="pib_number" id="pib_number" value="{{ old('pib_number', $client->pib_number) }}" class="w-full border p-2 rounded @error('pib_number') border-red-500 @enderror">
+            @error('pib_number')
                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
             @enderror
         </div>

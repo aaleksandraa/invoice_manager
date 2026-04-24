@@ -84,7 +84,10 @@
                 <div>{{ $invoice->client->adresa }}</div>
                 <div>{{ $invoice->client->postanski_broj_mjesto_drzava }}</div>
                 @if ($invoice->client->pdv_broj)
-                    <div>VAT: {{ $invoice->client->pdv_broj }}</div>
+                    <div>JIB/VAT: {{ $invoice->client->pdv_broj }}</div>
+                @endif
+                @if ($invoice->client->pib_number)
+                    <div>PIB: {{ $invoice->client->pib_number }}</div>
                 @endif
                 <div>Email: {{ $invoice->client->email }}</div>
             </td>
