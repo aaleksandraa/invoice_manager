@@ -68,6 +68,10 @@
             width: 48%;
         }
 
+        .recipient-info {
+            text-align: right;
+        }
+
         .info-box-title {
             font-weight: 600;
             margin-bottom: 8px;
@@ -198,7 +202,7 @@
                 <p>Email: info@wizionar.com</p>
                 <p>Telefon: +387 66 / 882 - 702</p>
             </div>
-            <div class="info-box">
+            <div class="info-box recipient-info">
                 <p class="info-box-title">Račun za:</p>
                 <p>{{ $invoice->client->naziv_firme }}</p>
                 <p>{{ $invoice->client->adresa }}</p>
