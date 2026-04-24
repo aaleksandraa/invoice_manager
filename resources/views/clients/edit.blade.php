@@ -27,8 +27,8 @@
             @enderror
         </div>
         <div class="mb-4">
-            <label for="pdv_broj" class="block text-gray-700 font-semibold mb-2">PDV broj</label>
-            <input type="text" name="pdv_broj" id="pdv_broj" value="{{ old('pdv_broj', $client->pdv_broj) }}" class="w-full border p-2 rounded @error('pdv_broj') border-red-500 @enderror" required>
+            <label for="pdv_broj" class="block text-gray-700 font-semibold mb-2">PDV/JIB broj (opciono)</label>
+            <input type="text" name="pdv_broj" id="pdv_broj" value="{{ old('pdv_broj', $client->pdv_broj) }}" class="w-full border p-2 rounded @error('pdv_broj') border-red-500 @enderror">
             @error('pdv_broj')
                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
             @enderror

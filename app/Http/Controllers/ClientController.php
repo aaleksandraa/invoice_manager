@@ -30,7 +30,7 @@ class ClientController extends Controller
             'naziv_firme' => 'required',
             'adresa' => 'required',
             'postanski_broj_mjesto_drzava' => 'required',
-            'pdv_broj' => 'required',
+            'pdv_broj' => 'nullable|string|max:50',
             'email' => 'required|email',
             'kontakt_telefon' => 'required',
         ]);
@@ -65,7 +65,7 @@ class ClientController extends Controller
             'naziv_firme' => 'required',
             'adresa' => 'required',
             'postanski_broj_mjesto_drzava' => 'required',
-            'pdv_broj' => 'required',
+            'pdv_broj' => 'nullable|string|max:50',
             'email' => 'required|email',
             'kontakt_telefon' => 'required',
         ]);

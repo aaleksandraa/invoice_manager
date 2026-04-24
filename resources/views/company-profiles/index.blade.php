@@ -36,9 +36,15 @@
             </div>
             <div class="mb-4">
                 <p class="text-gray-700 font-semibold text-sm sm:text-base flex items-center">
-                    <i class="fas fa-file-invoice mr-2 text-gray-500"></i> PDV broj:
+                    <i class="fas fa-file-invoice mr-2 text-gray-500"></i> JIB:
                 </p>
                 <p class="text-gray-800 text-sm sm:text-base">{{ $companyProfile->tax_number ?? 'Nije postavljeno' }}</p>
+            </div>
+            <div class="mb-4">
+                <p class="text-gray-700 font-semibold text-sm sm:text-base flex items-center">
+                    <i class="fas fa-receipt mr-2 text-gray-500"></i> PIB:
+                </p>
+                <p class="text-gray-800 text-sm sm:text-base">{{ $companyProfile->pib_number ?? 'Nije postavljeno' }}</p>
             </div>
             <div class="mb-4">
                 <p class="text-gray-700 font-semibold text-sm sm:text-base flex items-center">

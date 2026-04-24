@@ -12,6 +12,7 @@ class CompanyProfile extends Model
         'address',
         'postal_code_city_country',
         'tax_number',
+        'pib_number',
         'email',
         'phone',
         'bank_name',

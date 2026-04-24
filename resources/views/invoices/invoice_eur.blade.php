@@ -177,6 +177,11 @@
     </style>
 </head>
 <body>
+    @php
+        $companyProfile = $invoice->user?->companyProfile;
+        $companyJib = $companyProfile?->tax_number ?: '4512696590007';
+        $companyPib = $companyProfile?->pib_number;
+    @endphp
     <div class="container">
         <div class="content">
         <!-- Header -->
@@ -202,7 +207,10 @@
                 <p class="info-box-title">Računarsko programiranje "Wizionar"</p>
                 <p>Aleksandra Davidović s.p. Miloševac</p>
                 <p>Adresa: Mali lug 117, 74485 Miloševac</p>
-                <p>JIB / JMB: 4512696590007</p>
+                <p>JIB: {{ $companyJib }}</p>
+                @if ($companyPib)
+                    <p>PIB: {{ $companyPib }}</p>
+                @endif
                 <p>IBAN: BA395676510000114506</p>
                 <p>SWIFT: SABRBA2B</p>
                 <p>Email: info@wizionar.com</p>
@@ -213,7 +221,9 @@
                 <p>{{ $invoice->client->naziv_firme }}</p>
                 <p>{{ $invoice->client->adresa }}</p>
                 <p>{{ $invoice->client->postanski_broj_mjesto_drzava }}</p>
-                <p>VAT: {{ $invoice->client->pdv_broj }}</p>
+                @if ($invoice->client->pdv_broj)
+                    <p>VAT: {{ $invoice->client->pdv_broj }}</p>
+                @endif
                 <p>Email: {{ $invoice->client->email }}</p>
             </div>
         </div>
@@ -261,7 +271,13 @@
         <!-- Footer -->
         <div class="footer">
             <p class="company-name">Računarsko programiranje "Wizionar" Aleksandra Davidović s.p. Miloševac</p>
-            <p>JIB: 4512696590007 | IBAN: BA395676510000114506</p>
+            <p>
+                JIB: {{ $companyJib }}
+                @if ($companyPib)
+                    | PIB: {{ $companyPib }}
+                @endif
+                | IBAN: BA395676510000114506
+            </p>
             <p class="note">Wizionar is not a part of the VAT system</p>
         </div>
     </div>

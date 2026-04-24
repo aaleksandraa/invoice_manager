@@ -47,10 +47,19 @@
             </div>
             <div class="mb-4">
                 <label for="tax_number" class="block text-gray-700 font-semibold text-sm sm:text-base flex items-center">
-                    <i class="fas fa-file-invoice mr-2 text-gray-500"></i> PDV broj
+                    <i class="fas fa-file-invoice mr-2 text-gray-500"></i> JIB (Jedinstveni identifikacioni broj)
                 </label>
                 <input id="tax_number" type="text" name="tax_number" value="{{ old('tax_number', $companyProfile->tax_number) }}" class="w-full border p-2 rounded-lg @error('tax_number') border-red-500 @enderror">
                 @error('tax_number')
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                @endif
+            </div>
+            <div class="mb-4">
+                <label for="pib_number" class="block text-gray-700 font-semibold text-sm sm:text-base flex items-center">
+                    <i class="fas fa-receipt mr-2 text-gray-500"></i> PIB (Poreski identifikacioni broj)
+                </label>
+                <input id="pib_number" type="text" name="pib_number" value="{{ old('pib_number', $companyProfile->pib_number) }}" class="w-full border p-2 rounded-lg @error('pib_number') border-red-500 @enderror">
+                @error('pib_number')
                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                 @endif
             </div>

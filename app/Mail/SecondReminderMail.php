@@ -55,7 +55,7 @@ class SecondReminderMail extends Mailable
      */
     public function attachments(): array
     {
-        $this->invoice->load('client');
+        $this->invoice->load(['client', 'user.companyProfile']);
         $view = $this->invoice->valuta === 'BAM' ? 'invoices.invoice_bam_pdf' : 'invoices.invoice_eur_pdf';
         $pdf = Pdf::loadView($view, ['invoice' => $this->invoice])
             ->setPaper('a4', 'portrait');

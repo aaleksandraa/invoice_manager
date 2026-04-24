@@ -116,10 +116,10 @@ class InvoiceController extends Controller
         // Check if currency parameter is provided for direct invoice view
         $currency = $request->get('currency');
         if ($currency === 'eur') {
-            $invoice->load('client');
+            $invoice->load(['client', 'user.companyProfile']);
             return view('invoices.invoice_eur', compact('invoice'));
         } elseif ($currency === 'bam') {
-            $invoice->load('client');
+            $invoice->load(['client', 'user.companyProfile']);
             return view('invoices.invoice_bam', compact('invoice'));
         }
 
@@ -306,7 +306,7 @@ class InvoiceController extends Controller
             abort(403, 'Unauthorized action.');
         }
 
-        $invoice->load('client');
+        $invoice->load(['client', 'user.companyProfile']);
         $view = $invoice->valuta === 'BAM' ? 'invoices.invoice_bam' : 'invoices.invoice_eur';
 
         return view($view, compact('invoice'));
@@ -319,7 +319,7 @@ class InvoiceController extends Controller
             abort(403, 'Unauthorized action.');
         }
 
-        $invoice->load('client');
+        $invoice->load(['client', 'user.companyProfile']);
         // Use separate PDF-optimized view for download
         $view = $invoice->valuta === 'BAM' ? 'invoices.invoice_bam_pdf' : 'invoices.invoice_eur_pdf';
         $pdf = Pdf::loadView($view, compact('invoice'))
@@ -360,7 +360,7 @@ class InvoiceController extends Controller
 
         // Generate PDFs for each invoice
         foreach ($invoices as $invoice) {
-            $invoice->load('client');
+            $invoice->load(['client', 'user.companyProfile']);
             $view = $invoice->valuta === 'BAM' ? 'invoices.invoice_bam_pdf' : 'invoices.invoice_eur_pdf';
             $pdf = Pdf::loadView($view, compact('invoice'))->setPaper('a4', 'portrait');
             $safeFileName = str_replace('/', '-', $invoice->broj_fakture);
@@ -484,7 +484,7 @@ class InvoiceController extends Controller
 
         try {
             // Load the client relationship to ensure it's available
-            $invoice->load('client');
+            $invoice->load(['client', 'user.companyProfile']);
 
             // Validate that client has email
             if (! $invoice->client || ! $invoice->client->email) {
@@ -513,7 +513,7 @@ class InvoiceController extends Controller
 
         try {
             // Load the client relationship to ensure it's available
-            $invoice->load('client');
+            $invoice->load(['client', 'user.companyProfile']);
 
             // Validate that client has email
             if (! $invoice->client || ! $invoice->client->email) {

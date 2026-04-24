@@ -36,6 +36,7 @@ class CompanyProfileController extends Controller
             'address' => 'nullable|string|max:255',
             'postal_code_city_country' => 'nullable|string|max:255',
             'tax_number' => 'nullable|string|max:50',
+            'pib_number' => 'nullable|string|max:50',
             'email' => 'nullable|email|max:255',
             'phone' => 'nullable|string|max:20',
             'bank_name' => 'nullable|string|max:255',

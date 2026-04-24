@@ -35,6 +35,11 @@
     </style>
 </head>
 <body>
+    @php
+        $companyProfile = $invoice->user?->companyProfile;
+        $companyJib = $companyProfile?->tax_number ?: '4512696590007';
+        $companyPib = $companyProfile?->pib_number;
+    @endphp
     <div class="page-wrapper">
     <div class="content-wrapper">
     <!-- Header -->
@@ -63,7 +68,10 @@
                 <div class="info-title">Računarsko programiranje "Wizionar"</div>
                 <div>Aleksandra Davidović s.p. Miloševac</div>
                 <div>Adresa: Mali lug 117, 74485 Miloševac</div>
-                <div>JIB / JMB: 4512696590007</div>
+                <div>JIB: {{ $companyJib }}</div>
+                @if ($companyPib)
+                    <div>PIB: {{ $companyPib }}</div>
+                @endif
                 <div>IBAN: BA395676510000114506</div>
                 <div>SWIFT: SABRBA2B</div>
                 <div>Email: info@wizionar.com</div>
@@ -75,7 +83,9 @@
                 <div>{{ $invoice->client->naziv_firme }}</div>
                 <div>{{ $invoice->client->adresa }}</div>
                 <div>{{ $invoice->client->postanski_broj_mjesto_drzava }}</div>
-                <div>VAT: {{ $invoice->client->pdv_broj }}</div>
+                @if ($invoice->client->pdv_broj)
+                    <div>VAT: {{ $invoice->client->pdv_broj }}</div>
+                @endif
                 <div>Email: {{ $invoice->client->email }}</div>
             </td>
         </tr>
@@ -135,7 +145,13 @@
     <!-- Footer -->
     <div class="footer">
         <div class="footer-bold">Računarsko programiranje "Wizionar" Aleksandra Davidović s.p. Miloševac</div>
-        <div style="margin-top: 3pt;">JIB: 4512696590007 | IBAN: BA395676510000114506</div>
+        <div style="margin-top: 3pt;">
+            JIB: {{ $companyJib }}
+            @if ($companyPib)
+                | PIB: {{ $companyPib }}
+            @endif
+            | IBAN: BA395676510000114506
+        </div>
         <div class="footer-italic">Wizionar is not a part of the VAT system</div>
     </div>
     </div>
