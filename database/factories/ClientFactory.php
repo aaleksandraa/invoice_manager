@@ -27,6 +27,7 @@ class ClientFactory extends Factory
             'postanski_broj_mjesto_drzava' => fake()->city().' '.fake()->postcode().', '.fake()->country(),
             'pdv_broj' => fake()->numerify('PDV-###########'),
             'email' => fake()->safeEmail(),
+            'invoice_email' => null,
             'kontakt_telefon' => fake()->phoneNumber(),
         ];
     }

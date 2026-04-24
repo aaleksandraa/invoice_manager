@@ -24,6 +24,7 @@
                     <th class="p-3 text-left">Naziv firme</th>
                     <th class="p-3 text-left">Adresa</th>
                     <th class="p-3 text-left">Email</th>
+                    <th class="p-3 text-left">Email za slanje</th>
                     <th class="p-3 text-left">Telefon</th>
                     <th class="p-3 text-left">Akcije</th>
                 </tr>
@@ -34,6 +35,7 @@
                         <td class="p-3">{{ $client->naziv_firme }}</td>
                         <td class="p-3">{{ $client->postanski_broj_mjesto_drzava }}</td>
                         <td class="p-3">{{ $client->email }}</td>
+                        <td class="p-3">{{ $client->invoice_email ?: '-' }}</td>
                         <td class="p-3">{{ $client->kontakt_telefon }}</td>
                         <td class="p-3 space-x-2">
                             <a href="{{ route('clients.edit', $client) }}" class="text-black hover:text-gray-700" title="Uredi"><i class="fas fa-edit"></i></a>

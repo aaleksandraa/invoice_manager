@@ -33,6 +33,7 @@ class ClientController extends Controller
             'pdv_broj' => 'nullable|string|max:50',
             'pib_number' => 'nullable|string|max:50',
             'email' => 'required|email',
+            'invoice_email' => 'nullable|email|max:255',
             'kontakt_telefon' => 'required',
         ]);
 
@@ -69,6 +70,7 @@ class ClientController extends Controller
             'pdv_broj' => 'nullable|string|max:50',
             'pib_number' => 'nullable|string|max:50',
             'email' => 'required|email',
+            'invoice_email' => 'nullable|email|max:255',
             'kontakt_telefon' => 'required',
         ]);
 

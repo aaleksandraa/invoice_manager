@@ -50,14 +50,14 @@ class MailService
                 throw new \Exception('SMTP podešavanja nisu konfigurisana. Molimo konfigurirajte SMTP podešavanja u postavkama.');
             }
 
-            // Get recipient email
-            $recipientEmail = $invoice->client->email ?? null;
+            // Use the invoice delivery email when present; otherwise fall back to the public invoice email.
+            $recipientEmail = $invoice->client->invoice_recipient_email ?? null;
             if (! $recipientEmail) {
                 \Log::error('Failed to send email: Client email not found', [
                     'invoice_id' => $invoice->id,
                     'client_id' => $invoice->client->id ?? null,
                 ]);
-                throw new \Exception('Email adresa klijenta nije pronađena. Molimo dodajte email adresu klijentu.');
+                throw new \Exception('Email adresa za slanje faktura nije pronađena. Molimo dodajte email adresu klijentu.');
             }
 
             \Log::info('Attempting to send email', [
@@ -90,7 +90,7 @@ class MailService
         } catch (\Exception $e) {
             $recipientEmail = 'unknown';
             if ($invoice->client) {
-                $recipientEmail = $invoice->client->email ?? 'unknown';
+                $recipientEmail = $invoice->client->invoice_recipient_email ?? 'unknown';
             }
 
             \Log::error('Failed to send email', [

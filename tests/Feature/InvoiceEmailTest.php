@@ -89,6 +89,34 @@ class InvoiceEmailTest extends TestCase
         });
     }
 
+    public function test_invoice_email_uses_separate_invoice_recipient_email_when_set()
+    {
+        Mail::fake();
+
+        $user = User::factory()->create();
+        SmtpSetting::factory()->create(['user_id' => $user->id]);
+        $client = Client::factory()->create([
+            'user_id' => $user->id,
+            'email' => 'public@example.com',
+            'invoice_email' => 'billing@example.com',
+        ]);
+        $invoice = Invoice::factory()->create([
+            'user_id' => $user->id,
+            'klijent_id' => $client->id,
+        ]);
+
+        $mailService = new MailService();
+        $result = $mailService->sendInvoiceEmail($invoice, InvoiceMail::class, 'invoice');
+
+        $this->assertTrue($result);
+        $this->assertDatabaseHas('email_logs', [
+            'invoice_id' => $invoice->id,
+            'recipient_email' => 'billing@example.com',
+            'email_type' => 'invoice',
+            'status' => 'sent',
+        ]);
+    }
+
     public function test_invoice_email_controller_shows_success_message()
     {
         Mail::fake();

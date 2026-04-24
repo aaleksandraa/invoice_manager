@@ -41,9 +41,17 @@
             @enderror
         </div>
         <div class="mb-4">
-            <label for="email" class="block text-gray-700 font-semibold mb-2">Email</label>
+            <label for="email" class="block text-gray-700 font-semibold mb-2">Email za prikaz na fakturi</label>
             <input type="email" name="email" id="email" value="{{ old('email', $client->email) }}" class="w-full border p-2 rounded @error('email') border-red-500 @enderror" required>
             @error('email')
+                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+            @enderror
+        </div>
+        <div class="mb-4">
+            <label for="invoice_email" class="block text-gray-700 font-semibold mb-2">Email za slanje faktura (opciono)</label>
+            <input type="email" name="invoice_email" id="invoice_email" value="{{ old('invoice_email', $client->invoice_email) }}" class="w-full border p-2 rounded @error('invoice_email') border-red-500 @enderror">
+            <p class="text-sm text-gray-500 mt-1">Ako ostane prazno, fakture se šalju na email koji se prikazuje na fakturi.</p>
+            @error('invoice_email')
                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
             @enderror
         </div>

@@ -486,15 +486,15 @@ class InvoiceController extends Controller
             // Load the client relationship to ensure it's available
             $invoice->load(['client', 'user.companyProfile']);
 
-            // Validate that client has email
-            if (! $invoice->client || ! $invoice->client->email) {
-                return redirect()->back()->with('error', 'Klijent nema definisanu email adresu. Molimo dodajte email adresu klijentu prije slanja.');
+            // Validate that client has an email address for invoice delivery.
+            if (! $invoice->client || ! $invoice->client->invoice_recipient_email) {
+                return redirect()->back()->with('error', 'Klijent nema definisanu email adresu za slanje faktura. Molimo dodajte email adresu klijentu prije slanja.');
             }
 
             $mailService = new \App\Services\MailService;
             $mailService->sendInvoiceEmail($invoice, \App\Mail\PaymentReminderMail::class, 'payment_reminder');
 
-            return redirect()->back()->with('success', 'Email opomene je uspješno poslan klijentu na adresu: '.$invoice->client->email);
+            return redirect()->back()->with('success', 'Email opomene je uspješno poslan klijentu na adresu: '.$invoice->client->invoice_recipient_email);
         } catch (\Exception $e) {
             \Log::error('Error in InvoiceController::sendEmail', [
                 'invoice_id' => $invoice->id,
@@ -515,15 +515,15 @@ class InvoiceController extends Controller
             // Load the client relationship to ensure it's available
             $invoice->load(['client', 'user.companyProfile']);
 
-            // Validate that client has email
-            if (! $invoice->client || ! $invoice->client->email) {
-                return redirect()->back()->with('error', 'Klijent nema definisanu email adresu. Molimo dodajte email adresu klijentu prije slanja.');
+            // Validate that client has an email address for invoice delivery.
+            if (! $invoice->client || ! $invoice->client->invoice_recipient_email) {
+                return redirect()->back()->with('error', 'Klijent nema definisanu email adresu za slanje faktura. Molimo dodajte email adresu klijentu prije slanja.');
             }
 
             $mailService = new \App\Services\MailService;
             $mailService->sendInvoiceEmail($invoice, \App\Mail\InvoiceMail::class, 'invoice');
 
-            return redirect()->back()->with('success', 'Faktura je uspješno poslana emailom klijentu na adresu: '.$invoice->client->email);
+            return redirect()->back()->with('success', 'Faktura je uspješno poslana emailom klijentu na adresu: '.$invoice->client->invoice_recipient_email);
         } catch (\Exception $e) {
             \Log::error('Error in InvoiceController::sendInvoice', [
                 'invoice_id' => $invoice->id,

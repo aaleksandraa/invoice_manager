@@ -25,8 +25,13 @@
             <input type="text" name="pib_number" value="{{ old('pib_number') }}" class="w-full border p-2 rounded">
         </div>
         <div class="mb-4">
-            <label class="block text-gray-700">Email</label>
+            <label class="block text-gray-700">Email za prikaz na fakturi</label>
             <input type="email" name="email" class="w-full border p-2 rounded">
+        </div>
+        <div class="mb-4">
+            <label class="block text-gray-700">Email za slanje faktura (opciono)</label>
+            <input type="email" name="invoice_email" value="{{ old('invoice_email') }}" class="w-full border p-2 rounded">
+            <p class="text-sm text-gray-500 mt-1">Ako ostane prazno, fakture se šalju na email koji se prikazuje na fakturi.</p>
         </div>
         <div class="mb-4">
             <label class="block text-gray-700">Kontakt telefon</label>

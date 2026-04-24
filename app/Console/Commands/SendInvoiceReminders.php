@@ -41,8 +41,8 @@ class SendInvoiceReminders extends Command
         $secondRemindersSent = 0;
 
         foreach ($invoices as $invoice) {
-            // Skip if client has no email
-            if (! $invoice->client || ! $invoice->client->email) {
+            // Skip if client has no invoice delivery email.
+            if (! $invoice->client || ! $invoice->client->invoice_recipient_email) {
                 continue;
             }
 
