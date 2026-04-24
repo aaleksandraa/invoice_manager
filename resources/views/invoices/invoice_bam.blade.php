@@ -170,7 +170,7 @@
         <!-- Header -->
         <div class="header">
             <div class="logo-section">
-                <img src="https://wizionar.com/wp-content/uploads/2023/09/wizionarLogoAsset-7@2x.png" alt="Wizionar Logo">
+                <img src="{{ asset('wizionar-logo.png') }}" alt="Wizionar Logo">
             </div>
             <div class="invoice-info">
                 <p><strong>Račun br.: {{ str_replace('##', '#', $invoice->broj_fakture) }}</strong></p>

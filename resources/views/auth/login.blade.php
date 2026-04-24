@@ -10,7 +10,7 @@
 <body class="bg-gradient-to-r from-blue-500 to-indigo-600 flex items-center justify-center min-h-screen p-4 sm:p-0">
     <div class="bg-white p-6 sm:p-8 rounded-lg shadow-lg w-full max-w-md">
         <div class="flex justify-center mb-6">
-            <img src="https://wizionar.com/wp-content/uploads/2023/09/wizionarLogoAsset-7@2x.png" alt="Wizionar Logo" class="w-32 sm:w-40">
+            <img src="{{ asset('wizionar-logo.png') }}" alt="Wizionar Logo" class="w-32 sm:w-40">
         </div>
         <h1 class="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8 text-center text-gray-800">Prijava</h1>
         <form method="POST" action="{{ route('login') }}">
